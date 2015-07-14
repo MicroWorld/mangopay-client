@@ -116,6 +116,30 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
+  public void getNaturalUserWithInvalidId() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserNatural with the id=10");
+    userApi.getNaturalUser("10");
+  }
+
+  @Test
+  public void getLegalUserWithInvalidId() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10");
+    userApi.getLegalUser("10");
+  }
+
+  @Test
+  public void getUserWithInvalidId() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10"); // Misleading error message.
+    userApi.get("10");
+  }
+
+  @Test
   public void listUsers() {
     final List<User> users1 = userApi.list(Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     final List<User> users2 = userApi.list(Sort.by(CREATION_DATE, DESCENDING), Page.of(2));

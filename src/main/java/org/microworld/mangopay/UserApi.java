@@ -24,9 +24,9 @@ public interface UserApi {
 
   NaturalUser getNaturalUser(String id);
 
-  LegalUser update(LegalUser fetchedUser);
+  LegalUser update(LegalUser user);
 
-  NaturalUser update(NaturalUser fetchedUser);
+  NaturalUser update(NaturalUser user);
 
   List<User> list(Sort sort, Page page);
 }
