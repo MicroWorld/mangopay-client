@@ -6,6 +6,8 @@ import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.implementation.DefaultUserApi;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 
 public interface UserApi {
   static UserApi createDefault(final MangoPayConnection connection) {

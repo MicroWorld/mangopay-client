@@ -1,10 +1,10 @@
-package org.microworld.mangopay;
+package org.microworld.mangopay.search;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Sort {
+public class Sort implements ParameterHolder {
   private final Map<String, String> parameters = new HashMap<>();
 
   private Sort(final Map<String, String> parameters) {
@@ -15,6 +15,7 @@ public class Sort {
     parameters.put("Sort", field.getValue() + ":" + direction.getValue());
   }
 
+  @Override
   public Map<String, String> getParameters() {
     return parameters;
   }

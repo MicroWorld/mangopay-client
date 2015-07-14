@@ -1,9 +1,9 @@
-package org.microworld.mangopay;
+package org.microworld.mangopay.search;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Page {
+public class Page implements ParameterHolder {
   public static final int DEFAULT_PAGE_SIZE = 10;
   public static final int MAX_PAGE_SIZE = 100;
   private final Map<String, String> parameters = new HashMap<>();
@@ -13,6 +13,7 @@ public class Page {
     parameters.put("per_page", String.valueOf(pageSize));
   }
 
+  @Override
   public Map<String, String> getParameters() {
     return parameters;
   }

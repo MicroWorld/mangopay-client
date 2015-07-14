@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +23,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.microworld.mangopay.Filter;
 import org.microworld.mangopay.MangoPayConnection;
-import org.microworld.mangopay.Page;
-import org.microworld.mangopay.Sort;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalUser;
@@ -42,6 +41,10 @@ import org.microworld.mangopay.implementation.serialization.IncomeRangeAdapter;
 import org.microworld.mangopay.implementation.serialization.InstantAdapter;
 import org.microworld.mangopay.implementation.serialization.LocalDateAdapter;
 import org.microworld.mangopay.implementation.serialization.MangoPayUnauthorizedExceptionDeserializer;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.ParameterHolder;
+import org.microworld.mangopay.search.Sort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,18 +152,8 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
     return token;
   }
 
-  private Map<String, String> toQuery(final Filter filter, final Sort sort, final Page page) {
-    final Map<String, String> query = new HashMap<>();
-    if (filter != null) {
-      query.putAll(filter.getParameters());
-    }
-    if (sort != null) {
-      query.putAll(sort.getParameters());
-    }
-    if (page != null) {
-      query.putAll(page.getParameters());
-    }
-    return query;
+  private Map<String, String> toQuery(final ParameterHolder... holders) {
+    return Stream.of(holders).filter(Objects::nonNull).map(ParameterHolder::getParameters).map(Map::entrySet).flatMap(Collection::stream).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private URL createUrl(final boolean isAuthorizationRequest, final String path, final String[] pathParameters, final Map<String, String> query) throws MalformedURLException {

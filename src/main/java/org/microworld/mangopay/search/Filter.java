@@ -1,4 +1,4 @@
-package org.microworld.mangopay;
+package org.microworld.mangopay.search;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.microworld.mangopay.entities.EventType;
 
-public class Filter {
+public class Filter implements ParameterHolder {
   private final Map<String, String> parameters = new HashMap<>();
 
   private Filter(final Map<String, String> parameters) {
@@ -18,6 +18,7 @@ public class Filter {
     parameters.put(name, value);
   }
 
+  @Override
   public Map<String, String> getParameters() {
     return parameters;
   }

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.microworld.mangopay.implementation.DefaultMangoPayConnection;
 import org.microworld.mangopay.implementation.HttpMethod;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 
 public interface MangoPayConnection {
   static MangoPayConnection createDefault(final String host, final String clientId, final String passphrase) {
