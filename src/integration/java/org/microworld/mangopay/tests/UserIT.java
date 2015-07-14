@@ -12,14 +12,15 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.microworld.mangopay.SortDirection.ASCENDING;
 import static org.microworld.mangopay.SortDirection.DESCENDING;
 import static org.microworld.mangopay.SortField.CREATION_DATE;
+import static org.microworld.test.Matchers.after;
+import static org.microworld.test.Matchers.around;
+import static org.microworld.test.Matchers.before;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.microworld.mangopay.Page;
@@ -118,14 +119,14 @@ public class UserIT extends AbstractIntegrationTest {
   public void listUsers() {
     final List<User> users1 = userApi.list(Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     final List<User> users2 = userApi.list(Sort.by(CREATION_DATE, DESCENDING), Page.of(2));
-    assertThat(users1.get(0).getCreationDate(), is(after(users2.get(9).getCreationDate())));
-    assertThat(users1.get(9).getId(), is(greaterThan(users2.get(0).getId())));
     assertThat(users1, hasSize(10));
     assertThat(users2, hasSize(10));
+    assertThat(users1.get(0).getCreationDate(), is(after(users2.get(9).getCreationDate())));
+    assertThat(users1.get(9).getId(), is(greaterThan(users2.get(0).getId())));
 
     final List<User> users3 = userApi.list(Sort.by(CREATION_DATE, ASCENDING), Page.of(1, 50));
-    assertThat(users3.get(0).getCreationDate(), is(before(users3.get(49).getCreationDate())));
     assertThat(users3, hasSize(50));
+    assertThat(users3.get(0).getCreationDate(), is(before(users3.get(49).getCreationDate())));
   }
 
   private NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {
@@ -206,59 +207,5 @@ public class UserIT extends AbstractIntegrationTest {
         hasProperty("proofOfRegistration", is(nullValue())),
         hasProperty("shareholderDeclaration", is(nullValue())),
         hasProperty("tag", is(equalTo(tag))));
-  }
-
-  private Matcher<Instant> around(final Instant instant) {
-    return new TypeSafeDiagnosingMatcher<Instant>() {
-      @Override
-      public void describeTo(final Description description) {
-        description.appendValue(instant);
-      }
-
-      @Override
-      protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
-        if (instant.minusSeconds(5).isAfter(item) || instant.plusSeconds(5).isBefore(item)) {
-          mismatchDescription.appendText("was ").appendValue(item);
-          return false;
-        }
-        return true;
-      }
-    };
-  }
-
-  private Matcher<Instant> before(final Instant instant) {
-    return new TypeSafeDiagnosingMatcher<Instant>() {
-      @Override
-      public void describeTo(final Description description) {
-        description.appendText("before ").appendValue(instant);
-      }
-
-      @Override
-      protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
-        if (instant.isBefore(item)) {
-          mismatchDescription.appendText("was ").appendValue(item);
-          return false;
-        }
-        return true;
-      }
-    };
-  }
-
-  private Matcher<Instant> after(final Instant instant) {
-    return new TypeSafeDiagnosingMatcher<Instant>() {
-      @Override
-      public void describeTo(final Description description) {
-        description.appendText("after ").appendValue(instant);
-      }
-
-      @Override
-      protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
-        if (instant.isAfter(item)) {
-          mismatchDescription.appendText("was ").appendValue(item);
-          return false;
-        }
-        return true;
-      }
-    };
   }
 }

@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.microworld.mangopay.Filter;
 import org.microworld.mangopay.MangoPayConnection;
 import org.microworld.mangopay.Page;
 import org.microworld.mangopay.Sort;
@@ -74,8 +75,8 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
   }
 
   @Override
-  public <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, final Sort sort, final Page page) {
-    final JsonArray array = new JsonParser().parse(request(method, path, new String[] {}, toQuery(sort, page), null, false)).getAsJsonArray();
+  public <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, final Filter filter, final Sort sort, final Page page) {
+    final JsonArray array = new JsonParser().parse(request(method, path, new String[] {}, toQuery(filter, sort, page), null, false)).getAsJsonArray();
     final List<T> result = new ArrayList<>(array.size());
     array.forEach(e -> result.add(convert(e, type)));
     return result;
@@ -148,8 +149,11 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
     return token;
   }
 
-  private Map<String, String> toQuery(final Sort sort, final Page page) {
+  private Map<String, String> toQuery(final Filter filter, final Sort sort, final Page page) {
     final Map<String, String> query = new HashMap<>();
+    if (filter != null) {
+      query.putAll(filter.getParameters());
+    }
     if (sort != null) {
       query.putAll(sort.getParameters());
     }

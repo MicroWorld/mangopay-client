@@ -54,6 +54,6 @@ public class DefaultUserApi implements UserApi {
 
   @Override
   public List<User> list(final Sort sort, final Page page) {
-    return connection.queryForList(User.class, HttpMethod.GET, "/users", sort, page);
+    return connection.queryForList(User.class, HttpMethod.GET, "/users", null, sort, page);
   }
 }
