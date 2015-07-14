@@ -200,10 +200,11 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
     return content.toString();
   }
 
+  @SuppressWarnings("unchecked")
   private <T> T convert(final JsonElement element, final Class<T> type) {
     final JsonObject object = element.getAsJsonObject();
     if (type.isAssignableFrom(User.class)) {
-      return PersonType.LEGAL.equals(PersonType.valueOf(object.get("PersonType").getAsString())) ? gson.fromJson(object, LegalUser.class) : gson.fromJson(object, NaturalUser.class);
+      return PersonType.LEGAL.equals(PersonType.valueOf(object.get("PersonType").getAsString())) ? (T) gson.fromJson(object, LegalUser.class) : (T) gson.fromJson(object, NaturalUser.class);
     } else {
       return gson.fromJson(object, type);
     }
