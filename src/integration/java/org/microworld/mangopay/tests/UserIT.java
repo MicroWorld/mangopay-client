@@ -153,7 +153,7 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(users3.get(0).getCreationDate(), is(before(users3.get(49).getCreationDate())));
   }
 
-  private NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {
+  public static NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {
     final NaturalUser user = new NaturalUser();
     user.setEmail(email);
     user.setFirstName(firstName);
@@ -190,7 +190,7 @@ public class UserIT extends AbstractIntegrationTest {
         hasProperty("tag", is(equalTo(tag))));
   }
 
-  private LegalUser createLegalUser(final String email, final String name, final LegalPersonType legalPersonType, final String headquartersAddress, final String legalRepresentativeFirstName, final String legalRepresentativeLastName, final String legalRepresentativeEmail,
+  public static LegalUser createLegalUser(final String email, final String name, final LegalPersonType legalPersonType, final String headquartersAddress, final String legalRepresentativeFirstName, final String legalRepresentativeLastName, final String legalRepresentativeEmail,
       final String legalRepresentativeAddress, final LocalDate legalRepresentativeBirthday, final String legalRepresentativeNationality, final String legalRepresentativeCountryOfResidence, final String tag) {
     final LegalUser user = new LegalUser();
     user.setEmail(email);

@@ -1,0 +1,91 @@
+package org.microworld.mangopay.tests;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.microworld.test.Matchers.around;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Currency;
+
+import org.hamcrest.Matcher;
+import org.junit.Before;
+import org.junit.Test;
+import org.microworld.mangopay.UserApi;
+import org.microworld.mangopay.WalletApi;
+import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.exceptions.MangoPayException;
+
+public class WalletIT extends AbstractIntegrationTest {
+  private WalletApi walletApi;
+
+  @Before
+  public void setUpWalletApi() {
+    walletApi = WalletApi.createDefault(connection);
+  }
+
+  @Test
+  public void createGetUpdateWallet() {
+    final User walletOwner = UserApi.createDefault(connection).create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+
+    final Wallet createdWallet = walletApi.create(new Wallet(walletOwner.getId(), Currency.getInstance("EUR"), "Euro account", null));
+    assertThat(createdWallet, is(wallet(walletOwner.getId(), Currency.getInstance("EUR"), "Euro account", null, Instant.now())));
+
+    final Wallet fetchedWallet = walletApi.get(createdWallet.getId());
+    assertThat(fetchedWallet, is(wallet(walletOwner.getId(), Currency.getInstance("EUR"), "Euro account", null, Instant.now())));
+    assertThat(fetchedWallet.getId(), is(equalTo(createdWallet.getId())));
+
+    fetchedWallet.setDescription("EUR account");
+    fetchedWallet.setTag("Something");
+    final Wallet updatedWallet = walletApi.update(fetchedWallet);
+    assertThat(updatedWallet, is(wallet(walletOwner.getId(), Currency.getInstance("EUR"), "EUR account", "Something", Instant.now())));
+    assertThat(updatedWallet.getId(), is(equalTo(fetchedWallet.getId())));
+  }
+
+  @Test
+  public void getWalletWithInvalidId() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource Wallet with the id=10");
+    walletApi.get("10");
+  }
+
+  @Test
+  public void createWalletWithMissingDescription() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
+    thrown.expectMessage("Description: The Description field is required.");
+    walletApi.create(new Wallet("7589576", Currency.getInstance("USD"), null, null));
+  }
+
+  @Test
+  public void createWalletWithMissingOwner() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
+    thrown.expectMessage("externalOwnerId: The value  is not valid");
+    walletApi.create(new Wallet(null, Currency.getInstance("USD"), "The description", null));
+  }
+
+  @Test
+  public void createWalletWithFieldsContainingInvalidValues() {
+    thrown.expect(MangoPayException.class);
+    thrown.expectMessage("currency_not_available: Error: the currency used is not available");
+    thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
+    walletApi.create(new Wallet("10", Currency.getInstance("XAF"), "Invalid wallet", null));
+  }
+
+  private Matcher<Wallet> wallet(final String ownerId, final Currency currency, final String description, final String tag, final Instant creationDate) {
+    return allOf(
+        hasProperty("id", is(notNullValue())),
+        hasProperty("ownerId", is(equalTo(ownerId))),
+        hasProperty("currency", is(equalTo(currency))),
+        hasProperty("description", is(equalTo(description))),
+        hasProperty("tag", is(equalTo(tag))),
+        hasProperty("creationDate", is(around(creationDate))));
+  }
+}

@@ -9,6 +9,7 @@ import org.microworld.mangopay.tests.ConnectIT;
 import org.microworld.mangopay.tests.EventIT;
 import org.microworld.mangopay.tests.HookIT;
 import org.microworld.mangopay.tests.UserIT;
+import org.microworld.mangopay.tests.WalletIT;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -16,6 +17,7 @@ import org.microworld.mangopay.tests.UserIT;
     UserIT.class,
     EventIT.class,
     HookIT.class,
+    WalletIT.class,
 })
 public class IntegrationTestSuite {
   @ClassRule
