@@ -10,7 +10,7 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public interface UserApi {
-  static UserApi createDefault(final MangoPayConnection connection) {
+  static UserApi createDefault(final MangopayConnection connection) {
     return new DefaultUserApi(connection);
   }
 

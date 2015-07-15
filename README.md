@@ -1,4 +1,6 @@
-# JAVA 8 client for MangoPay API v2
+# Mangopay Client
+
+Mangopay Client is a Java 8 client library to work with [Mangopay REST API v2](https://docs.mangopay.com/api-references/).
 
 ## Installation
 
@@ -13,7 +15,7 @@ The generated `jar` file is located under the `target` folder.
     String host = "api.sandbox.mangopay.com";
     String clientId = "sdk-unit-tests";
     String passphrase = "cqFfFrWfCcb7UadHNxx2C9Lo6Djw8ZduLi7J9USTmu8bhxxpju";
-    MangoPayConnection connection = MangoPayConnection.createDefault(host, clientId, passphrase);
+    MangopayConnection connection = MangopayConnection.createDefault(host, clientId, passphrase);
     UserApi userApi = UserApi.createDefault(connection);
     User user = userApi.get("7571175");
 

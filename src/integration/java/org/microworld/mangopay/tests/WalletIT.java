@@ -19,7 +19,7 @@ import org.microworld.mangopay.UserApi;
 import org.microworld.mangopay.WalletApi;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
-import org.microworld.mangopay.exceptions.MangoPayException;
+import org.microworld.mangopay.exceptions.MangopayException;
 
 public class WalletIT extends AbstractIntegrationTest {
   private WalletApi walletApi;
@@ -49,7 +49,7 @@ public class WalletIT extends AbstractIntegrationTest {
 
   @Test
   public void getWalletWithInvalidId() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource Wallet with the id=10");
     walletApi.get("10");
@@ -57,7 +57,7 @@ public class WalletIT extends AbstractIntegrationTest {
 
   @Test
   public void createWalletWithMissingDescription() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Description: The Description field is required.");
     walletApi.create(new Wallet("7589576", Currency.getInstance("USD"), null, null));
@@ -65,7 +65,7 @@ public class WalletIT extends AbstractIntegrationTest {
 
   @Test
   public void createWalletWithMissingOwner() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("externalOwnerId: The value  is not valid");
     walletApi.create(new Wallet(null, Currency.getInstance("USD"), "The description", null));
@@ -73,7 +73,7 @@ public class WalletIT extends AbstractIntegrationTest {
 
   @Test
   public void createWalletWithFieldsContainingInvalidValues() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("currency_not_available: Error: the currency used is not available");
     thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
     walletApi.create(new Wallet("10", Currency.getInstance("XAF"), "Invalid wallet", null));

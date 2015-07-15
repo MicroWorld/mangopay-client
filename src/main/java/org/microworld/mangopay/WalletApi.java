@@ -4,7 +4,7 @@ import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.implementation.DefaultWalletApi;
 
 public interface WalletApi {
-  static WalletApi createDefault(final MangoPayConnection connection) {
+  static WalletApi createDefault(final MangopayConnection connection) {
     return new DefaultWalletApi(connection);
   }
 

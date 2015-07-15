@@ -1,13 +1,13 @@
 package org.microworld.mangopay.implementation;
 
-import org.microworld.mangopay.MangoPayConnection;
+import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.WalletApi;
 import org.microworld.mangopay.entities.Wallet;
 
 public class DefaultWalletApi implements WalletApi {
-  private final MangoPayConnection connection;
+  private final MangopayConnection connection;
 
-  public DefaultWalletApi(final MangoPayConnection connection) {
+  public DefaultWalletApi(final MangopayConnection connection) {
     this.connection = connection;
   }
 

@@ -9,7 +9,7 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public interface EventApi {
-  static EventApi createDefault(final MangoPayConnection connection) {
+  static EventApi createDefault(final MangopayConnection connection) {
     return new DefaultEventApi(connection);
   }
 

@@ -3,16 +3,16 @@ package org.microworld.mangopay.implementation;
 import java.util.List;
 
 import org.microworld.mangopay.EventApi;
-import org.microworld.mangopay.MangoPayConnection;
+import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Event;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public class DefaultEventApi implements EventApi {
-  private final MangoPayConnection connection;
+  private final MangopayConnection connection;
 
-  public DefaultEventApi(final MangoPayConnection connection) {
+  public DefaultEventApi(final MangopayConnection connection) {
     this.connection = connection;
   }
 

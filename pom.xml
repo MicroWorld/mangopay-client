@@ -6,7 +6,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>MangoPay Client</name>
+  <name>Mangopay Client</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +73,7 @@
         <configuration>
           <javaVersion>${maven.compiler.source}</javaVersion>
           <includeTestClasses>true</includeTestClasses>
-          <failOnViolations>false</failOnViolations>
+          <failOnViolations>true</failOnViolations>
         </configuration>
         <executions>
           <execution>

@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.microworld.mangopay.MangoPayConnection;
+import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalUser;
@@ -36,13 +36,13 @@ import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.User;
-import org.microworld.mangopay.exceptions.MangoPayException;
-import org.microworld.mangopay.exceptions.MangoPayUnauthorizedException;
+import org.microworld.mangopay.exceptions.MangopayException;
+import org.microworld.mangopay.exceptions.MangopayUnauthorizedException;
 import org.microworld.mangopay.implementation.serialization.CurrencyAdapter;
 import org.microworld.mangopay.implementation.serialization.IncomeRangeAdapter;
 import org.microworld.mangopay.implementation.serialization.InstantAdapter;
 import org.microworld.mangopay.implementation.serialization.LocalDateAdapter;
-import org.microworld.mangopay.implementation.serialization.MangoPayUnauthorizedExceptionDeserializer;
+import org.microworld.mangopay.implementation.serialization.MangopayUnauthorizedExceptionDeserializer;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.ParameterHolder;
@@ -57,8 +57,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class DefaultMangoPayConnection implements MangoPayConnection {
-  private static final Logger LOG = LoggerFactory.getLogger(DefaultMangoPayConnection.class);
+public class DefaultMangopayConnection implements MangopayConnection {
+  private static final Logger LOG = LoggerFactory.getLogger(DefaultMangopayConnection.class);
   private static final int READ_TIMEOUT = 60000;
   private static final int CONNECT_TIMEOUT = 60000;
   private final String host;
@@ -67,12 +67,12 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
   private final Gson gson;
   private Token token;
 
-  public DefaultMangoPayConnection(final String host, final String clientId, final String passphrase) {
+  public DefaultMangopayConnection(final String host, final String clientId, final String passphrase) {
     this.host = Objects.requireNonNull(host, "host");
     this.clientId = Objects.requireNonNull(clientId, "clientId");
     this.encodedAuthenticationString = Base64.getEncoder().encodeToString((clientId + ":" + Objects.requireNonNull(passphrase, "passphrase")).getBytes(Charset.forName("ISO-8859-1")));
     final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
-    builder.registerTypeAdapter(MangoPayUnauthorizedException.class, new MangoPayUnauthorizedExceptionDeserializer());
+    builder.registerTypeAdapter(MangopayUnauthorizedException.class, new MangopayUnauthorizedExceptionDeserializer());
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());
     builder.registerTypeAdapter(Currency.class, new CurrencyAdapter());
     builder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
@@ -134,12 +134,12 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
         case HttpURLConnection.HTTP_INTERNAL_ERROR:
           throw new RuntimeException("Internal Server Error");
         case HttpURLConnection.HTTP_UNAUTHORIZED:
-          throw gson.fromJson(getContent(connection.getErrorStream()), MangoPayUnauthorizedException.class);
+          throw gson.fromJson(getContent(connection.getErrorStream()), MangopayUnauthorizedException.class);
         case HttpURLConnection.HTTP_OK:
         case HttpURLConnection.HTTP_NO_CONTENT:
           return getContent(connection.getInputStream());
         default:
-          throw new MangoPayException(gson.fromJson(getContent(connection.getErrorStream()), Error.class));
+          throw new MangopayException(gson.fromJson(getContent(connection.getErrorStream()), Error.class));
       }
     } catch (final IOException e) {
       throw new RuntimeException(e);
@@ -173,7 +173,7 @@ public class DefaultMangoPayConnection implements MangoPayConnection {
     }
     url.append(parsedPath);
 
-    final String queryString = query.entrySet().stream().map(DefaultMangoPayConnection::toNameValue).collect(Collectors.joining("&"));
+    final String queryString = query.entrySet().stream().map(DefaultMangopayConnection::toNameValue).collect(Collectors.joining("&"));
     if (!query.isEmpty()) {
       url.append("?").append(queryString);
     }

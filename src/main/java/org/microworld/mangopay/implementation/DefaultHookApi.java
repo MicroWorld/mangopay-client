@@ -3,15 +3,15 @@ package org.microworld.mangopay.implementation;
 import java.util.List;
 
 import org.microworld.mangopay.HookApi;
-import org.microworld.mangopay.MangoPayConnection;
+import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Hook;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public class DefaultHookApi implements HookApi {
-  private final MangoPayConnection connection;
+  private final MangopayConnection connection;
 
-  public DefaultHookApi(final MangoPayConnection connection) {
+  public DefaultHookApi(final MangopayConnection connection) {
     this.connection = connection;
   }
 

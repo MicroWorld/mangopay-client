@@ -21,7 +21,7 @@ import org.microworld.mangopay.entities.EventType;
 import org.microworld.mangopay.entities.Hook;
 import org.microworld.mangopay.entities.HookStatus;
 import org.microworld.mangopay.entities.HookValidity;
-import org.microworld.mangopay.exceptions.MangoPayException;
+import org.microworld.mangopay.exceptions.MangopayException;
 
 public class HookIT extends AbstractIntegrationTest {
   private HookApi hookApi;
@@ -52,7 +52,7 @@ public class HookIT extends AbstractIntegrationTest {
 
   @Test
   public void getHookWithInvalidId() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource Hook with the id=10");
     hookApi.get("10");
@@ -60,7 +60,7 @@ public class HookIT extends AbstractIntegrationTest {
 
   @Test
   public void createAlreadyRegisteredHook() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("EventType: A hook has already been registered for this EventType");
     hookApi.create(createHook(EventType.KYC_CREATED, "https://example.com/hook", HookStatus.ENABLED, null));
@@ -68,7 +68,7 @@ public class HookIT extends AbstractIntegrationTest {
 
   @Test
   public void createHookWithMissingMandatoryFields() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Url: The Url field is required.");
     hookApi.create(createHook(EventType.KYC_FAILED, null, HookStatus.ENABLED, null));
@@ -76,7 +76,7 @@ public class HookIT extends AbstractIntegrationTest {
 
   @Test
   public void createHookWithFieldsContainingInvalidValues() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Url: The format of the URL is not correct");
     hookApi.create(createHook(EventType.KYC_SUCCEEDED, "foo@bar.com", HookStatus.ENABLED, "Too bad"));

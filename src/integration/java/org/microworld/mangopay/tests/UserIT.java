@@ -31,7 +31,7 @@ import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.User;
-import org.microworld.mangopay.exceptions.MangoPayException;
+import org.microworld.mangopay.exceptions.MangopayException;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
@@ -64,7 +64,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void createNaturalUserWithMissingMandatoryFields() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Email: The Email field is required.");
     thrown.expectMessage("Birthday: The Birthday field is required.");
@@ -73,7 +73,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void createNaturalUserWithFieldsContainingInvalidValues() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Nationality: Error converting value \"USA\" to type");
     userApi.create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "USA", "US", null, null, null));
@@ -100,7 +100,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void createLegalUserWithMissingMandatoryFields() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("LegalPersonType: The LegalPersonType field is required.");
     userApi.create(createLegalUser("contact@acme.com", "ACME", null, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
@@ -108,7 +108,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void createLegalUserWithFieldsContainingInvalidValues() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("LegalRepresentativeCountryOfResidence: Error converting value \"USA\" to type");
     thrown.expectMessage("Email: The field Email must match the regular expression '([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
@@ -117,7 +117,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void getNaturalUserWithInvalidId() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserNatural with the id=10");
     userApi.getNaturalUser("10");
@@ -125,7 +125,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void getLegalUserWithInvalidId() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10");
     userApi.getLegalUser("10");
@@ -133,7 +133,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void getUserWithInvalidId() {
-    thrown.expect(MangoPayException.class);
+    thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10"); // Misleading error message.
     userApi.get("10");

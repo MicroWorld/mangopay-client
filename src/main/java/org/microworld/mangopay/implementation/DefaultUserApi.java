@@ -2,7 +2,7 @@ package org.microworld.mangopay.implementation;
 
 import java.util.List;
 
-import org.microworld.mangopay.MangoPayConnection;
+import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.UserApi;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
@@ -11,9 +11,9 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public class DefaultUserApi implements UserApi {
-  private final MangoPayConnection connection;
+  private final MangopayConnection connection;
 
-  public DefaultUserApi(final MangoPayConnection connection) {
+  public DefaultUserApi(final MangopayConnection connection) {
     this.connection = connection;
   }
 
