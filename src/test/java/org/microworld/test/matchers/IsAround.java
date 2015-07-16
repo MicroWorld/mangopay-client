@@ -19,7 +19,7 @@ public class IsAround extends TypeSafeDiagnosingMatcher<Instant> {
 
   @Override
   protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
-    if (instant.minusSeconds(5).isAfter(item) || instant.plusSeconds(5).isBefore(item)) {
+    if (instant.minusSeconds(5).isAfter(item) || instant.plusSeconds(10).isBefore(item)) {
       mismatchDescription.appendText("was ").appendValue(item);
       return false;
     }
