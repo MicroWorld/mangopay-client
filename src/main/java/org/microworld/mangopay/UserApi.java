@@ -5,6 +5,7 @@ import java.util.List;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.implementation.DefaultUserApi;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
@@ -29,4 +30,6 @@ public interface UserApi {
   NaturalUser update(NaturalUser user);
 
   List<User> list(Sort sort, Page page);
+
+  List<Wallet> getWallets(String userId, Sort sort, Page page);
 }

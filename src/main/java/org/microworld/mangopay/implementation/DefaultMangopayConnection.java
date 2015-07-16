@@ -81,8 +81,8 @@ public class DefaultMangopayConnection implements MangopayConnection {
   }
 
   @Override
-  public <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, final Filter filter, final Sort sort, final Page page) {
-    final JsonArray array = new JsonParser().parse(request(method, path, new String[] {}, toQuery(filter, sort, page), null, false)).getAsJsonArray();
+  public <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, final Filter filter, final Sort sort, final Page page, final String... pathParameters) {
+    final JsonArray array = new JsonParser().parse(request(method, path, pathParameters, toQuery(filter, sort, page), null, false)).getAsJsonArray();
     final List<T> result = new ArrayList<>(array.size());
     array.forEach(e -> result.add(convert(e, type)));
     return result;

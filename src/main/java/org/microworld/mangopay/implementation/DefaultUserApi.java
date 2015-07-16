@@ -7,6 +7,8 @@ import org.microworld.mangopay.UserApi;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
@@ -55,5 +57,10 @@ public class DefaultUserApi implements UserApi {
   @Override
   public List<User> list(final Sort sort, final Page page) {
     return connection.queryForList(User.class, HttpMethod.GET, "/users", null, sort, page);
+  }
+
+  @Override
+  public List<Wallet> getWallets(final String userId, final Sort sort, final Page page) {
+    return connection.queryForList(Wallet.class, HttpMethod.GET, "/users/{0}/wallets", Filter.none(), sort, page, userId);
   }
 }

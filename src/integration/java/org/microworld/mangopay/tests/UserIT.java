@@ -18,12 +18,14 @@ import static org.microworld.test.Matchers.before;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.microworld.mangopay.UserApi;
+import org.microworld.mangopay.WalletApi;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.KycLevel;
 import org.microworld.mangopay.entities.LegalPersonType;
@@ -31,6 +33,7 @@ import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.exceptions.MangopayException;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
@@ -151,6 +154,21 @@ public class UserIT extends AbstractIntegrationTest {
     final List<User> users3 = userApi.list(Sort.by(CREATION_DATE, ASCENDING), Page.of(1, 50));
     assertThat(users3, hasSize(50));
     assertThat(users3.get(0).getCreationDate(), is(before(users3.get(49).getCreationDate())));
+  }
+
+  @Test
+  public void listUserWallets() throws InterruptedException {
+    final WalletApi walletApi = WalletApi.createDefault(connection);
+
+    final NaturalUser user = userApi.create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
+    final Wallet wallet1 = walletApi.create(new Wallet(user.getId(), Currency.getInstance("EUR"), "EUR", null));
+    Thread.sleep(2000);
+    final Wallet wallet2 = walletApi.create(new Wallet(user.getId(), Currency.getInstance("USD"), "USD", null));
+
+    final List<Wallet> userWallets = userApi.getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(userWallets, hasSize(2));
+    assertThat(userWallets.get(0).getId(), is(equalTo(wallet2.getId())));
+    assertThat(userWallets.get(1).getId(), is(equalTo(wallet1.getId())));
   }
 
   public static NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {
