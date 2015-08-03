@@ -26,4 +26,4 @@ This library is not yet published on [maven central](http://search.maven.org/).
 
 ## License
 
-Apache License Version 2.0.
+Apache License, Version 2.0.
