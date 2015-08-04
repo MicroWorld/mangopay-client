@@ -20,6 +20,7 @@ import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.microworld.mangopay.tests.CardRegistrationIT;
 import org.microworld.mangopay.tests.ConnectIT;
 import org.microworld.mangopay.tests.EventIT;
 import org.microworld.mangopay.tests.HookIT;
@@ -33,6 +34,7 @@ import org.microworld.mangopay.tests.WalletIT;
     EventIT.class,
     HookIT.class,
     WalletIT.class,
+    CardRegistrationIT.class,
 })
 public class IntegrationTestSuite {
   @ClassRule
