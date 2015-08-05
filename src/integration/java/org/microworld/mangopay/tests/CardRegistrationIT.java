@@ -64,7 +64,7 @@ public class CardRegistrationIT extends AbstractIntegrationTest {
     assertThat(updatedCardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.VALIDATED)));
   }
 
-  private String getRegistrationData(final String cardRegistrationUrl, final String preregistrationData, final String accessKey) throws MalformedURLException, IOException {
+  public static String getRegistrationData(final String cardRegistrationUrl, final String preregistrationData, final String accessKey) throws MalformedURLException, IOException {
     final HttpsURLConnection connection = (HttpsURLConnection) new URL(cardRegistrationUrl).openConnection();
     connection.setDoInput(true);
     connection.setDoOutput(true);
@@ -90,7 +90,7 @@ public class CardRegistrationIT extends AbstractIntegrationTest {
     }
   }
 
-  private String getContent(final InputStream inputStream) throws IOException {
+  private static String getContent(final InputStream inputStream) throws IOException {
     final StringBuilder content = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")))) {
       String line = null;
