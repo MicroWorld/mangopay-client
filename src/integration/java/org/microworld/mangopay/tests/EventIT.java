@@ -41,7 +41,7 @@ import org.microworld.mangopay.search.Sort;
 public class EventIT extends AbstractIntegrationTest {
   @Test
   public void listFirstPage() {
-    final List<Event> events = client.getEventApi().list(Filter.none(), Sort.byDefault(), Page.of(1));
+    final List<Event> events = client.getEventService().list(Filter.none(), Sort.byDefault(), Page.of(1));
     assertThat(events, hasSize(10));
   }
 
@@ -49,7 +49,7 @@ public class EventIT extends AbstractIntegrationTest {
   public void listWithFilters() {
     final Instant from = Instant.parse("2014-07-01T00:00:00Z");
     final Instant to = Instant.parse("2015-01-01T00:00:00Z");
-    final List<Event> events = client.getEventApi().list(afterDate(from).and(beforeDate(to)).and(eventType(PAYIN_NORMAL_SUCCEEDED)), Sort.by(EVENT_DATE, ASCENDING), Page.of(1));
+    final List<Event> events = client.getEventService().list(afterDate(from).and(beforeDate(to)).and(eventType(PAYIN_NORMAL_SUCCEEDED)), Sort.by(EVENT_DATE, ASCENDING), Page.of(1));
     events.forEach(e -> {
       assertThat(e.getDate(), is(both(after(from)).and(before(to))));
       assertThat(e.getType(), is(equalTo(PAYIN_NORMAL_SUCCEEDED)));

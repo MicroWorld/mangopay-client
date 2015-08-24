@@ -17,29 +17,14 @@ package org.microworld.mangopay;
 
 import java.util.List;
 
-import org.microworld.mangopay.entities.LegalUser;
-import org.microworld.mangopay.entities.NaturalUser;
-import org.microworld.mangopay.entities.User;
-import org.microworld.mangopay.entities.Wallet;
-import org.microworld.mangopay.search.Page;
-import org.microworld.mangopay.search.Sort;
+import org.microworld.mangopay.entities.Hook;
 
-public interface UserApi {
-  LegalUser create(final LegalUser user);
+public interface HookService {
+  Hook create(final Hook hook);
 
-  NaturalUser create(final NaturalUser user);
+  Hook get(String id);
 
-  User get(String id);
+  Hook update(Hook hook);
 
-  LegalUser getLegalUser(String id);
-
-  NaturalUser getNaturalUser(String id);
-
-  LegalUser update(LegalUser user);
-
-  NaturalUser update(NaturalUser user);
-
-  List<User> list(Sort sort, Page page);
-
-  List<Wallet> getWallets(String userId, Sort sort, Page page);
+  List<Hook> list();
 }

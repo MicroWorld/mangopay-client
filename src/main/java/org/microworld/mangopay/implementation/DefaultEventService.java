@@ -17,36 +17,22 @@ package org.microworld.mangopay.implementation;
 
 import java.util.List;
 
-import org.microworld.mangopay.HookApi;
+import org.microworld.mangopay.EventService;
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.entities.Hook;
+import org.microworld.mangopay.entities.Event;
+import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
-public class DefaultHookApi implements HookApi {
+public class DefaultEventService implements EventService {
   private final MangopayConnection connection;
 
-  public DefaultHookApi(final MangopayConnection connection) {
+  public DefaultEventService(final MangopayConnection connection) {
     this.connection = connection;
   }
 
   @Override
-  public Hook create(final Hook hook) {
-    return connection.queryForObject(Hook.class, HttpMethod.POST, "/hooks", hook);
-  }
-
-  @Override
-  public Hook get(final String id) {
-    return connection.queryForObject(Hook.class, HttpMethod.GET, "/hooks/{0}", null, id);
-  }
-
-  @Override
-  public Hook update(final Hook hook) {
-    return connection.queryForObject(Hook.class, HttpMethod.PUT, "/hooks/{0}", hook, hook.getId());
-  }
-
-  @Override
-  public List<Hook> list() {
-    return connection.queryForList(Hook.class, HttpMethod.GET, "/hooks", null, Sort.byDefault(), Page.of(1, Page.MAX_PAGE_SIZE));
+  public List<Event> list(final Filter filter, final Sort sort, final Page page) {
+    return connection.queryForList(Event.class, HttpMethod.GET, "/events", filter, sort, page);
   }
 }

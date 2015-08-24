@@ -16,28 +16,18 @@
 package org.microworld.mangopay.implementation;
 
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.WalletApi;
-import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.PayInService;
+import org.microworld.mangopay.entities.DirectCardPayIn;
 
-public class DefaultWalletApi implements WalletApi {
+public class DefaultPayInService implements PayInService {
   private final MangopayConnection connection;
 
-  public DefaultWalletApi(final MangopayConnection connection) {
+  public DefaultPayInService(final MangopayConnection connection) {
     this.connection = connection;
   }
 
   @Override
-  public Wallet create(final Wallet wallet) {
-    return connection.queryForObject(Wallet.class, HttpMethod.POST, "/wallets", wallet);
-  }
-
-  @Override
-  public Wallet get(final String id) {
-    return connection.queryForObject(Wallet.class, HttpMethod.GET, "/wallets/{0}", null, id);
-  }
-
-  @Override
-  public Wallet update(final Wallet wallet) {
-    return connection.queryForObject(Wallet.class, HttpMethod.PUT, "/wallets/{0}", wallet, wallet.getId());
+  public DirectCardPayIn createDirectCardPayIn(final DirectCardPayIn directCardPayIn) {
+    return connection.queryForObject(DirectCardPayIn.class, HttpMethod.POST, "/payins/card/direct", directCardPayIn);
   }
 }

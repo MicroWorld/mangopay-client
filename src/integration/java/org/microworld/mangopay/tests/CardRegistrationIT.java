@@ -46,12 +46,12 @@ public class CardRegistrationIT extends AbstractIntegrationTest {
 
   @Test
   public void createAndUpdateCardRegistration() throws MalformedURLException, IOException {
-    final User user = client.getUserApi().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
-    final CardRegistration cardRegistration = client.getCardRegistrationApi().create(new CardRegistration(user.getId(), EUR));
+    final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), EUR));
     assertThat(cardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.CREATED)));
 
     cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey()));
-    final CardRegistration updatedCardRegistration = client.getCardRegistrationApi().update(cardRegistration);
+    final CardRegistration updatedCardRegistration = client.getCardRegistrationService().update(cardRegistration);
     assertThat(updatedCardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.VALIDATED)));
   }
 

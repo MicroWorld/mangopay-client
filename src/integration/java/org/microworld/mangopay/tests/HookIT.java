@@ -39,19 +39,19 @@ import org.microworld.mangopay.exceptions.MangopayException;
 public class HookIT extends AbstractIntegrationTest {
   @Test
   public void listAllHooks() {
-    final List<Hook> hooks = client.getHookApi().list();
+    final List<Hook> hooks = client.getHookService().list();
     assertThat(hooks, is(not(empty())));
   }
 
   @Test
   public void getAndUpdateHook() {
     final String id = "1626293";
-    final Hook hook = client.getHookApi().get(id);
+    final Hook hook = client.getHookService().get(id);
     assertThat(hook.getId(), is(equalTo(id)));
 
     hook.setUrl("https://example.com/hook");
     hook.setTag("New url");
-    final Hook updatedHook = client.getHookApi().update(hook);
+    final Hook updatedHook = client.getHookService().update(hook);
     assertThat(updatedHook, is(hook(hook.getEventType(), "https://example.com/hook", hook.getStatus(), hook.getValidity(), "New url", hook.getCreationDate())));
     assertThat(updatedHook.getId(), is(equalTo(hook.getId())));
   }
@@ -61,7 +61,7 @@ public class HookIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource Hook with the id=10");
-    client.getHookApi().get("10");
+    client.getHookService().get("10");
   }
 
   @Test
@@ -69,7 +69,7 @@ public class HookIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("EventType: A hook has already been registered for this EventType");
-    client.getHookApi().create(createHook(EventType.KYC_CREATED, "https://example.com/hook", HookStatus.ENABLED, null));
+    client.getHookService().create(createHook(EventType.KYC_CREATED, "https://example.com/hook", HookStatus.ENABLED, null));
   }
 
   @Test
@@ -77,7 +77,7 @@ public class HookIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Url: The Url field is required.");
-    client.getHookApi().create(createHook(EventType.KYC_FAILED, null, HookStatus.ENABLED, null));
+    client.getHookService().create(createHook(EventType.KYC_FAILED, null, HookStatus.ENABLED, null));
   }
 
   @Test
@@ -85,7 +85,7 @@ public class HookIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Url: The format of the URL is not correct");
-    client.getHookApi().create(createHook(EventType.KYC_SUCCEEDED, "foo@bar.com", HookStatus.ENABLED, "Too bad"));
+    client.getHookService().create(createHook(EventType.KYC_SUCCEEDED, "foo@bar.com", HookStatus.ENABLED, "Too bad"));
   }
 
   private Hook createHook(final EventType eventType, final String url, final HookStatus status, final String tag) {

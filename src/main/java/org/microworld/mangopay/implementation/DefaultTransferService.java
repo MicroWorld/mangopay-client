@@ -15,24 +15,26 @@
  */
 package org.microworld.mangopay.implementation;
 
-import org.microworld.mangopay.CardRegistrationApi;
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.entities.CardRegistration;
+import org.microworld.mangopay.TransferService;
+import org.microworld.mangopay.entities.Transfer;
 
-public class DefaultCardResgistrationApi implements CardRegistrationApi {
+public class DefaultTransferService implements TransferService {
   private final MangopayConnection connection;
 
-  public DefaultCardResgistrationApi(final MangopayConnection connection) {
+  public DefaultTransferService(final MangopayConnection connection) {
     this.connection = connection;
   }
 
   @Override
-  public CardRegistration create(final CardRegistration cardResgistration) {
-    return connection.queryForObject(CardRegistration.class, HttpMethod.POST, "/cardregistrations", cardResgistration);
+  public Transfer create(final Transfer transfer) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   @Override
-  public CardRegistration update(final CardRegistration cardRegistration) {
-    return connection.queryForObject(CardRegistration.class, HttpMethod.PUT, "/cardregistrations/{0}", cardRegistration, cardRegistration.getId());
+  public Transfer get(final String id) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

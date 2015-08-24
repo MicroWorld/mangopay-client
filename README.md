@@ -21,8 +21,8 @@ This library is not yet published on [maven central](http://search.maven.org/).
     String clientId = "sdk-unit-tests";
     String passphrase = "cqFfFrWfCcb7UadHNxx2C9Lo6Djw8ZduLi7J9USTmu8bhxxpju";
     MangopayConnection connection = MangopayConnection.createDefault(host, clientId, passphrase);
-    UserApi userApi = UserApi.createDefault(connection);
-    User user = userApi.get("7571175");
+    MangopayClient client = MangopayClient.createDefault(connection);
+    User user = client.getUserService().get("7571175");
 
 ## License
 

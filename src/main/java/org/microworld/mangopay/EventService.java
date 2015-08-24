@@ -17,14 +17,11 @@ package org.microworld.mangopay;
 
 import java.util.List;
 
-import org.microworld.mangopay.entities.Hook;
+import org.microworld.mangopay.entities.Event;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 
-public interface HookApi {
-  Hook create(final Hook hook);
-
-  Hook get(String id);
-
-  Hook update(Hook hook);
-
-  List<Hook> list();
+public interface EventService {
+  List<Event> list(Filter filter, Sort sort, Page page);
 }

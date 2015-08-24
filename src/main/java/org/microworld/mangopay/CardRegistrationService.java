@@ -13,21 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.implementation;
+package org.microworld.mangopay;
 
-import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.PayInApi;
-import org.microworld.mangopay.entities.DirectCardPayIn;
+import org.microworld.mangopay.entities.CardRegistration;
 
-public class DefaultPayInApi implements PayInApi {
-  private final MangopayConnection connection;
+public interface CardRegistrationService {
+  CardRegistration create(CardRegistration cardResgistration);
 
-  public DefaultPayInApi(final MangopayConnection connection) {
-    this.connection = connection;
-  }
-
-  @Override
-  public DirectCardPayIn createDirectCardPayIn(final DirectCardPayIn directCardPayIn) {
-    return connection.queryForObject(DirectCardPayIn.class, HttpMethod.POST, "/payins/card/direct", directCardPayIn);
-  }
+  CardRegistration update(CardRegistration cardRegistration);
 }

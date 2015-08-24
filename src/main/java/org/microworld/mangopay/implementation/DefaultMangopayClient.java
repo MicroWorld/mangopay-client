@@ -1,13 +1,13 @@
 package org.microworld.mangopay.implementation;
 
-import org.microworld.mangopay.CardRegistrationApi;
-import org.microworld.mangopay.EventApi;
-import org.microworld.mangopay.HookApi;
+import org.microworld.mangopay.CardRegistrationService;
+import org.microworld.mangopay.EventService;
+import org.microworld.mangopay.HookService;
 import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.PayInApi;
-import org.microworld.mangopay.UserApi;
-import org.microworld.mangopay.WalletApi;
+import org.microworld.mangopay.PayInService;
+import org.microworld.mangopay.UserService;
+import org.microworld.mangopay.WalletService;
 
 public class DefaultMangopayClient implements MangopayClient {
   private final MangopayConnection connection;
@@ -17,32 +17,32 @@ public class DefaultMangopayClient implements MangopayClient {
   }
 
   @Override
-  public CardRegistrationApi getCardRegistrationApi() {
-    return new DefaultCardResgistrationApi(connection);
+  public CardRegistrationService getCardRegistrationService() {
+    return new DefaultCardResgistrationService(connection);
   }
 
   @Override
-  public EventApi getEventApi() {
-    return new DefaultEventApi(connection);
+  public EventService getEventService() {
+    return new DefaultEventService(connection);
   }
 
   @Override
-  public HookApi getHookApi() {
-    return new DefaultHookApi(connection);
+  public HookService getHookService() {
+    return new DefaultHookService(connection);
   }
 
   @Override
-  public PayInApi getPayInApi() {
-    return new DefaultPayInApi(connection);
+  public PayInService getPayInService() {
+    return new DefaultPayInService(connection);
   }
 
   @Override
-  public UserApi getUserApi() {
-    return new DefaultUserApi(connection);
+  public UserService getUserService() {
+    return new DefaultUserService(connection);
   }
 
   @Override
-  public WalletApi getWalletApi() {
-    return new DefaultWalletApi(connection);
+  public WalletService getWalletService() {
+    return new DefaultWalletService(connection);
   }
 }

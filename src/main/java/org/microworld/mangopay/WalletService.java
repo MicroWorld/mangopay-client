@@ -15,8 +15,12 @@
  */
 package org.microworld.mangopay;
 
-import org.microworld.mangopay.entities.DirectCardPayIn;
+import org.microworld.mangopay.entities.Wallet;
 
-public interface PayInApi {
-  DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
+public interface WalletService {
+  Wallet create(final Wallet wallet);
+
+  Wallet get(String id);
+
+  Wallet update(Wallet wallet);
 }

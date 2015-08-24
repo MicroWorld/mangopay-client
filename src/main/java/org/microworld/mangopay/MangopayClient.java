@@ -7,15 +7,15 @@ public interface MangopayClient {
     return new DefaultMangopayClient(connection);
   }
 
-  CardRegistrationApi getCardRegistrationApi();
+  CardRegistrationService getCardRegistrationService();
 
-  EventApi getEventApi();
+  EventService getEventService();
 
-  HookApi getHookApi();
+  HookService getHookService();
 
-  PayInApi getPayInApi();
+  PayInService getPayInService();
 
-  UserApi getUserApi();
+  UserService getUserService();
 
-  WalletApi getWalletApi();
+  WalletService getWalletService();
 }
