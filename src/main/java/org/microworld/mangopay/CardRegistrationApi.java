@@ -16,13 +16,8 @@
 package org.microworld.mangopay;
 
 import org.microworld.mangopay.entities.CardRegistration;
-import org.microworld.mangopay.implementation.DefaultCardResgistrationApi;
 
 public interface CardRegistrationApi {
-  static CardRegistrationApi createDefault(final MangopayConnection connection) {
-    return new DefaultCardResgistrationApi(connection);
-  }
-
   CardRegistration create(CardRegistration cardResgistration);
 
   CardRegistration update(CardRegistration cardRegistration);

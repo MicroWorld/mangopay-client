@@ -36,31 +36,22 @@ import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.microworld.mangopay.CardRegistrationApi;
-import org.microworld.mangopay.UserApi;
 import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.CardRegistrationStatus;
 import org.microworld.mangopay.entities.User;
 
 public class CardRegistrationIT extends AbstractIntegrationTest {
   private static final Currency EUR = Currency.getInstance("EUR");
-  private CardRegistrationApi cardRegistrationApi;
-
-  @Before
-  public void setUpCardApi() {
-    cardRegistrationApi = CardRegistrationApi.createDefault(connection);
-  }
 
   @Test
   public void createAndUpdateCardRegistration() throws MalformedURLException, IOException {
-    final User user = UserApi.createDefault(connection).create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
-    final CardRegistration cardRegistration = cardRegistrationApi.create(new CardRegistration(user.getId(), EUR));
+    final User user = client.getUserApi().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final CardRegistration cardRegistration = client.getCardRegistrationApi().create(new CardRegistration(user.getId(), EUR));
     assertThat(cardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.CREATED)));
 
     cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey()));
-    final CardRegistration updatedCardRegistration = cardRegistrationApi.update(cardRegistration);
+    final CardRegistration updatedCardRegistration = client.getCardRegistrationApi().update(cardRegistration);
     assertThat(updatedCardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.VALIDATED)));
   }
 

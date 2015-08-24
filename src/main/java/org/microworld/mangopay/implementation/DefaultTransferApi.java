@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.tests;
+package org.microworld.mangopay.implementation;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.TestEnvironment;
+import org.microworld.mangopay.TransferApi;
+import org.microworld.mangopay.entities.Transfer;
 
-public class AbstractIntegrationTest {
-  @Rule
-  public final ExpectedException thrown = ExpectedException.none();
-  protected MangopayConnection connection;
-  protected MangopayClient client;
+public class DefaultTransferApi implements TransferApi {
+  private final MangopayConnection connection;
 
-  @Before
-  public void setUpConnectionAndClient() {
-    connection = TestEnvironment.getInstance().getConnection();
-    client = MangopayClient.createDefault(connection);
+  public DefaultTransferApi(final MangopayConnection connection) {
+    this.connection = connection;
+  }
+
+  @Override
+  public Transfer create(final Transfer transfer) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Transfer get(final String id) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

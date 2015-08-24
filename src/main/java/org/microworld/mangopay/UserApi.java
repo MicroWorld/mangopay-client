@@ -21,15 +21,10 @@ import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
-import org.microworld.mangopay.implementation.DefaultUserApi;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public interface UserApi {
-  static UserApi createDefault(final MangopayConnection connection) {
-    return new DefaultUserApi(connection);
-  }
-
   LegalUser create(final LegalUser user);
 
   NaturalUser create(final NaturalUser user);

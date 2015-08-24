@@ -31,12 +31,7 @@ import java.time.LocalDate;
 import java.util.Currency;
 
 import org.hamcrest.Matcher;
-import org.junit.Before;
 import org.junit.Test;
-import org.microworld.mangopay.CardRegistrationApi;
-import org.microworld.mangopay.PayInApi;
-import org.microworld.mangopay.UserApi;
-import org.microworld.mangopay.WalletApi;
 import org.microworld.mangopay.entities.Amount;
 import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.DirectCardPayIn;
@@ -51,33 +46,21 @@ import org.microworld.mangopay.entities.Wallet;
 
 public class PayInIT extends AbstractIntegrationTest {
   private static final Currency EUR = Currency.getInstance("EUR");
-  private UserApi userApi;
-  private WalletApi walletApi;
-  private PayInApi payInApi;
-  private CardRegistrationApi cardRegistrationApi;
-
-  @Before
-  public void setUp() {
-    userApi = UserApi.createDefault(connection);
-    walletApi = WalletApi.createDefault(connection);
-    payInApi = PayInApi.createDefault(connection);
-    cardRegistrationApi = CardRegistrationApi.createDefault(connection);
-  }
 
   @Test
   public void directCardPayIn() throws MalformedURLException, IOException {
-    final User user = userApi.create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
-    final Wallet wallet = walletApi.create(new Wallet(user.getId(), EUR, "EUR wallet", null));
+    final User user = client.getUserApi().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final Wallet wallet = client.getWalletApi().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
     final String cardId = registerCard(user).getCardId();
 
-    final DirectCardPayIn createdDirectCardPayIn = payInApi.createDirectCardPayIn(createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    final DirectCardPayIn createdDirectCardPayIn = client.getPayInApi().createDirectCardPayIn(createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
   }
 
   private CardRegistration registerCard(final User user) throws MalformedURLException, IOException {
-    CardRegistration cardRegistration = cardRegistrationApi.create(new CardRegistration(user.getId(), EUR));
+    CardRegistration cardRegistration = client.getCardRegistrationApi().create(new CardRegistration(user.getId(), EUR));
     cardRegistration.setRegistrationData(CardRegistrationIT.getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey()));
-    cardRegistration = cardRegistrationApi.update(cardRegistration);
+    cardRegistration = client.getCardRegistrationApi().update(cardRegistration);
     return cardRegistration;
   }
 

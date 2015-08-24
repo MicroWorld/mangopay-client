@@ -37,10 +37,7 @@ import java.util.Currency;
 import java.util.List;
 
 import org.hamcrest.Matcher;
-import org.junit.Before;
 import org.junit.Test;
-import org.microworld.mangopay.UserApi;
-import org.microworld.mangopay.WalletApi;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.KycLevel;
 import org.microworld.mangopay.entities.LegalPersonType;
@@ -54,29 +51,22 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public class UserIT extends AbstractIntegrationTest {
-  private UserApi userApi;
-
-  @Before
-  public void setUpUserApi() {
-    userApi = UserApi.createDefault(connection);
-  }
-
   @Test
   public void createGetUpdateNaturalUser() {
     final Instant creationDate = Instant.now();
-    final NaturalUser createdUser = userApi.create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
+    final NaturalUser createdUser = client.getUserApi().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
     assertThat(createdUser, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null, PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
 
-    final NaturalUser fetchedUser = userApi.getNaturalUser(createdUser.getId());
+    final NaturalUser fetchedUser = client.getUserApi().getNaturalUser(createdUser.getId());
     assertThat(fetchedUser, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null, PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
     assertThat(fetchedUser.getId(), is(equalTo(createdUser.getId())));
 
     fetchedUser.setTag("Good user");
-    final NaturalUser updatedUser = userApi.update(fetchedUser);
+    final NaturalUser updatedUser = client.getUserApi().update(fetchedUser);
     assertThat(updatedUser, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, "Good user", PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
     assertThat(updatedUser.getId(), is(equalTo(fetchedUser.getId())));
 
-    final User user = userApi.get(updatedUser.getId());
+    final User user = client.getUserApi().get(updatedUser.getId());
     assertThat((NaturalUser) user, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, "Good user", PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
     assertThat(user.getId(), is(equalTo(updatedUser.getId())));
   }
@@ -87,7 +77,7 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Email: The Email field is required.");
     thrown.expectMessage("Birthday: The Birthday field is required.");
-    userApi.create(createNaturalUser(null, "John", "Doe", "John's Address", null, "US", "US", null, null, null));
+    client.getUserApi().create(createNaturalUser(null, "John", "Doe", "John's Address", null, "US", "US", null, null, null));
   }
 
   @Test
@@ -95,25 +85,25 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Nationality: Error converting value \"USA\" to type");
-    userApi.create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "USA", "US", null, null, null));
+    client.getUserApi().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "USA", "US", null, null, null));
   }
 
   @Test
   public void createGetUpdateLegalUser() {
     final Instant creationDate = Instant.now();
-    final LegalUser createdUser = userApi.create(createLegalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
+    final LegalUser createdUser = client.getUserApi().create(createLegalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
     assertThat(createdUser, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
 
-    final LegalUser fetchedUser = userApi.getLegalUser(createdUser.getId());
+    final LegalUser fetchedUser = client.getUserApi().getLegalUser(createdUser.getId());
     assertThat(fetchedUser, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
     assertThat(fetchedUser.getId(), is(equalTo(createdUser.getId())));
 
     fetchedUser.setTag("Good user");
-    final LegalUser updatedUser = userApi.update(fetchedUser);
+    final LegalUser updatedUser = client.getUserApi().update(fetchedUser);
     assertThat(updatedUser, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", "Good user", PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
     assertThat(updatedUser.getId(), is(equalTo(fetchedUser.getId())));
 
-    final User user = userApi.get(updatedUser.getId());
+    final User user = client.getUserApi().get(updatedUser.getId());
     assertThat((LegalUser) user, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", "Good user", PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
     assertThat(user.getId(), is(equalTo(updatedUser.getId())));
   }
@@ -123,7 +113,7 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("LegalPersonType: The LegalPersonType field is required.");
-    userApi.create(createLegalUser("contact@acme.com", "ACME", null, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
+    client.getUserApi().create(createLegalUser("contact@acme.com", "ACME", null, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
   }
 
   @Test
@@ -132,7 +122,7 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("LegalRepresentativeCountryOfResidence: Error converting value \"USA\" to type");
     thrown.expectMessage("Email: The field Email must match the regular expression '([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
-    userApi.create(createLegalUser("contact at acme dot com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "USA", null));
+    client.getUserApi().create(createLegalUser("contact at acme dot com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "USA", null));
   }
 
   @Test
@@ -140,7 +130,7 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserNatural with the id=10");
-    userApi.getNaturalUser("10");
+    client.getUserApi().getNaturalUser("10");
   }
 
   @Test
@@ -148,7 +138,7 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10");
-    userApi.getLegalUser("10");
+    client.getUserApi().getLegalUser("10");
   }
 
   @Test
@@ -156,33 +146,31 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10"); // Misleading error message.
-    userApi.get("10");
+    client.getUserApi().get("10");
   }
 
   @Test
   public void listUsers() {
-    final List<User> users1 = userApi.list(Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
-    final List<User> users2 = userApi.list(Sort.by(CREATION_DATE, DESCENDING), Page.of(2));
+    final List<User> users1 = client.getUserApi().list(Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    final List<User> users2 = client.getUserApi().list(Sort.by(CREATION_DATE, DESCENDING), Page.of(2));
     assertThat(users1, hasSize(10));
     assertThat(users2, hasSize(10));
     assertThat(users1.get(0).getCreationDate(), is(after(users2.get(9).getCreationDate())));
     assertThat(users1.get(9).getId(), is(greaterThan(users2.get(0).getId())));
 
-    final List<User> users3 = userApi.list(Sort.by(CREATION_DATE, ASCENDING), Page.of(1, 50));
+    final List<User> users3 = client.getUserApi().list(Sort.by(CREATION_DATE, ASCENDING), Page.of(1, 50));
     assertThat(users3, hasSize(50));
     assertThat(users3.get(0).getCreationDate(), is(before(users3.get(49).getCreationDate())));
   }
 
   @Test
   public void listUserWallets() throws InterruptedException {
-    final WalletApi walletApi = WalletApi.createDefault(connection);
-
-    final NaturalUser user = userApi.create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
-    final Wallet wallet1 = walletApi.create(new Wallet(user.getId(), Currency.getInstance("EUR"), "EUR", null));
+    final NaturalUser user = client.getUserApi().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
+    final Wallet wallet1 = client.getWalletApi().create(new Wallet(user.getId(), Currency.getInstance("EUR"), "EUR", null));
     Thread.sleep(2000);
-    final Wallet wallet2 = walletApi.create(new Wallet(user.getId(), Currency.getInstance("USD"), "USD", null));
+    final Wallet wallet2 = client.getWalletApi().create(new Wallet(user.getId(), Currency.getInstance("USD"), "USD", null));
 
-    final List<Wallet> userWallets = userApi.getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    final List<Wallet> userWallets = client.getUserApi().getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     assertThat(userWallets, hasSize(2));
     assertThat(userWallets.get(0).getId(), is(equalTo(wallet2.getId())));
     assertThat(userWallets.get(1).getId(), is(equalTo(wallet1.getId())));

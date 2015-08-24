@@ -16,12 +16,7 @@
 package org.microworld.mangopay;
 
 import org.microworld.mangopay.entities.DirectCardPayIn;
-import org.microworld.mangopay.implementation.DefaultPayInApi;
 
 public interface PayInApi {
-  static PayInApi createDefault(final MangopayConnection connection) {
-    return new DefaultPayInApi(connection);
-  }
-
   DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
 }
