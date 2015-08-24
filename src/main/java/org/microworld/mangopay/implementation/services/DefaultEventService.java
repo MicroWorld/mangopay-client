@@ -13,33 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay;
+package org.microworld.mangopay.implementation.services;
 
 import java.util.List;
 
-import org.microworld.mangopay.entities.LegalUser;
-import org.microworld.mangopay.entities.NaturalUser;
-import org.microworld.mangopay.entities.User;
-import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.Event;
+import org.microworld.mangopay.misc.HttpMethod;
+import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
+import org.microworld.mangopay.services.EventService;
 
-public interface UserService {
-  LegalUser create(final LegalUser user);
+public class DefaultEventService implements EventService {
+  private final MangopayConnection connection;
 
-  NaturalUser create(final NaturalUser user);
+  public DefaultEventService(final MangopayConnection connection) {
+    this.connection = connection;
+  }
 
-  User get(String id);
-
-  LegalUser getLegalUser(String id);
-
-  NaturalUser getNaturalUser(String id);
-
-  LegalUser update(LegalUser user);
-
-  NaturalUser update(NaturalUser user);
-
-  List<User> list(Sort sort, Page page);
-
-  List<Wallet> getWallets(String userId, Sort sort, Page page);
+  @Override
+  public List<Event> list(final Filter filter, final Sort sort, final Page page) {
+    return connection.queryForList(Event.class, HttpMethod.GET, "/events", filter, sort, page);
+  }
 }

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.implementation;
+package org.microworld.mangopay.implementation.services;
 
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.TransferService;
 import org.microworld.mangopay.entities.Transfer;
+import org.microworld.mangopay.services.TransferService;
 
 public class DefaultTransferService implements TransferService {
   private final MangopayConnection connection;

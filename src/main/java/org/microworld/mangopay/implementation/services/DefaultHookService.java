@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.implementation;
+package org.microworld.mangopay.implementation.services;
 
 import java.util.List;
 
-import org.microworld.mangopay.HookService;
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Hook;
+import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
+import org.microworld.mangopay.services.HookService;
 
 public class DefaultHookService implements HookService {
   private final MangopayConnection connection;

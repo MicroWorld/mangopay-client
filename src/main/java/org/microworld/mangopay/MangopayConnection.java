@@ -18,7 +18,7 @@ package org.microworld.mangopay;
 import java.util.List;
 
 import org.microworld.mangopay.implementation.DefaultMangopayConnection;
-import org.microworld.mangopay.implementation.HttpMethod;
+import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;

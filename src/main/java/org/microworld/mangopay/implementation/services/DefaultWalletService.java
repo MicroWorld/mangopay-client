@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.implementation;
+package org.microworld.mangopay.implementation.services;
 
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.WalletService;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.misc.HttpMethod;
+import org.microworld.mangopay.services.WalletService;
 
 public class DefaultWalletService implements WalletService {
   private final MangopayConnection connection;

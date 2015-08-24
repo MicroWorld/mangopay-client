@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay;
+package org.microworld.mangopay.services;
 
-import org.microworld.mangopay.entities.DirectCardPayIn;
+import java.util.List;
 
-public interface PayInService {
-  DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
+import org.microworld.mangopay.entities.Event;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
+
+public interface EventService {
+  List<Event> list(Filter filter, Sort sort, Page page);
 }

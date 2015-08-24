@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.implementation;
+package org.microworld.mangopay.implementation.services;
 
-import org.microworld.mangopay.CardRegistrationService;
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.entities.CardRegistration;
+import org.microworld.mangopay.entities.DirectCardPayIn;
+import org.microworld.mangopay.misc.HttpMethod;
+import org.microworld.mangopay.services.PayInService;
 
-public class DefaultCardResgistrationService implements CardRegistrationService {
+public class DefaultPayInService implements PayInService {
   private final MangopayConnection connection;
 
-  public DefaultCardResgistrationService(final MangopayConnection connection) {
+  public DefaultPayInService(final MangopayConnection connection) {
     this.connection = connection;
   }
 
   @Override
-  public CardRegistration create(final CardRegistration cardResgistration) {
-    return connection.queryForObject(CardRegistration.class, HttpMethod.POST, "/cardregistrations", cardResgistration);
-  }
-
-  @Override
-  public CardRegistration update(final CardRegistration cardRegistration) {
-    return connection.queryForObject(CardRegistration.class, HttpMethod.PUT, "/cardregistrations/{0}", cardRegistration, cardRegistration.getId());
+  public DirectCardPayIn createDirectCardPayIn(final DirectCardPayIn directCardPayIn) {
+    return connection.queryForObject(DirectCardPayIn.class, HttpMethod.POST, "/payins/card/direct", directCardPayIn);
   }
 }

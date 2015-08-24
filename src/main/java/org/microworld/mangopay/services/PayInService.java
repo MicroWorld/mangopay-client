@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay;
+package org.microworld.mangopay.services;
 
-import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.entities.DirectCardPayIn;
 
-public interface WalletService {
-  Wallet create(final Wallet wallet);
-
-  Wallet get(String id);
-
-  Wallet update(Wallet wallet);
+public interface PayInService {
+  DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
 }

@@ -58,6 +58,7 @@ import org.microworld.mangopay.implementation.serialization.IncomeRangeAdapter;
 import org.microworld.mangopay.implementation.serialization.InstantAdapter;
 import org.microworld.mangopay.implementation.serialization.LocalDateAdapter;
 import org.microworld.mangopay.implementation.serialization.MangopayUnauthorizedExceptionDeserializer;
+import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.ParameterHolder;

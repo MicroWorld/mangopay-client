@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay;
+package org.microworld.mangopay.services;
 
-import java.util.List;
+import org.microworld.mangopay.entities.CardRegistration;
 
-import org.microworld.mangopay.entities.Hook;
+public interface CardRegistrationService {
+  CardRegistration create(CardRegistration cardResgistration);
 
-public interface HookService {
-  Hook create(final Hook hook);
-
-  Hook get(String id);
-
-  Hook update(Hook hook);
-
-  List<Hook> list();
+  CardRegistration update(CardRegistration cardRegistration);
 }

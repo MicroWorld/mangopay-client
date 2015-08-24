@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.implementation;
+package org.microworld.mangopay.implementation.services;
 
 import java.util.List;
 
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.UserService;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
+import org.microworld.mangopay.services.UserService;
 
 public class DefaultUserService implements UserService {
   private final MangopayConnection connection;
