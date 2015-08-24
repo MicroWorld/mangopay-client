@@ -33,7 +33,6 @@ import java.util.Currency;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Amount;
-import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.TransactionExecutionType;
@@ -51,17 +50,10 @@ public class PayInIT extends AbstractIntegrationTest {
   public void directCardPayIn() throws MalformedURLException, IOException {
     final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
-    final String cardId = registerCard(user).getCardId();
+    final String cardId = registerCard(user, EUR).getCardId();
 
     final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
-  }
-
-  private CardRegistration registerCard(final User user) throws MalformedURLException, IOException {
-    CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), EUR));
-    cardRegistration.setRegistrationData(CardRegistrationIT.getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey()));
-    cardRegistration = client.getCardRegistrationService().update(cardRegistration);
-    return cardRegistration;
   }
 
   private DirectCardPayIn createDirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl,
