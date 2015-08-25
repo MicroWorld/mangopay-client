@@ -17,6 +17,7 @@ package org.microworld.mangopay.implementation.services;
 
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Transfer;
+import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.TransferService;
 
 public class DefaultTransferService implements TransferService {
@@ -28,13 +29,11 @@ public class DefaultTransferService implements TransferService {
 
   @Override
   public Transfer create(final Transfer transfer) {
-    // TODO Auto-generated method stub
-    return null;
+    return connection.queryForObject(Transfer.class, HttpMethod.POST, "/transfers", transfer);
   }
 
   @Override
   public Transfer get(final String id) {
-    // TODO Auto-generated method stub
-    return null;
+    return connection.queryForObject(Transfer.class, HttpMethod.GET, "/transfers/{0}", null, id);
   }
 }

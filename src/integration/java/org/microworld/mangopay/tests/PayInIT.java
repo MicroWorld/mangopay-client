@@ -56,7 +56,7 @@ public class PayInIT extends AbstractIntegrationTest {
     assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
   }
 
-  private DirectCardPayIn createDirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl,
+  protected static DirectCardPayIn createDirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl,
       final String tag) {
     final DirectCardPayIn directCardPayIn = new DirectCardPayIn();
     directCardPayIn.setAuthorId(authorId);
