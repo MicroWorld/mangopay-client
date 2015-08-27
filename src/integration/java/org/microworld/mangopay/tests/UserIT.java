@@ -51,6 +51,9 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public class UserIT extends AbstractIntegrationTest {
+  private static final Currency EUR = Currency.getInstance("EUR");
+  private static final Currency USD = Currency.getInstance("USD");
+
   @Test
   public void createGetUpdateNaturalUser() {
     final Instant creationDate = Instant.now();
@@ -166,9 +169,9 @@ public class UserIT extends AbstractIntegrationTest {
   @Test
   public void listUserWallets() throws InterruptedException {
     final NaturalUser user = client.getUserService().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
-    final Wallet wallet1 = client.getWalletService().create(new Wallet(user.getId(), Currency.getInstance("EUR"), "EUR", null));
+    final Wallet wallet1 = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR", null));
     Thread.sleep(2000);
-    final Wallet wallet2 = client.getWalletService().create(new Wallet(user.getId(), Currency.getInstance("USD"), "USD", null));
+    final Wallet wallet2 = client.getWalletService().create(new Wallet(user.getId(), USD, "USD", null));
 
     final List<Wallet> userWallets = client.getUserService().getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     assertThat(userWallets, hasSize(2));
