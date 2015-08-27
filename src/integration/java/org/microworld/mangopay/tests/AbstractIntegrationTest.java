@@ -52,14 +52,14 @@ public class AbstractIntegrationTest {
     client = MangopayClient.createDefault(connection);
   }
 
-  protected CardRegistration registerCard(final User user, final Currency currency) throws MalformedURLException, IOException {
+  protected CardRegistration registerCard(final User user, final Currency currency, String cardNumber, String cardExpirationDate, String cardCvx) throws MalformedURLException, IOException {
     CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), currency));
-    cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey()));
+    cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey(), cardNumber, cardExpirationDate, cardCvx));
     cardRegistration = client.getCardRegistrationService().update(cardRegistration);
     return cardRegistration;
   }
 
-  protected String getRegistrationData(final String cardRegistrationUrl, final String preregistrationData, final String accessKey) throws MalformedURLException, IOException {
+  protected String getRegistrationData(final String cardRegistrationUrl, final String preregistrationData, final String accessKey, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {
     final HttpsURLConnection connection = (HttpsURLConnection) new URL(cardRegistrationUrl).openConnection();
     connection.setDoInput(true);
     connection.setDoOutput(true);
@@ -70,9 +70,9 @@ public class AbstractIntegrationTest {
       final Map<String, String> form = new HashMap<>();
       form.put("data", preregistrationData);
       form.put("accessKeyRef", accessKey);
-      form.put("cardNumber", "4970100000000154");
-      form.put("cardExpirationDate", "1218");
-      form.put("cardCvx", "123");
+      form.put("cardNumber", cardNumber);
+      form.put("cardExpirationDate", cardExpirationDate);
+      form.put("cardCvx", cardCvx);
       output.write(form.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&")));
       output.flush();
     }

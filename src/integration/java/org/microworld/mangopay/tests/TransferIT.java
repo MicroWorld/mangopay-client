@@ -103,7 +103,7 @@ public class TransferIT extends AbstractIntegrationTest {
   private User getUserWithMoney(final int cents, final Currency currency) throws MalformedURLException, IOException {
     final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
-    final String cardId = registerCard(user, currency).getCardId();
+    final String cardId = registerCard(user, currency, "4970100000000154", "1218", "123").getCardId();
     client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     return user;
   }

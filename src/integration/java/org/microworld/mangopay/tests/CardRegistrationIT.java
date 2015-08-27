@@ -38,7 +38,7 @@ public class CardRegistrationIT extends AbstractIntegrationTest {
     final CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), EUR));
     assertThat(cardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.CREATED)));
 
-    cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey()));
+    cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey(), "4970100000000154", "1218", "123"));
     final CardRegistration updatedCardRegistration = client.getCardRegistrationService().update(cardRegistration);
     assertThat(updatedCardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.VALIDATED)));
   }
