@@ -31,6 +31,8 @@ import static org.microworld.test.Matchers.after;
 import static org.microworld.test.Matchers.around;
 import static org.microworld.test.Matchers.before;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Currency;
@@ -38,6 +40,8 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.microworld.mangopay.entities.Card;
+import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.KycLevel;
 import org.microworld.mangopay.entities.LegalPersonType;
@@ -177,6 +181,19 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(userWallets, hasSize(2));
     assertThat(userWallets.get(0).getId(), is(equalTo(wallet2.getId())));
     assertThat(userWallets.get(1).getId(), is(equalTo(wallet1.getId())));
+  }
+
+  @Test
+  public void listUserCards() throws MalformedURLException, IOException, InterruptedException {
+    final NaturalUser user = client.getUserService().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
+    final CardRegistration cardRegistration1 = registerCard(user, EUR, "4970100000000154", "1218", "123");
+    Thread.sleep(2000);
+    final CardRegistration cardRegistration2 = registerCard(user, USD, "4970100000000155", "1119", "456");
+
+    final List<Card> cards = client.getUserService().getCards(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(cards, hasSize(2));
+    assertThat(cards.get(0).getId(), is(equalTo(cardRegistration2.getCardId())));
+    assertThat(cards.get(1).getId(), is(equalTo(cardRegistration1.getCardId())));
   }
 
   public static NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {

@@ -28,6 +28,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -58,6 +59,7 @@ import org.microworld.mangopay.implementation.serialization.IncomeRangeAdapter;
 import org.microworld.mangopay.implementation.serialization.InstantAdapter;
 import org.microworld.mangopay.implementation.serialization.LocalDateAdapter;
 import org.microworld.mangopay.implementation.serialization.MangopayUnauthorizedExceptionDeserializer;
+import org.microworld.mangopay.implementation.serialization.YearMonthAdapter;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
@@ -92,6 +94,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());
     builder.registerTypeAdapter(Currency.class, new CurrencyAdapter());
     builder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
+    builder.registerTypeAdapter(YearMonth.class, new YearMonthAdapter());
     builder.registerTypeAdapter(IncomeRange.class, new IncomeRangeAdapter());
     this.gson = builder.create();
   }
