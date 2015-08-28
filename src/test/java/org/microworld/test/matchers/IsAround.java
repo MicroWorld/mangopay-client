@@ -21,6 +21,7 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 public class IsAround extends TypeSafeDiagnosingMatcher<Instant> {
+  private static final int MARGIN = 15;
   private final Instant instant;
 
   public IsAround(final Instant instant) {
@@ -34,7 +35,7 @@ public class IsAround extends TypeSafeDiagnosingMatcher<Instant> {
 
   @Override
   protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
-    if (instant.minusSeconds(10).isAfter(item) || instant.plusSeconds(10).isBefore(item)) {
+    if (instant.minusSeconds(MARGIN).isAfter(item) || instant.plusSeconds(MARGIN).isBefore(item)) {
       mismatchDescription.appendText("was ").appendValue(item);
       return false;
     }
