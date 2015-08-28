@@ -48,9 +48,14 @@ import org.microworld.mangopay.entities.LegalPersonType;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PersonType;
+import org.microworld.mangopay.entities.SecureMode;
+import org.microworld.mangopay.entities.Transaction;
+import org.microworld.mangopay.entities.TransactionType;
+import org.microworld.mangopay.entities.Transfer;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.exceptions.MangopayException;
+import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
@@ -194,6 +199,24 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(cards, hasSize(2));
     assertThat(cards.get(0).getId(), is(equalTo(cardRegistration2.getCardId())));
     assertThat(cards.get(1).getId(), is(equalTo(cardRegistration1.getCardId())));
+  }
+
+  @Test
+  public void listUserTransactions() throws MalformedURLException, IOException, InterruptedException {
+    final User user1 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
+    final String cardId = registerCard(user1, EUR, "4970100000000154", "1218", "123").getCardId();
+    final User user2 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
+
+    client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    Thread.sleep(2000);
+    client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));
+
+    final List<Transaction> transactions = client.getUserService().getTransactions(user1.getId(), Filter.none(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(transactions, hasSize(2));
+    assertThat(transactions.get(0).getType(), is(equalTo(TransactionType.TRANSFER)));
+    assertThat(transactions.get(1).getType(), is(equalTo(TransactionType.PAYIN)));
   }
 
   public static NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {

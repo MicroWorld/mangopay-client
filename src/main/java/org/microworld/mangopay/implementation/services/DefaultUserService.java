@@ -21,6 +21,7 @@ import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
+import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.misc.HttpMethod;
@@ -84,5 +85,10 @@ public class DefaultUserService implements UserService {
   @Override
   public List<Card> getCards(final String userId, final Sort sort, final Page page) {
     return connection.queryForList(Card.class, HttpMethod.GET, "/users/{0}/cards", Filter.none(), sort, page, userId);
+  }
+
+  @Override
+  public List<Transaction> getTransactions(final String userId, final Filter filter, final Sort sort, final Page page) {
+    return connection.queryForList(Transaction.class, HttpMethod.GET, "/users/{0}/transactions", filter, sort, page, userId);
   }
 }

@@ -20,8 +20,10 @@ import java.util.List;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
+import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
@@ -45,4 +47,6 @@ public interface UserService {
   List<Wallet> getWallets(String userId, Sort sort, Page page);
 
   List<Card> getCards(String userId, Sort sort, Page page);
+
+  List<Transaction> getTransactions(String userId, Filter filter, Sort sort, Page page);
 }

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.microworld.mangopay.entities.EventType;
+import org.microworld.mangopay.entities.TransactionStatus;
 
 public class Filter implements ParameterHolder {
   private final Map<String, String> parameters = new HashMap<>();
@@ -58,5 +59,9 @@ public class Filter implements ParameterHolder {
 
   public static Filter eventType(final EventType eventType) {
     return new Filter("EventType", eventType.name());
+  }
+
+  public static Filter transactionStatus(final TransactionStatus transactionStatus) {
+    return new Filter("status", transactionStatus.name());
   }
 }
