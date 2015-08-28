@@ -28,7 +28,6 @@ import static org.microworld.test.Matchers.around;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Currency;
 
 import org.hamcrest.Matcher;
@@ -46,7 +45,7 @@ public class TransferIT extends AbstractIntegrationTest {
   public void createAndGetTransfer() throws MalformedURLException, IOException {
     final User debitedUser = getUserWithMoney(4000, EUR);
     final Wallet debitedWallet = client.getUserService().getWallets(debitedUser.getId(), null, null).get(0);
-    final User creditedUser = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User creditedUser = client.getUserService().create(randomNaturalUser());
     final Wallet creditedWallet = client.getWalletService().create(new Wallet(creditedUser.getId(), EUR, "Wallet to be credited", null));
 
     final Transfer transferWithNoFees = client.getTransferService().create(new Transfer(debitedUser.getId(), debitedWallet.getId(), creditedWallet.getId(), EUR, 2000, 0, null));
@@ -64,14 +63,13 @@ public class TransferIT extends AbstractIntegrationTest {
 
   @Test
   public void createTransferFromAWalletWithoutEnoughMoney() {
-    final User debitedUser = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User debitedUser = client.getUserService().create(randomNaturalUser());
     final Wallet debitedWallet = client.getWalletService().create(new Wallet(debitedUser.getId(), EUR, "Wallet to be debited", null));
-    final User creditedUser = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User creditedUser = client.getUserService().create(randomNaturalUser());
     final Wallet creditedWallet = client.getWalletService().create(new Wallet(creditedUser.getId(), EUR, "Wallet to be credited", null));
 
     final Transfer transfer = client.getTransferService().create(new Transfer(debitedUser.getId(), debitedWallet.getId(), creditedWallet.getId(), EUR, 20000, 0, null));
     assertThat(transfer, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 20000, 0, FAILED, "001001", "Unsufficient wallet balance", null, Instant.now())));
-
   }
 
   @Test
@@ -99,7 +97,7 @@ public class TransferIT extends AbstractIntegrationTest {
   }
 
   private User getUserWithMoney(final int cents, final Currency currency) throws MalformedURLException, IOException {
-    final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
     final String cardId = registerCard(user, currency, "4970100000000154", "1218", "123").getCardId();
     client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, SecureMode.DEFAULT, "https://foo.bar", null));

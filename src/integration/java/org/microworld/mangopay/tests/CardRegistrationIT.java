@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.is;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.time.LocalDate;
 
 import org.junit.Test;
 import org.microworld.mangopay.entities.CardRegistration;
@@ -31,7 +30,7 @@ import org.microworld.mangopay.entities.User;
 public class CardRegistrationIT extends AbstractIntegrationTest {
   @Test
   public void createAndUpdateCardRegistration() throws MalformedURLException, IOException {
-    final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user = client.getUserService().create(randomNaturalUser());
     final CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), EUR));
     assertThat(cardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.CREATED)));
 

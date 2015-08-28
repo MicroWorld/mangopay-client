@@ -29,7 +29,6 @@ import static org.microworld.test.Matchers.around;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Currency;
 import java.util.List;
 
@@ -48,7 +47,7 @@ import org.microworld.mangopay.search.Sort;
 public class WalletIT extends AbstractIntegrationTest {
   @Test
   public void createGetUpdateWallet() {
-    final User walletOwner = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User walletOwner = client.getUserService().create(randomNaturalUser());
 
     final Wallet createdWallet = client.getWalletService().create(new Wallet(walletOwner.getId(), EUR, "Euro account", null));
     assertThat(createdWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now())));
@@ -98,10 +97,10 @@ public class WalletIT extends AbstractIntegrationTest {
 
   @Test
   public void listWalletTransactions() throws MalformedURLException, IOException, InterruptedException {
-    final User user1 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
     final String cardId = registerCard(user1, EUR, "4970100000000154", "1218", "123").getCardId();
-    final User user2 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user2 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
     client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));

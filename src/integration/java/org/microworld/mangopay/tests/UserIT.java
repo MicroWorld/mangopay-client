@@ -34,16 +34,13 @@ import static org.microworld.test.Matchers.before;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.CardRegistration;
-import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.KycLevel;
-import org.microworld.mangopay.entities.LegalPersonType;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PersonType;
@@ -62,20 +59,21 @@ public class UserIT extends AbstractIntegrationTest {
   @Test
   public void createGetUpdateNaturalUser() {
     final Instant creationDate = Instant.now();
-    final NaturalUser createdUser = client.getUserService().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
-    assertThat(createdUser, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null, PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
+    final NaturalUser naturalUser = randomNaturalUser();
+    final NaturalUser createdUser = client.getUserService().create(naturalUser);
+    assertThat(createdUser, is(naturalUser(naturalUser, KycLevel.LIGHT, creationDate)));
 
     final NaturalUser fetchedUser = client.getUserService().getNaturalUser(createdUser.getId());
-    assertThat(fetchedUser, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null, PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
+    assertThat(fetchedUser, is(naturalUser(naturalUser, KycLevel.LIGHT, creationDate)));
     assertThat(fetchedUser.getId(), is(equalTo(createdUser.getId())));
 
     fetchedUser.setTag("Good user");
     final NaturalUser updatedUser = client.getUserService().update(fetchedUser);
-    assertThat(updatedUser, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, "Good user", PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
+    assertThat(updatedUser, is(naturalUser(fetchedUser, KycLevel.LIGHT, creationDate)));
     assertThat(updatedUser.getId(), is(equalTo(fetchedUser.getId())));
 
     final User user = client.getUserService().get(updatedUser.getId());
-    assertThat((NaturalUser) user, is(naturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, "Good user", PersonType.NATURAL, KycLevel.LIGHT, creationDate)));
+    assertThat((NaturalUser) user, is(naturalUser(updatedUser, KycLevel.LIGHT, creationDate)));
     assertThat(user.getId(), is(equalTo(updatedUser.getId())));
   }
 
@@ -85,7 +83,10 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Email: The Email field is required.");
     thrown.expectMessage("Birthday: The Birthday field is required.");
-    client.getUserService().create(createNaturalUser(null, "John", "Doe", "John's Address", null, "US", "US", null, null, null));
+    final NaturalUser naturalUser = randomNaturalUser();
+    naturalUser.setEmail(null);
+    naturalUser.setBirthday(null);
+    client.getUserService().create(naturalUser);
   }
 
   @Test
@@ -93,26 +94,29 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Nationality: Error converting value \"USA\" to type");
-    client.getUserService().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "USA", "US", null, null, null));
+    final NaturalUser naturalUser = randomNaturalUser();
+    naturalUser.setNationality("USA");
+    client.getUserService().create(naturalUser);
   }
 
   @Test
   public void createGetUpdateLegalUser() {
     final Instant creationDate = Instant.now();
-    final LegalUser createdUser = client.getUserService().create(createLegalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
-    assertThat(createdUser, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
+    final LegalUser legalUser = randomLegalUser();
+    final LegalUser createdUser = client.getUserService().create(legalUser);
+    assertThat(createdUser, is(legalUser(legalUser, KycLevel.LIGHT, creationDate)));
 
     final LegalUser fetchedUser = client.getUserService().getLegalUser(createdUser.getId());
-    assertThat(fetchedUser, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
+    assertThat(fetchedUser, is(legalUser(createdUser, KycLevel.LIGHT, creationDate)));
     assertThat(fetchedUser.getId(), is(equalTo(createdUser.getId())));
 
     fetchedUser.setTag("Good user");
     final LegalUser updatedUser = client.getUserService().update(fetchedUser);
-    assertThat(updatedUser, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", "Good user", PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
+    assertThat(updatedUser, is(legalUser(fetchedUser, KycLevel.LIGHT, creationDate)));
     assertThat(updatedUser.getId(), is(equalTo(fetchedUser.getId())));
 
     final User user = client.getUserService().get(updatedUser.getId());
-    assertThat((LegalUser) user, is(legalUser("contact@acme.com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", "Good user", PersonType.LEGAL, KycLevel.LIGHT, creationDate)));
+    assertThat((LegalUser) user, is(legalUser(updatedUser, KycLevel.LIGHT, creationDate)));
     assertThat(user.getId(), is(equalTo(updatedUser.getId())));
   }
 
@@ -121,7 +125,9 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("LegalPersonType: The LegalPersonType field is required.");
-    client.getUserService().create(createLegalUser("contact@acme.com", "ACME", null, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null));
+    final LegalUser legalUser = randomLegalUser();
+    legalUser.setLegalPersonType(null);
+    client.getUserService().create(legalUser);
   }
 
   @Test
@@ -130,7 +136,10 @@ public class UserIT extends AbstractIntegrationTest {
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("LegalRepresentativeCountryOfResidence: Error converting value \"USA\" to type");
     thrown.expectMessage("Email: The field Email must match the regular expression '([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
-    client.getUserService().create(createLegalUser("contact at acme dot com", "ACME", LegalPersonType.BUSINESS, "ACME Address", "John", "Doe", "john@doe.com", "John's Address", LocalDate.of(1942, 11, 13), "US", "USA", null));
+    final LegalUser legalUser = randomLegalUser();
+    legalUser.setEmail("contact at acme dot com");
+    legalUser.setLegalRepresentativeCountryOfResidence("USA");
+    client.getUserService().create(legalUser);
   }
 
   @Test
@@ -173,7 +182,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void listUserWallets() throws InterruptedException {
-    final NaturalUser user = client.getUserService().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
+    final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR", null));
     Thread.sleep(2000);
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user.getId(), USD, "USD", null));
@@ -186,7 +195,7 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void listUserCards() throws MalformedURLException, IOException, InterruptedException {
-    final NaturalUser user = client.getUserService().create(createNaturalUser("john@doe.com", "John", "Doe", "John's Address", LocalDate.of(1942, 11, 13), "US", "US", null, IncomeRange.BETWEEN_30_AND_50k€, null));
+    final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final CardRegistration cardRegistration1 = registerCard(user, EUR, "4970100000000154", "1218", "123");
     Thread.sleep(2000);
     final CardRegistration cardRegistration2 = registerCard(user, USD, "4970100000000155", "1119", "456");
@@ -199,10 +208,10 @@ public class UserIT extends AbstractIntegrationTest {
 
   @Test
   public void listUserTransactions() throws MalformedURLException, IOException, InterruptedException {
-    final User user1 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
     final String cardId = registerCard(user1, EUR, "4970100000000154", "1218", "123").getCardId();
-    final User user2 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user2 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
     client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));
@@ -215,83 +224,48 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(transactions.get(1).getType(), is(equalTo(TransactionType.PAYIN)));
   }
 
-  public static NaturalUser createNaturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag) {
-    final NaturalUser user = new NaturalUser();
-    user.setEmail(email);
-    user.setFirstName(firstName);
-    user.setLastName(lastName);
-    user.setAddress(address);
-    user.setBirthday(birthday);
-    user.setNationality(nationality);
-    user.setCountryOfResidence(countryOfResidence);
-    user.setOccupation(occupation);
-    user.setIncomeRange(incomeRange);
-    user.setTag(tag);
-    return user;
-  }
-
   @SuppressWarnings("unchecked")
-  private Matcher<NaturalUser> naturalUser(final String email, final String firstName, final String lastName, final String address, final LocalDate birthday, final String nationality, final String countryOfResidence, final String occupation, final IncomeRange incomeRange, final String tag,
-      final PersonType personType, final KycLevel kycLevel, final Instant creationDate) {
+  private Matcher<NaturalUser> naturalUser(final NaturalUser user, final KycLevel kycLevel, final Instant creationDate) {
     return allOf(
         hasProperty("id", is(notNullValue())),
-        hasProperty("email", is(equalTo(email))),
-        hasProperty("personType", is(equalTo(personType))),
+        hasProperty("email", is(equalTo(user.getEmail()))),
+        hasProperty("personType", is(equalTo(PersonType.NATURAL))),
         hasProperty("kycLevel", is(equalTo(kycLevel))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("firstName", is(equalTo(firstName))),
-        hasProperty("lastName", is(equalTo(lastName))),
-        hasProperty("address", is(equalTo(address))),
-        hasProperty("birthday", is(equalTo(birthday))),
-        hasProperty("nationality", is(equalTo(nationality))),
-        hasProperty("countryOfResidence", is(equalTo(countryOfResidence))),
-        hasProperty("occupation", is(equalTo(occupation))),
-        hasProperty("incomeRange", is(equalTo(incomeRange))),
+        hasProperty("firstName", is(equalTo(user.getFirstName()))),
+        hasProperty("lastName", is(equalTo(user.getLastName()))),
+        hasProperty("address", is(equalTo(user.getAddress()))),
+        hasProperty("birthday", is(equalTo(user.getBirthday()))),
+        hasProperty("nationality", is(equalTo(user.getNationality()))),
+        hasProperty("countryOfResidence", is(equalTo(user.getCountryOfResidence()))),
+        hasProperty("occupation", is(equalTo(user.getOccupation()))),
+        hasProperty("incomeRange", is(equalTo(user.getIncomeRange()))),
         hasProperty("proofOfIdentity", is(nullValue())),
         hasProperty("proofOfAddress", is(nullValue())),
-        hasProperty("tag", is(equalTo(tag))));
-  }
-
-  public static LegalUser createLegalUser(final String email, final String name, final LegalPersonType legalPersonType, final String headquartersAddress, final String legalRepresentativeFirstName, final String legalRepresentativeLastName, final String legalRepresentativeEmail,
-      final String legalRepresentativeAddress, final LocalDate legalRepresentativeBirthday, final String legalRepresentativeNationality, final String legalRepresentativeCountryOfResidence, final String tag) {
-    final LegalUser user = new LegalUser();
-    user.setEmail(email);
-    user.setName(name);
-    user.setLegalPersonType(legalPersonType);
-    user.setHeadquartersAddress(headquartersAddress);
-    user.setLegalRepresentativeFirstName(legalRepresentativeFirstName);
-    user.setLegalRepresentativeLastName(legalRepresentativeLastName);
-    user.setLegalRepresentativeEmail(legalRepresentativeEmail);
-    user.setLegalRepresentativeAddress(legalRepresentativeAddress);
-    user.setLegalRepresentativeBirthday(legalRepresentativeBirthday);
-    user.setLegalRepresentativeNationality(legalRepresentativeNationality);
-    user.setLegalRepresentativeCountryOfResidence(legalRepresentativeCountryOfResidence);
-    user.setTag(tag);
-    return user;
+        hasProperty("tag", is(equalTo(user.getTag()))));
   }
 
   @SuppressWarnings("unchecked")
-  private Matcher<LegalUser> legalUser(final String email, final String name, final LegalPersonType legalPersonType, final String headquartersAddress, final String legalRepresentativeFirstName, final String legalRepresentativeLastName, final String legalRepresentativeEmail,
-      final String legalRepresentativeAddress, final LocalDate legalRepresentativeBirthday, final String legalRepresentativeNationality, final String legalRepresentativeCountryOfResidence, final String tag, final PersonType personType, final KycLevel kycLevel, final Instant creationDate) {
+  private Matcher<LegalUser> legalUser(final LegalUser legalUser, final KycLevel kycLevel, final Instant creationDate) {
     return allOf(
         hasProperty("id", is(notNullValue())),
-        hasProperty("email", is(equalTo(email))),
-        hasProperty("personType", is(equalTo(personType))),
+        hasProperty("email", is(equalTo(legalUser.getEmail()))),
+        hasProperty("personType", is(equalTo(PersonType.LEGAL))),
         hasProperty("kycLevel", is(equalTo(kycLevel))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("name", is(equalTo(name))),
-        hasProperty("legalPersonType", is(equalTo(legalPersonType))),
-        hasProperty("headquartersAddress", is(equalTo(headquartersAddress))),
-        hasProperty("legalRepresentativeFirstName", is(equalTo(legalRepresentativeFirstName))),
-        hasProperty("legalRepresentativeLastName", is(equalTo(legalRepresentativeLastName))),
-        hasProperty("legalRepresentativeEmail", is(equalTo(legalRepresentativeEmail))),
-        hasProperty("legalRepresentativeAddress", is(equalTo(legalRepresentativeAddress))),
-        hasProperty("legalRepresentativeBirthday", is(equalTo(legalRepresentativeBirthday))),
-        hasProperty("legalRepresentativeNationality", is(equalTo(legalRepresentativeNationality))),
-        hasProperty("legalRepresentativeCountryOfResidence", is(equalTo(legalRepresentativeCountryOfResidence))),
+        hasProperty("name", is(equalTo(legalUser.getName()))),
+        hasProperty("legalPersonType", is(equalTo(legalUser.getLegalPersonType()))),
+        hasProperty("headquartersAddress", is(equalTo(legalUser.getHeadquartersAddress()))),
+        hasProperty("legalRepresentativeFirstName", is(equalTo(legalUser.getLegalRepresentativeFirstName()))),
+        hasProperty("legalRepresentativeLastName", is(equalTo(legalUser.getLegalRepresentativeLastName()))),
+        hasProperty("legalRepresentativeEmail", is(equalTo(legalUser.getLegalRepresentativeEmail()))),
+        hasProperty("legalRepresentativeAddress", is(equalTo(legalUser.getLegalRepresentativeAddress()))),
+        hasProperty("legalRepresentativeBirthday", is(equalTo(legalUser.getLegalRepresentativeBirthday()))),
+        hasProperty("legalRepresentativeNationality", is(equalTo(legalUser.getLegalRepresentativeNationality()))),
+        hasProperty("legalRepresentativeCountryOfResidence", is(equalTo(legalUser.getLegalRepresentativeCountryOfResidence()))),
         hasProperty("statute", is(nullValue())),
         hasProperty("proofOfRegistration", is(nullValue())),
         hasProperty("shareholderDeclaration", is(nullValue())),
-        hasProperty("tag", is(equalTo(tag))));
+        hasProperty("tag", is(equalTo(legalUser.getTag()))));
   }
 }

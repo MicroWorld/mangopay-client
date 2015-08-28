@@ -27,7 +27,6 @@ import static org.microworld.test.Matchers.around;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Currency;
 
 import org.hamcrest.Matcher;
@@ -46,7 +45,7 @@ import org.microworld.mangopay.entities.Wallet;
 public class PayInIT extends AbstractIntegrationTest {
   @Test
   public void directCardPayIn() throws MalformedURLException, IOException {
-    final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
     final String cardId = registerCard(user, EUR, "4970100000000154", "1218", "123").getCardId();
 

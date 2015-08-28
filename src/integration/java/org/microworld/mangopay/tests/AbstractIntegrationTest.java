@@ -24,8 +24,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,8 +39,17 @@ import org.junit.rules.ExpectedException;
 import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.TestEnvironment;
+import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.CardRegistration;
+import org.microworld.mangopay.entities.IncomeRange;
+import org.microworld.mangopay.entities.LegalPersonType;
+import org.microworld.mangopay.entities.LegalUser;
+import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.User;
+
+import io.codearte.jfairy.Fairy;
+import io.codearte.jfairy.producer.company.Company;
+import io.codearte.jfairy.producer.person.Person;
 
 public class AbstractIntegrationTest {
   protected static final Currency EUR = Currency.getInstance("EUR");
@@ -49,11 +60,61 @@ public class AbstractIntegrationTest {
   public final ExpectedException thrown = ExpectedException.none();
   protected MangopayConnection connection;
   protected MangopayClient client;
+  private Fairy fairy;
 
   @Before
-  public void setUpConnectionAndClient() {
+  public void setUpTestEnvironment() {
     connection = TestEnvironment.getInstance().getConnection();
     client = MangopayClient.createDefault(connection);
+    fairy = Fairy.create();
+  }
+
+  protected NaturalUser randomNaturalUser() {
+    final Person person = fairy.person();
+
+    final NaturalUser user = new NaturalUser();
+    user.setEmail(person.email());
+    user.setFirstName(person.firstName());
+    user.setLastName(person.lastName());
+    user.setAddress(createAddress(person.getAddress()));
+    user.setBirthday(LocalDate.parse(person.dateOfBirth().toString("yyyy-MM-dd")));
+    user.setNationality(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    user.setCountryOfResidence(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    user.setOccupation(fairy.textProducer().latinSentence());
+    user.setIncomeRange(IncomeRange.values()[fairy.baseProducer().randomBetween(0, IncomeRange.values().length - 1)]);
+    user.setTag(fairy.textProducer().latinSentence());
+    return user;
+  }
+
+  protected LegalUser randomLegalUser() {
+    final Person person = fairy.person();
+    final Company company = fairy.company();
+
+    final LegalUser user = new LegalUser();
+    user.setEmail(company.email());
+    user.setName(company.name());
+    user.setLegalPersonType(LegalPersonType.values()[fairy.baseProducer().randomBetween(0, LegalPersonType.values().length - 1)]);
+    user.setHeadquartersAddress(createAddress(fairy.person().getAddress()));
+    user.setLegalRepresentativeFirstName(person.firstName());
+    user.setLegalRepresentativeLastName(person.lastName());
+    user.setLegalRepresentativeEmail(person.email());
+    user.setLegalRepresentativeAddress(createAddress(person.getAddress()));
+    user.setLegalRepresentativeBirthday(LocalDate.parse(person.dateOfBirth().toString("yyyy-MM-dd")));
+    user.setLegalRepresentativeNationality(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    user.setLegalRepresentativeCountryOfResidence(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    user.setTag(fairy.textProducer().latinSentence());
+    return user;
+  }
+
+  private Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
+    final Address address = new Address();
+    address.setAddressLine1(fairyAddress.streetNumber() + ", " + fairyAddress.street());
+    address.setAddressLine2(fairyAddress.apartmentNumber());
+    address.setCity(fairyAddress.getCity());
+    address.setCountry(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    address.setPostalCode(fairyAddress.getPostalCode());
+    address.setRegion(fairy.textProducer().latinWord());
+    return address;
   }
 
   protected CardRegistration registerCard(final User user, final Currency currency, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {
