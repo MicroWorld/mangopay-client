@@ -15,9 +15,15 @@
  */
 package org.microworld.mangopay.implementation.services;
 
+import java.util.List;
+
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.misc.HttpMethod;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 import org.microworld.mangopay.services.WalletService;
 
 public class DefaultWalletService implements WalletService {
@@ -40,5 +46,10 @@ public class DefaultWalletService implements WalletService {
   @Override
   public Wallet update(final Wallet wallet) {
     return connection.queryForObject(Wallet.class, HttpMethod.PUT, "/wallets/{0}", wallet, wallet.getId());
+  }
+
+  @Override
+  public List<Transaction> getTransactions(final String walletId, final Sort sort, final Page page) {
+    return connection.queryForList(Transaction.class, HttpMethod.GET, "/wallets/{0}/transactions", Filter.none(), sort, page, walletId);
   }
 }

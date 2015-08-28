@@ -19,19 +19,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.microworld.mangopay.search.SortDirection.DESCENDING;
+import static org.microworld.mangopay.search.SortField.CREATION_DATE;
 import static org.microworld.test.Matchers.around;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Currency;
+import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.microworld.mangopay.entities.SecureMode;
+import org.microworld.mangopay.entities.Transaction;
+import org.microworld.mangopay.entities.TransactionType;
+import org.microworld.mangopay.entities.Transfer;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.exceptions.MangopayException;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 
 public class WalletIT extends AbstractIntegrationTest {
   @Test
@@ -82,6 +94,24 @@ public class WalletIT extends AbstractIntegrationTest {
     thrown.expectMessage("currency_not_available: Error: the currency used is not available");
     thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
     client.getWalletService().create(new Wallet("10", XAF, "Invalid wallet", null));
+  }
+
+  @Test
+  public void listWalletTransactions() throws MalformedURLException, IOException, InterruptedException {
+    final User user1 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
+    final String cardId = registerCard(user1, EUR, "4970100000000154", "1218", "123").getCardId();
+    final User user2 = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
+    final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
+
+    client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    Thread.sleep(2000);
+    client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));
+
+    final List<Transaction> transactions = client.getWalletService().getTransactions(wallet1.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(transactions, hasSize(2));
+    assertThat(transactions.get(0).getType(), is(equalTo(TransactionType.TRANSFER)));
+    assertThat(transactions.get(1).getType(), is(equalTo(TransactionType.PAYIN)));
   }
 
   private Matcher<Wallet> wallet(final String ownerId, final Currency currency, final String description, final String tag, final Instant creationDate) {

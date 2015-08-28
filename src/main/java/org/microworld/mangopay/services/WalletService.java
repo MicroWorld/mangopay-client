@@ -15,7 +15,12 @@
  */
 package org.microworld.mangopay.services;
 
+import java.util.List;
+
+import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 
 public interface WalletService {
   Wallet create(final Wallet wallet);
@@ -23,4 +28,6 @@ public interface WalletService {
   Wallet get(String id);
 
   Wallet update(Wallet wallet);
+
+  List<Transaction> getTransactions(String walletId, Sort sort, Page page);
 }
