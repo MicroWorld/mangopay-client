@@ -38,17 +38,17 @@ public class WalletIT extends AbstractIntegrationTest {
   public void createGetUpdateWallet() {
     final User walletOwner = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
 
-    final Wallet createdWallet = client.getWalletService().create(new Wallet(walletOwner.getId(), Currency.getInstance("EUR"), "Euro account", null));
-    assertThat(createdWallet, is(wallet(walletOwner.getId(), Currency.getInstance("EUR"), "Euro account", null, Instant.now())));
+    final Wallet createdWallet = client.getWalletService().create(new Wallet(walletOwner.getId(), EUR, "Euro account", null));
+    assertThat(createdWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now())));
 
     final Wallet fetchedWallet = client.getWalletService().get(createdWallet.getId());
-    assertThat(fetchedWallet, is(wallet(walletOwner.getId(), Currency.getInstance("EUR"), "Euro account", null, Instant.now())));
+    assertThat(fetchedWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now())));
     assertThat(fetchedWallet.getId(), is(equalTo(createdWallet.getId())));
 
     fetchedWallet.setDescription("EUR account");
     fetchedWallet.setTag("Something");
     final Wallet updatedWallet = client.getWalletService().update(fetchedWallet);
-    assertThat(updatedWallet, is(wallet(walletOwner.getId(), Currency.getInstance("EUR"), "EUR account", "Something", Instant.now())));
+    assertThat(updatedWallet, is(wallet(walletOwner.getId(), EUR, "EUR account", "Something", Instant.now())));
     assertThat(updatedWallet.getId(), is(equalTo(fetchedWallet.getId())));
   }
 
@@ -65,7 +65,7 @@ public class WalletIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("Description: The Description field is required.");
-    client.getWalletService().create(new Wallet("7589576", Currency.getInstance("USD"), null, null));
+    client.getWalletService().create(new Wallet("7589576", USD, null, null));
   }
 
   @Test
@@ -73,7 +73,7 @@ public class WalletIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("externalOwnerId: The value  is not valid");
-    client.getWalletService().create(new Wallet(null, Currency.getInstance("USD"), "The description", null));
+    client.getWalletService().create(new Wallet(null, USD, "The description", null));
   }
 
   @Test
@@ -81,7 +81,7 @@ public class WalletIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("currency_not_available: Error: the currency used is not available");
     thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
-    client.getWalletService().create(new Wallet("10", Currency.getInstance("XAF"), "Invalid wallet", null));
+    client.getWalletService().create(new Wallet("10", XAF, "Invalid wallet", null));
   }
 
   private Matcher<Wallet> wallet(final String ownerId, final Currency currency, final String description, final String tag, final Instant creationDate) {

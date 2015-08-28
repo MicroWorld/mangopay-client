@@ -42,8 +42,6 @@ import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.exceptions.MangopayException;
 
 public class TransferIT extends AbstractIntegrationTest {
-  private static final Currency EUR = Currency.getInstance("EUR");
-
   @Test
   public void createAndGetTransfer() throws MalformedURLException, IOException {
     final User debitedUser = getUserWithMoney(4000, EUR);
@@ -97,7 +95,7 @@ public class TransferIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("currency_not_available: Error: the currency used is not available");
     thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
-    client.getTransferService().create(new Transfer("8252994", "8252995", "8253004", Currency.getInstance("XAF"), 2000, 0, null));
+    client.getTransferService().create(new Transfer("8252994", "8252995", "8253004", XAF, 2000, 0, null));
   }
 
   private User getUserWithMoney(final int cents, final Currency currency) throws MalformedURLException, IOException {

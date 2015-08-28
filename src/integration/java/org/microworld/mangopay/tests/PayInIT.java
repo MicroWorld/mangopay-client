@@ -44,8 +44,6 @@ import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
 
 public class PayInIT extends AbstractIntegrationTest {
-  private static final Currency EUR = Currency.getInstance("EUR");
-
   @Test
   public void directCardPayIn() throws MalformedURLException, IOException {
     final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));

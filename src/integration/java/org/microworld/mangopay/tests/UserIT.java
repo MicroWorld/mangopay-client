@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Currency;
 import java.util.List;
 
 import org.hamcrest.Matcher;
@@ -60,9 +59,6 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public class UserIT extends AbstractIntegrationTest {
-  private static final Currency EUR = Currency.getInstance("EUR");
-  private static final Currency USD = Currency.getInstance("USD");
-
   @Test
   public void createGetUpdateNaturalUser() {
     final Instant creationDate = Instant.now();

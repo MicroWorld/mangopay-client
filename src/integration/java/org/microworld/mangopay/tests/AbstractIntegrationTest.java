@@ -41,6 +41,10 @@ import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.User;
 
 public class AbstractIntegrationTest {
+  protected static final Currency EUR = Currency.getInstance("EUR");
+  protected static final Currency USD = Currency.getInstance("USD");
+  protected static final Currency XAF = Currency.getInstance("XAF");
+
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
   protected MangopayConnection connection;
@@ -52,7 +56,7 @@ public class AbstractIntegrationTest {
     client = MangopayClient.createDefault(connection);
   }
 
-  protected CardRegistration registerCard(final User user, final Currency currency, String cardNumber, String cardExpirationDate, String cardCvx) throws MalformedURLException, IOException {
+  protected CardRegistration registerCard(final User user, final Currency currency, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {
     CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), currency));
     cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey(), cardNumber, cardExpirationDate, cardCvx));
     cardRegistration = client.getCardRegistrationService().update(cardRegistration);

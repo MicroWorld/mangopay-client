@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.is;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
-import java.util.Currency;
 
 import org.junit.Test;
 import org.microworld.mangopay.entities.CardRegistration;
@@ -30,8 +29,6 @@ import org.microworld.mangopay.entities.CardRegistrationStatus;
 import org.microworld.mangopay.entities.User;
 
 public class CardRegistrationIT extends AbstractIntegrationTest {
-  private static final Currency EUR = Currency.getInstance("EUR");
-
   @Test
   public void createAndUpdateCardRegistration() throws MalformedURLException, IOException {
     final User user = client.getUserService().create(UserIT.createNaturalUser("foo@bar.com", "Foo", "Bar", "Address", LocalDate.of(1970, 1, 1), "FR", "FR", null, null, null));
