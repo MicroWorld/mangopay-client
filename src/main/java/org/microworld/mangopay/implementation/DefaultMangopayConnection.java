@@ -79,6 +79,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private static final Logger LOG = LoggerFactory.getLogger(DefaultMangopayConnection.class);
   private static final int READ_TIMEOUT = 60000;
   private static final int CONNECT_TIMEOUT = 60000;
+  private static final String API_VERSION = "v2.01";
   private final String host;
   private final String clientId;
   private final String encodedAuthenticationString;
@@ -181,7 +182,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private URL createUrl(final boolean isAuthorizationRequest, final String path, final String[] pathParameters, final Map<String, String> query) throws MalformedURLException {
     final StringBuilder url = new StringBuilder("https://");
     url.append(host);
-    url.append("/v2");
+    url.append("/").append(API_VERSION);
     if (!isAuthorizationRequest) {
       url.append("/").append(clientId);
     }

@@ -25,7 +25,7 @@ public class NaturalUser extends User {
   @SerializedName("LastName")
   private String lastName;
   @SerializedName("Address")
-  private String address;
+  private Address address;
   @SerializedName("Birthday")
   private LocalDate birthday;
   @SerializedName("Nationality")
@@ -57,11 +57,11 @@ public class NaturalUser extends User {
     this.lastName = lastName;
   }
 
-  public String getAddress() {
+  public Address getAddress() {
     return address;
   }
 
-  public void setAddress(final String address) {
+  public void setAddress(final Address address) {
     this.address = address;
   }
 

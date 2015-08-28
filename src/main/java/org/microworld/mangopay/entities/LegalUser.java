@@ -25,13 +25,13 @@ public class LegalUser extends User {
   @SerializedName("LegalPersonType")
   private LegalPersonType legalPersonType;
   @SerializedName("HeadquartersAddress")
-  private String headquartersAddress;
+  private Address headquartersAddress;
   @SerializedName("LegalRepresentativeFirstName")
   private String legalRepresentativeFirstName;
   @SerializedName("LegalRepresentativeLastName")
   private String legalRepresentativeLastName;
   @SerializedName("LegalRepresentativeAddress")
-  private String legalRepresentativeAddress;
+  private Address legalRepresentativeAddress;
   @SerializedName("LegalRepresentativeEmail")
   private String legalRepresentativeEmail;
   @SerializedName("LegalRepresentativeBirthday")
@@ -63,11 +63,11 @@ public class LegalUser extends User {
     this.legalPersonType = legalPersonType;
   }
 
-  public String getHeadquartersAddress() {
+  public Address getHeadquartersAddress() {
     return headquartersAddress;
   }
 
-  public void setHeadquartersAddress(final String headquartersAddress) {
+  public void setHeadquartersAddress(final Address headquartersAddress) {
     this.headquartersAddress = headquartersAddress;
   }
 
@@ -87,11 +87,11 @@ public class LegalUser extends User {
     this.legalRepresentativeLastName = legalRepresentativeLastName;
   }
 
-  public String getLegalRepresentativeAddress() {
+  public Address getLegalRepresentativeAddress() {
     return legalRepresentativeAddress;
   }
 
-  public void setLegalRepresentativeAddress(final String legalRepresentativeAddress) {
+  public void setLegalRepresentativeAddress(final Address legalRepresentativeAddress) {
     this.legalRepresentativeAddress = legalRepresentativeAddress;
   }
 
