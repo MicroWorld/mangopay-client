@@ -48,6 +48,7 @@ import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.BankAccount;
 import org.microworld.mangopay.entities.BankAccountType;
 import org.microworld.mangopay.entities.BritishBankAccount;
+import org.microworld.mangopay.entities.CanadianBankAccount;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.IncomeRange;
@@ -242,6 +243,8 @@ public class DefaultMangopayConnection implements MangopayConnection {
           return (T) gson.fromJson(object, IbanBankAccount.class);
         case GB:
           return (T) gson.fromJson(object, BritishBankAccount.class);
+        case CA:
+          return (T) gson.fromJson(object, CanadianBankAccount.class);
         case OTHER:
         default:
           return (T) gson.fromJson(object, OtherBankAccount.class);

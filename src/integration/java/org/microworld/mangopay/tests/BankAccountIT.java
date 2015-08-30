@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.BritishBankAccount;
+import org.microworld.mangopay.entities.CanadianBankAccount;
 import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.OtherBankAccount;
 import org.microworld.mangopay.entities.User;
@@ -71,6 +72,19 @@ public class BankAccountIT extends AbstractIntegrationTest {
     assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
   }
 
+  @Test
+  public void createAndGetCanadianBankAccount() {
+    final Instant creationDate = Instant.now();
+    final CanadianBankAccount canadianBankAccount = new CanadianBankAccount(person.fullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo");
+    final CanadianBankAccount createdBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), canadianBankAccount);
+    assertThat(createdBankAccount, is(canadianBankAccount(canadianBankAccount, creationDate)));
+
+    final CanadianBankAccount fetchedBankAccount = (CanadianBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
+    assertThat(fetchedBankAccount, is(canadianBankAccount(createdBankAccount, creationDate)));
+    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+  }
+
+  @Test
   public void createAndGetOtherBankAccount() {
     final Instant creationDate = Instant.now();
     final OtherBankAccount otherBankAccount = new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null);
@@ -151,5 +165,20 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("sortCode", is(equalTo(britishBankAccount.getSortCode()))),
         hasProperty("creationDate", is(around(creationDate))),
         hasProperty("tag", is(equalTo(britishBankAccount.getTag()))));
+  }
+
+  @SuppressWarnings("unchecked")
+  private Matcher<CanadianBankAccount> canadianBankAccount(final CanadianBankAccount canadianBankAccount, final Instant creationDate) {
+    return allOf(
+        hasProperty("id", is(notNullValue())),
+        hasProperty("type", is(equalTo(canadianBankAccount.getType()))),
+        hasProperty("ownerName", is(equalTo(canadianBankAccount.getOwnerName()))),
+        hasProperty("ownerAddress", is(equalTo(canadianBankAccount.getOwnerAddress()))),
+        hasProperty("bankName", is(equalTo(canadianBankAccount.getBankName()))),
+        hasProperty("institutionNumber", is(equalTo(canadianBankAccount.getInstitutionNumber()))),
+        hasProperty("branchCode", is(equalTo(canadianBankAccount.getBranchCode()))),
+        hasProperty("accountNumber", is(equalTo(canadianBankAccount.getAccountNumber()))),
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("tag", is(equalTo(canadianBankAccount.getTag()))));
   }
 }
