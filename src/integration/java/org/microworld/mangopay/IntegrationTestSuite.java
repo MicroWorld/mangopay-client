@@ -20,6 +20,7 @@ import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.microworld.mangopay.tests.BankAccountIT;
 import org.microworld.mangopay.tests.CardRegistrationIT;
 import org.microworld.mangopay.tests.ConnectIT;
 import org.microworld.mangopay.tests.EventIT;
@@ -28,7 +29,6 @@ import org.microworld.mangopay.tests.PayInIT;
 import org.microworld.mangopay.tests.TransferIT;
 import org.microworld.mangopay.tests.UserIT;
 import org.microworld.mangopay.tests.WalletIT;
-import org.microworld.mangopay.tests.BankAccountIT;
 
 @RunWith(Suite.class)
 @SuiteClasses({

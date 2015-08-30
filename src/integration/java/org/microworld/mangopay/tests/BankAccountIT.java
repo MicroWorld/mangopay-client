@@ -65,7 +65,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
   @Test
   public void createAndGetBritishBankAccount() {
     final Instant creationDate = Instant.now();
-    final BritishBankAccount britishBankAccount = new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456", null);
+    final BritishBankAccount britishBankAccount = new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", null);
     final BritishBankAccount createdBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), britishBankAccount);
     assertThat(createdBankAccount, is(britishBankAccount(britishBankAccount, creationDate)));
 
