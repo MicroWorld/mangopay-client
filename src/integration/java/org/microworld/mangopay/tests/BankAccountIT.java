@@ -29,6 +29,7 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
+import org.microworld.mangopay.entities.BritishBankAccount;
 import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.OtherBankAccount;
 import org.microworld.mangopay.entities.User;
@@ -59,6 +60,17 @@ public class BankAccountIT extends AbstractIntegrationTest {
   }
 
   @Test
+  public void createAndGetBritishBankAccount() {
+    final Instant creationDate = Instant.now();
+    final BritishBankAccount britishBankAccount = new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456", null);
+    final BritishBankAccount createdBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), britishBankAccount);
+    assertThat(createdBankAccount, is(britishBankAccount(britishBankAccount, creationDate)));
+
+    final BritishBankAccount fetchedBankAccount = (BritishBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
+    assertThat(fetchedBankAccount, is(britishBankAccount(createdBankAccount, creationDate)));
+    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+  }
+
   public void createAndGetOtherBankAccount() {
     final Instant creationDate = Instant.now();
     final OtherBankAccount otherBankAccount = new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null);
@@ -126,5 +138,18 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("accountNumber", is(equalTo(otherBankAccount.getAccountNumber()))),
         hasProperty("creationDate", is(around(creationDate))),
         hasProperty("tag", is(equalTo(otherBankAccount.getTag()))));
+  }
+
+  @SuppressWarnings("unchecked")
+  private Matcher<BritishBankAccount> britishBankAccount(final BritishBankAccount britishBankAccount, final Instant creationDate) {
+    return allOf(
+        hasProperty("id", is(notNullValue())),
+        hasProperty("type", is(equalTo(britishBankAccount.getType()))),
+        hasProperty("ownerName", is(equalTo(britishBankAccount.getOwnerName()))),
+        hasProperty("ownerAddress", is(equalTo(britishBankAccount.getOwnerAddress()))),
+        hasProperty("accountNumber", is(equalTo(britishBankAccount.getAccountNumber()))),
+        hasProperty("sortCode", is(equalTo(britishBankAccount.getSortCode()))),
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("tag", is(equalTo(britishBankAccount.getTag()))));
   }
 }

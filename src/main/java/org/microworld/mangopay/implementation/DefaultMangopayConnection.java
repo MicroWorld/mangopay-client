@@ -47,6 +47,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.BankAccount;
 import org.microworld.mangopay.entities.BankAccountType;
+import org.microworld.mangopay.entities.BritishBankAccount;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.IncomeRange;
@@ -239,6 +240,8 @@ public class DefaultMangopayConnection implements MangopayConnection {
       switch (BankAccountType.valueOf(object.get("Type").getAsString())) {
         case IBAN:
           return (T) gson.fromJson(object, IbanBankAccount.class);
+        case GB:
+          return (T) gson.fromJson(object, BritishBankAccount.class);
         case OTHER:
         default:
           return (T) gson.fromJson(object, OtherBankAccount.class);
