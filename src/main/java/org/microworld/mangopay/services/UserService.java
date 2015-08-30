@@ -17,13 +17,13 @@ package org.microworld.mangopay.services;
 
 import java.util.List;
 
-import org.microworld.mangopay.entities.BankAccount;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;

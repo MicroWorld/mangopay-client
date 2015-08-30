@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.entities;
+package org.microworld.mangopay.entities.bankaccounts;
+
+import org.microworld.mangopay.entities.Address;
+import org.microworld.mangopay.entities.Entity;
 
 import com.google.gson.annotations.SerializedName;
 

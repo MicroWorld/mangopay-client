@@ -15,7 +15,7 @@
  */
 package org.microworld.mangopay.services;
 
-import org.microworld.mangopay.entities.BankAccount;
+import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 
 public interface BankAccountService {
   BankAccount create(String userId, BankAccount bankAccount);

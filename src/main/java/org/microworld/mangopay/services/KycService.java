@@ -1,6 +1,6 @@
 package org.microworld.mangopay.services;
 
-import org.microworld.mangopay.entities.KycDocument;
+import org.microworld.mangopay.entities.kyc.KycDocument;
 
 public interface KycService {
   KycDocument createDocument(String userId, KycDocument document);

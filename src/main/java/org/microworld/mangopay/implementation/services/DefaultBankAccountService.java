@@ -16,7 +16,7 @@
 package org.microworld.mangopay.implementation.services;
 
 import org.microworld.mangopay.MangopayConnection;
-import org.microworld.mangopay.entities.BankAccount;
+import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.BankAccountService;
 

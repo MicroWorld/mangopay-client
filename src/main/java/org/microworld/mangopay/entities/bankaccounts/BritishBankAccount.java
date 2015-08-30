@@ -13,44 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.entities;
+package org.microworld.mangopay.entities.bankaccounts;
+
+import org.microworld.mangopay.entities.Address;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CanadianBankAccount extends BankAccount {
-  @SerializedName("BankName")
-  private final String bankName;
-  @SerializedName("InstitutionNumber")
-  private final String institutionNumber;
-  @SerializedName("BranchCode")
-  private final String branchCode;
+public class BritishBankAccount extends BankAccount {
   @SerializedName("AccountNumber")
   private final String accountNumber;
+  @SerializedName("SortCode")
+  private final String sortCode;
 
-  public CanadianBankAccount(final String ownerName, final Address ownerAddress, final String bankName, final String institutionNumber, final String branchCode, final String accountNumber, final String tag) {
-    this.type = BankAccountType.CA;
+  public BritishBankAccount(final String ownerName, final Address ownerAddress, final String accountNumber, final String sortCode, final String tag) {
+    this.type = BankAccountType.GB;
     this.ownerName = ownerName;
     this.ownerAddress = ownerAddress;
-    this.bankName = bankName;
-    this.institutionNumber = institutionNumber;
-    this.branchCode = branchCode;
     this.accountNumber = accountNumber;
+    this.sortCode = sortCode;
     this.tag = tag;
-  }
-
-  public String getBankName() {
-    return bankName;
-  }
-
-  public String getInstitutionNumber() {
-    return institutionNumber;
-  }
-
-  public String getBranchCode() {
-    return branchCode;
   }
 
   public String getAccountNumber() {
     return accountNumber;
+  }
+
+  public String getSortCode() {
+    return sortCode;
   }
 }

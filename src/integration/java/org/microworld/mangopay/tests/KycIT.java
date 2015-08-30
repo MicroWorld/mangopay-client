@@ -28,10 +28,10 @@ import java.time.Instant;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.microworld.mangopay.entities.KycDocument;
-import org.microworld.mangopay.entities.KycDocumentStatus;
-import org.microworld.mangopay.entities.KycDocumentType;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.kyc.KycDocument;
+import org.microworld.mangopay.entities.kyc.KycDocumentStatus;
+import org.microworld.mangopay.entities.kyc.KycDocumentType;
 import org.microworld.mangopay.exceptions.MangopayException;
 
 public class KycIT extends AbstractIntegrationTest {

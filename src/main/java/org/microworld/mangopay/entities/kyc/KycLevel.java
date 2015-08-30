@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.entities;
+package org.microworld.mangopay.entities.kyc;
 
-public enum BankAccountType {
-  IBAN, GB, US, CA, OTHER;
+public enum KycLevel {
+  LIGHT, REGULAR;
 }

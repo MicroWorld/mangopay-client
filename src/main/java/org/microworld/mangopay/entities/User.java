@@ -15,6 +15,8 @@
  */
 package org.microworld.mangopay.entities;
 
+import org.microworld.mangopay.entities.kyc.KycLevel;
+
 import com.google.gson.annotations.SerializedName;
 
 public abstract class User extends Entity {

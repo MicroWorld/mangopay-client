@@ -1,4 +1,6 @@
-package org.microworld.mangopay.entities;
+package org.microworld.mangopay.entities.kyc;
+
+import org.microworld.mangopay.entities.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
