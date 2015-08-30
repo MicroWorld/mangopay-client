@@ -25,7 +25,7 @@ public abstract class Entity {
   @SerializedName("CreationDate")
   private Instant creationDate;
   @SerializedName("Tag")
-  private String tag;
+  protected String tag;
 
   public String getId() {
     return id;

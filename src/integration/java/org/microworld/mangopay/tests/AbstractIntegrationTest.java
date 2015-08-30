@@ -60,7 +60,7 @@ public class AbstractIntegrationTest {
   public final ExpectedException thrown = ExpectedException.none();
   protected MangopayConnection connection;
   protected MangopayClient client;
-  private Fairy fairy;
+  protected Fairy fairy;
 
   @Before
   public void setUpTestEnvironment() {
@@ -106,7 +106,7 @@ public class AbstractIntegrationTest {
     return user;
   }
 
-  private Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
+  protected Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
     final Address address = new Address();
     address.setAddressLine1(fairyAddress.streetNumber() + ", " + fairyAddress.street());
     address.setAddressLine2(fairyAddress.apartmentNumber());

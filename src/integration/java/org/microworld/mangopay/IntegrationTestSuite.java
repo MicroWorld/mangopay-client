@@ -28,6 +28,7 @@ import org.microworld.mangopay.tests.PayInIT;
 import org.microworld.mangopay.tests.TransferIT;
 import org.microworld.mangopay.tests.UserIT;
 import org.microworld.mangopay.tests.WalletIT;
+import org.microworld.mangopay.tests.BankAccountIT;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -39,6 +40,7 @@ import org.microworld.mangopay.tests.WalletIT;
     CardRegistrationIT.class,
     PayInIT.class,
     TransferIT.class,
+    BankAccountIT.class,
 })
 public class IntegrationTestSuite {
   @ClassRule

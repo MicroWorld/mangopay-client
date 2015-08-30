@@ -16,6 +16,7 @@
 package org.microworld.mangopay;
 
 import org.microworld.mangopay.implementation.DefaultMangopayClient;
+import org.microworld.mangopay.services.BankAccountService;
 import org.microworld.mangopay.services.CardRegistrationService;
 import org.microworld.mangopay.services.EventService;
 import org.microworld.mangopay.services.HookService;
@@ -28,6 +29,8 @@ public interface MangopayClient {
   static MangopayClient createDefault(final MangopayConnection connection) {
     return new DefaultMangopayClient(connection);
   }
+
+  BankAccountService getBankAccountService();
 
   CardRegistrationService getCardRegistrationService();
 

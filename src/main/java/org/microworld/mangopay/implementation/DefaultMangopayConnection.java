@@ -45,7 +45,10 @@ import java.util.stream.Stream;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.BankAccount;
+import org.microworld.mangopay.entities.BankAccountType;
 import org.microworld.mangopay.entities.Error;
+import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
@@ -224,7 +227,19 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private <T> T convert(final JsonElement element, final Class<T> type) {
     final JsonObject object = element.getAsJsonObject();
     if (type.isAssignableFrom(User.class)) {
-      return PersonType.LEGAL.equals(PersonType.valueOf(object.get("PersonType").getAsString())) ? (T) gson.fromJson(object, LegalUser.class) : (T) gson.fromJson(object, NaturalUser.class);
+      switch (PersonType.valueOf(object.get("PersonType").getAsString())) {
+        case LEGAL:
+          return (T) gson.fromJson(object, LegalUser.class);
+        case NATURAL:
+        default:
+          return (T) gson.fromJson(object, NaturalUser.class);
+      }
+    } else if (type.isAssignableFrom(BankAccount.class)) {
+      switch (BankAccountType.valueOf(object.get("Type").getAsString())) {
+        case IBAN:
+        default:
+          return (T) gson.fromJson(object, IbanBankAccount.class);
+      }
     } else {
       return gson.fromJson(object, type);
     }
