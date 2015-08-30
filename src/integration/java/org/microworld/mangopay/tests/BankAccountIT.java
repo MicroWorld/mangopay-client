@@ -30,28 +30,43 @@ import org.junit.Before;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.IbanBankAccount;
+import org.microworld.mangopay.entities.OtherBankAccount;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.exceptions.MangopayException;
 
 import io.codearte.jfairy.producer.person.Person;
 
 public class BankAccountIT extends AbstractIntegrationTest {
+  private Person person;
   private User user;
 
   @Before
-  public void setUpUserAccount() {
+  public void setUp() {
+    person = fairy.person();
     user = client.getUserService().create(randomNaturalUser());
   }
 
   @Test
   public void createAndGetIbanBankAccount() {
     final Instant creationDate = Instant.now();
-    final IbanBankAccount ibanBankAccount = randomIbanBankAccount();
+    final IbanBankAccount ibanBankAccount = new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence());
     final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), ibanBankAccount);
     assertThat(createdBankAccount, is(ibanBankAccount(ibanBankAccount, creationDate)));
 
     final IbanBankAccount fetchedBankAccount = (IbanBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
     assertThat(fetchedBankAccount, is(ibanBankAccount(createdBankAccount, creationDate)));
+    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+  }
+
+  @Test
+  public void createAndGetOtherBankAccount() {
+    final Instant creationDate = Instant.now();
+    final OtherBankAccount otherBankAccount = new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null);
+    final OtherBankAccount createdBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), otherBankAccount);
+    assertThat(createdBankAccount, is(otherBankAccount(otherBankAccount, creationDate)));
+
+    final OtherBankAccount fetchedBankAccount = (OtherBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
+    assertThat(fetchedBankAccount, is(otherBankAccount(createdBankAccount, creationDate)));
     assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
   }
 
@@ -86,14 +101,6 @@ public class BankAccountIT extends AbstractIntegrationTest {
     client.getBankAccountService().get(user.getId(), "10");
   }
 
-  private IbanBankAccount randomIbanBankAccount() {
-    final Person person = fairy.person();
-    // String iban = new IBANProvider(fairy.baseProducer()).get().getIbanNumber();
-    final String iban = "FR3020041010124530725S03383";
-    final String bic = "CRLYFRPP";
-    return new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), iban, bic, fairy.textProducer().latinSentence());
-  }
-
   @SuppressWarnings("unchecked")
   private Matcher<IbanBankAccount> ibanBankAccount(final IbanBankAccount ibanBankAccount, final Instant creationDate) {
     return allOf(
@@ -105,5 +112,19 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("bic", is(equalTo(ibanBankAccount.getBic()))),
         hasProperty("creationDate", is(around(creationDate))),
         hasProperty("tag", is(equalTo(ibanBankAccount.getTag()))));
+  }
+
+  @SuppressWarnings("unchecked")
+  private Matcher<OtherBankAccount> otherBankAccount(final OtherBankAccount otherBankAccount, final Instant creationDate) {
+    return allOf(
+        hasProperty("id", is(notNullValue())),
+        hasProperty("type", is(equalTo(otherBankAccount.getType()))),
+        hasProperty("ownerName", is(equalTo(otherBankAccount.getOwnerName()))),
+        hasProperty("ownerAddress", is(equalTo(otherBankAccount.getOwnerAddress()))),
+        hasProperty("country", is(equalTo(otherBankAccount.getCountry()))),
+        hasProperty("bic", is(equalTo(otherBankAccount.getBic()))),
+        hasProperty("accountNumber", is(equalTo(otherBankAccount.getAccountNumber()))),
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("tag", is(equalTo(otherBankAccount.getTag()))));
   }
 }

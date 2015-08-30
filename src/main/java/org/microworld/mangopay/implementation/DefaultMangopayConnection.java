@@ -52,6 +52,7 @@ import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
+import org.microworld.mangopay.entities.OtherBankAccount;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.User;
@@ -237,8 +238,10 @@ public class DefaultMangopayConnection implements MangopayConnection {
     } else if (type.isAssignableFrom(BankAccount.class)) {
       switch (BankAccountType.valueOf(object.get("Type").getAsString())) {
         case IBAN:
-        default:
           return (T) gson.fromJson(object, IbanBankAccount.class);
+        case OTHER:
+        default:
+          return (T) gson.fromJson(object, OtherBankAccount.class);
       }
     } else {
       return gson.fromJson(object, type);
