@@ -18,6 +18,7 @@ package org.microworld.mangopay.implementation.services;
 import java.util.List;
 
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.BankAccount;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
@@ -78,13 +79,18 @@ public class DefaultUserService implements UserService {
   }
 
   @Override
-  public List<Wallet> getWallets(final String userId, final Sort sort, final Page page) {
-    return connection.queryForList(Wallet.class, HttpMethod.GET, "/users/{0}/wallets", Filter.none(), sort, page, userId);
+  public List<BankAccount> getBankAccounts(final String userId, final Sort sort, final Page page) {
+    return connection.queryForList(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts", Filter.none(), sort, page, userId);
   }
 
   @Override
   public List<Card> getCards(final String userId, final Sort sort, final Page page) {
     return connection.queryForList(Card.class, HttpMethod.GET, "/users/{0}/cards", Filter.none(), sort, page, userId);
+  }
+
+  @Override
+  public List<Wallet> getWallets(final String userId, final Sort sort, final Page page) {
+    return connection.queryForList(Wallet.class, HttpMethod.GET, "/users/{0}/wallets", Filter.none(), sort, page, userId);
   }
 
   @Override

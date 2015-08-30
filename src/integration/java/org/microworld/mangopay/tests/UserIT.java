@@ -38,8 +38,11 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.microworld.mangopay.entities.BankAccount;
+import org.microworld.mangopay.entities.BritishBankAccount;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.CardRegistration;
+import org.microworld.mangopay.entities.IbanBankAccount;
 import org.microworld.mangopay.entities.KycLevel;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
@@ -54,6 +57,8 @@ import org.microworld.mangopay.exceptions.MangopayException;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
+
+import io.codearte.jfairy.producer.person.Person;
 
 public class UserIT extends AbstractIntegrationTest {
   @Test
@@ -181,16 +186,17 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserWallets() throws InterruptedException {
+  public void listUserBankAccounts() throws MalformedURLException, IOException, InterruptedException {
+    final Person person = fairy.person();
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
-    final Wallet wallet1 = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR", null));
+    final BankAccount bankAccount1 = client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
     Thread.sleep(2000);
-    final Wallet wallet2 = client.getWalletService().create(new Wallet(user.getId(), USD, "USD", null));
+    final BankAccount bankAccount2 = client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", fairy.textProducer().latinSentence()));
 
-    final List<Wallet> userWallets = client.getUserService().getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
-    assertThat(userWallets, hasSize(2));
-    assertThat(userWallets.get(0).getId(), is(equalTo(wallet2.getId())));
-    assertThat(userWallets.get(1).getId(), is(equalTo(wallet1.getId())));
+    final List<BankAccount> bankAccounts = client.getUserService().getBankAccounts(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(bankAccounts, hasSize(2));
+    assertThat(bankAccounts.get(0).getId(), is(equalTo(bankAccount2.getId())));
+    assertThat(bankAccounts.get(1).getId(), is(equalTo(bankAccount1.getId())));
   }
 
   @Test
@@ -204,6 +210,19 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(cards, hasSize(2));
     assertThat(cards.get(0).getId(), is(equalTo(cardRegistration2.getCardId())));
     assertThat(cards.get(1).getId(), is(equalTo(cardRegistration1.getCardId())));
+  }
+
+  @Test
+  public void listUserWallets() throws InterruptedException {
+    final NaturalUser user = client.getUserService().create(randomNaturalUser());
+    final Wallet wallet1 = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR", null));
+    Thread.sleep(2000);
+    final Wallet wallet2 = client.getWalletService().create(new Wallet(user.getId(), USD, "USD", null));
+
+    final List<Wallet> userWallets = client.getUserService().getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(userWallets, hasSize(2));
+    assertThat(userWallets.get(0).getId(), is(equalTo(wallet2.getId())));
+    assertThat(userWallets.get(1).getId(), is(equalTo(wallet1.getId())));
   }
 
   @Test
