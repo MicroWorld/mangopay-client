@@ -78,8 +78,8 @@ public class AbstractIntegrationTest {
     user.setLastName(person.lastName());
     user.setAddress(createAddress(person.getAddress()));
     user.setBirthday(LocalDate.parse(person.dateOfBirth().toString("yyyy-MM-dd")));
-    user.setNationality(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
-    user.setCountryOfResidence(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    user.setNationality(randomCountry());
+    user.setCountryOfResidence(randomCountry());
     user.setOccupation(fairy.textProducer().latinSentence());
     user.setIncomeRange(IncomeRange.values()[fairy.baseProducer().randomBetween(0, IncomeRange.values().length - 1)]);
     user.setTag(fairy.textProducer().latinSentence());
@@ -100,10 +100,14 @@ public class AbstractIntegrationTest {
     user.setLegalRepresentativeEmail(person.email());
     user.setLegalRepresentativeAddress(createAddress(person.getAddress()));
     user.setLegalRepresentativeBirthday(LocalDate.parse(person.dateOfBirth().toString("yyyy-MM-dd")));
-    user.setLegalRepresentativeNationality(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
-    user.setLegalRepresentativeCountryOfResidence(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    user.setLegalRepresentativeNationality(randomCountry());
+    user.setLegalRepresentativeCountryOfResidence(randomCountry());
     user.setTag(fairy.textProducer().latinSentence());
     return user;
+  }
+
+  protected String randomCountry() {
+    return Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)];
   }
 
   protected Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
@@ -111,7 +115,7 @@ public class AbstractIntegrationTest {
     address.setAddressLine1(fairyAddress.streetNumber() + ", " + fairyAddress.street());
     address.setAddressLine2(fairyAddress.apartmentNumber());
     address.setCity(fairyAddress.getCity());
-    address.setCountry(Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)]);
+    address.setCountry(randomCountry());
     address.setPostalCode(fairyAddress.getPostalCode());
     address.setRegion(fairy.textProducer().latinWord());
     return address;
