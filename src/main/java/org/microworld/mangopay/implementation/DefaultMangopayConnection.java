@@ -57,6 +57,7 @@ import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.OtherBankAccount;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
+import org.microworld.mangopay.entities.UsaBankAccount;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.exceptions.MangopayException;
 import org.microworld.mangopay.exceptions.MangopayUnauthorizedException;
@@ -243,6 +244,8 @@ public class DefaultMangopayConnection implements MangopayConnection {
           return (T) gson.fromJson(object, IbanBankAccount.class);
         case GB:
           return (T) gson.fromJson(object, BritishBankAccount.class);
+        case US:
+          return (T) gson.fromJson(object, UsaBankAccount.class);
         case CA:
           return (T) gson.fromJson(object, CanadianBankAccount.class);
         case OTHER:
