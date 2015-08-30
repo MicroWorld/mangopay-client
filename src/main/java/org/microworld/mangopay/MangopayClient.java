@@ -20,6 +20,7 @@ import org.microworld.mangopay.services.BankAccountService;
 import org.microworld.mangopay.services.CardRegistrationService;
 import org.microworld.mangopay.services.EventService;
 import org.microworld.mangopay.services.HookService;
+import org.microworld.mangopay.services.KycService;
 import org.microworld.mangopay.services.PayInService;
 import org.microworld.mangopay.services.TransferService;
 import org.microworld.mangopay.services.UserService;
@@ -37,6 +38,8 @@ public interface MangopayClient {
   EventService getEventService();
 
   HookService getHookService();
+
+  KycService getKycService();
 
   PayInService getPayInService();
 

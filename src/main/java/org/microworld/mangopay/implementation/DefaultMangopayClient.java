@@ -21,6 +21,7 @@ import org.microworld.mangopay.implementation.services.DefaultBankAccountService
 import org.microworld.mangopay.implementation.services.DefaultCardResgistrationService;
 import org.microworld.mangopay.implementation.services.DefaultEventService;
 import org.microworld.mangopay.implementation.services.DefaultHookService;
+import org.microworld.mangopay.implementation.services.DefaultKycService;
 import org.microworld.mangopay.implementation.services.DefaultPayInService;
 import org.microworld.mangopay.implementation.services.DefaultTransferService;
 import org.microworld.mangopay.implementation.services.DefaultUserService;
@@ -29,6 +30,7 @@ import org.microworld.mangopay.services.BankAccountService;
 import org.microworld.mangopay.services.CardRegistrationService;
 import org.microworld.mangopay.services.EventService;
 import org.microworld.mangopay.services.HookService;
+import org.microworld.mangopay.services.KycService;
 import org.microworld.mangopay.services.PayInService;
 import org.microworld.mangopay.services.TransferService;
 import org.microworld.mangopay.services.UserService;
@@ -59,6 +61,11 @@ public class DefaultMangopayClient implements MangopayClient {
   @Override
   public HookService getHookService() {
     return new DefaultHookService(connection);
+  }
+
+  @Override
+  public KycService getKycService() {
+    return new DefaultKycService(connection);
   }
 
   @Override
