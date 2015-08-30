@@ -52,6 +52,8 @@ import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.entities.bankaccounts.BritishBankAccount;
 import org.microworld.mangopay.entities.bankaccounts.IbanBankAccount;
+import org.microworld.mangopay.entities.kyc.KycDocument;
+import org.microworld.mangopay.entities.kyc.KycDocumentType;
 import org.microworld.mangopay.entities.kyc.KycLevel;
 import org.microworld.mangopay.exceptions.MangopayException;
 import org.microworld.mangopay.search.Filter;
@@ -210,6 +212,19 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(cards, hasSize(2));
     assertThat(cards.get(0).getId(), is(equalTo(cardRegistration2.getCardId())));
     assertThat(cards.get(1).getId(), is(equalTo(cardRegistration1.getCardId())));
+  }
+
+  @Test
+  public void listUserKycDocument() throws MalformedURLException, IOException, InterruptedException {
+    final NaturalUser user = client.getUserService().create(randomNaturalUser());
+    final KycDocument kycDocument1 = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.ADDRESS_PROOF, null));
+    Thread.sleep(2000);
+    final KycDocument kycDocument2 = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.IDENTITY_PROOF, null));
+
+    final List<KycDocument> documents = client.getUserService().getKycDocuments(user.getId(), Filter.none(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
+    assertThat(documents, hasSize(2));
+    assertThat(documents.get(0).getId(), is(equalTo(kycDocument2.getId())));
+    assertThat(documents.get(1).getId(), is(equalTo(kycDocument1.getId())));
   }
 
   @Test

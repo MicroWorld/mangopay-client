@@ -25,6 +25,7 @@ import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
+import org.microworld.mangopay.entities.kyc.KycDocument;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
@@ -86,6 +87,11 @@ public class DefaultUserService implements UserService {
   @Override
   public List<Card> getCards(final String userId, final Sort sort, final Page page) {
     return connection.queryForList(Card.class, HttpMethod.GET, "/users/{0}/cards", Filter.none(), sort, page, userId);
+  }
+
+  @Override
+  public List<KycDocument> getKycDocuments(final String userId, final Filter filter, final Sort sort, final Page page) {
+    return connection.queryForList(KycDocument.class, HttpMethod.GET, "/users/{0}/KYC/documents", filter, sort, page, userId);
   }
 
   @Override

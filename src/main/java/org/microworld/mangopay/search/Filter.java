@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.microworld.mangopay.entities.EventType;
 import org.microworld.mangopay.entities.TransactionStatus;
+import org.microworld.mangopay.entities.kyc.KycDocumentStatus;
+import org.microworld.mangopay.entities.kyc.KycDocumentType;
 
 public class Filter implements ParameterHolder {
   private final Map<String, String> parameters = new HashMap<>();
@@ -59,6 +61,14 @@ public class Filter implements ParameterHolder {
 
   public static Filter eventType(final EventType eventType) {
     return new Filter("EventType", eventType.name());
+  }
+
+  public static Filter kycDocumentType(final KycDocumentType kycDocumentType) {
+    return new Filter("Type", kycDocumentType.name());
+  }
+
+  public static Filter kycDocumentStatus(final KycDocumentStatus kycDocumentStatus) {
+    return new Filter("Status", kycDocumentStatus.name());
   }
 
   public static Filter transactionStatus(final TransactionStatus transactionStatus) {
