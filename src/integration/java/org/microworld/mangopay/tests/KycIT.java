@@ -23,6 +23,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.microworld.test.Matchers.around;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 
 import org.hamcrest.Matcher;
@@ -73,6 +75,13 @@ public class KycIT extends AbstractIntegrationTest {
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource Document with the id=10");
     client.getKycService().getDocument(user.getId(), "10");
+  }
+
+  @Test
+  public void uploadPage() throws IOException {
+    final KycDocument kycDocument = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.IDENTITY_PROOF, fairy.textProducer().latinSentence()));
+    final InputStream file = KycIT.class.getClassLoader().getResourceAsStream("kyc/empty.pdf");
+    client.getKycService().uploadPage(user.getId(), kycDocument.getId(), file);
   }
 
   private Matcher<KycDocument> kycDocument(final KycDocument kycDocument, final KycDocumentStatus status, final Instant creationDate) {

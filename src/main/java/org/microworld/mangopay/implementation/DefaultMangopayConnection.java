@@ -120,6 +120,11 @@ public class DefaultMangopayConnection implements MangopayConnection {
     return convert(new JsonParser().parse(request(method, path, pathParameters, Collections.emptyMap(), data, false)), type);
   }
 
+  @Override
+  public void query(final HttpMethod method, final String path, final Object data, final String... pathParameters) {
+    request(method, path, pathParameters, Collections.emptyMap(), data, false);
+  }
+
   private String request(final HttpMethod method, final String path, final String[] pathParameters, final Map<String, String> query, final Object data, final boolean isAuthorizationRequest) {
     try {
       final Map<String, String> headers = new HashMap<>();

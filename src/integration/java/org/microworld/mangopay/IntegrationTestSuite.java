@@ -25,11 +25,11 @@ import org.microworld.mangopay.tests.CardRegistrationIT;
 import org.microworld.mangopay.tests.ConnectIT;
 import org.microworld.mangopay.tests.EventIT;
 import org.microworld.mangopay.tests.HookIT;
+import org.microworld.mangopay.tests.KycIT;
 import org.microworld.mangopay.tests.PayInIT;
 import org.microworld.mangopay.tests.TransferIT;
 import org.microworld.mangopay.tests.UserIT;
 import org.microworld.mangopay.tests.WalletIT;
-import org.microworld.mangopay.tests.KycIT;
 
 @RunWith(Suite.class)
 @SuiteClasses({
