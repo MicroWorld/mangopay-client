@@ -1,6 +1,6 @@
 # Mangopay Client
 
-Mangopay Client is a Java 8 client library to work with [Mangopay REST API v2](https://docs.mangopay.com/api-references/).  
+Mangopay Client is a Java 8 client library to work with [Mangopay REST API v2.01](https://docs.mangopay.com/api-references/).  
 The official Mangopay client ([MangopaySDK](https://github.com/Mangopay/mangopay2-java-sdk)) is not built with `maven`, does not adhere much with Java conventions and has many methods throwing `Exception`, all that making it annoying to use, hence the creation of this Mangopay Client.
 
 This library is in its early development phase and does not cover much of Mangopay API yet. More coming soon.
