@@ -100,7 +100,7 @@ public class UserIT extends AbstractIntegrationTest {
   public void createNaturalUserWithFieldsContainingInvalidValues() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
-    thrown.expectMessage("Nationality: Error converting value \"USA\" to type");
+    thrown.expectMessage("Nationality: The requested value is not an ISO 3166-1 alpha-2 code which is expected");
     final NaturalUser naturalUser = randomNaturalUser();
     naturalUser.setNationality("USA");
     client.getUserService().create(naturalUser);
@@ -141,7 +141,7 @@ public class UserIT extends AbstractIntegrationTest {
   public void createLegalUserWithFieldsContainingInvalidValues() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
-    thrown.expectMessage("LegalRepresentativeCountryOfResidence: Error converting value \"USA\" to type");
+    thrown.expectMessage("LegalRepresentativeCountryOfResidence: The requested value is not an ISO 3166-1 alpha-2 code which is expected");
     thrown.expectMessage("Email: The field Email must match the regular expression '([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
     final LegalUser legalUser = randomLegalUser();
     legalUser.setEmail("contact at acme dot com");

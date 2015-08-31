@@ -24,4 +24,8 @@ public class KycPage {
   public KycPage(final String base64content) {
     this.base64content = base64content;
   }
+
+  public String getBase64content() {
+    return base64content;
+  }
 }
