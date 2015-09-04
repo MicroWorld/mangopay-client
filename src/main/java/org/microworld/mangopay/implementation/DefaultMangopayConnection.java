@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -149,7 +150,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
       LOG.debug("Request: {} {}", connection.getRequestMethod(), url);
       if (data != null) {
-        try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), Charset.forName("UTF-8"))) {
+        try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8)) {
           final JsonObject jsonObject = gson.toJsonTree(data).getAsJsonObject();
           jsonObject.remove("Id");
           jsonObject.remove("CreationDate");
@@ -214,7 +215,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   private static String toNameValue(final Entry<String, String> entry) {
     try {
-      return URLEncoder.encode(entry.getKey(), "UTF-8") + "=" + URLEncoder.encode(entry.getValue(), "UTF-8");
+      return URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8.name()) + "=" + URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8.name());
     } catch (final UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
@@ -222,7 +223,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   private String getContent(final InputStream inputStream) throws IOException {
     final StringBuilder content = new StringBuilder();
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
       String line = null;
       while ((line = reader.readLine()) != null) {
         content.append(line).append('\n');

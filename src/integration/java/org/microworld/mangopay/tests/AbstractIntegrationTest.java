@@ -23,7 +23,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Currency;
 import java.util.HashMap;
@@ -135,7 +135,7 @@ public class AbstractIntegrationTest {
     connection.setUseCaches(false);
     connection.setRequestMethod("POST");
 
-    try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), Charset.forName("UTF-8"))) {
+    try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8)) {
       final Map<String, String> form = new HashMap<>();
       form.put("data", preregistrationData);
       form.put("accessKeyRef", accessKey);
@@ -156,7 +156,7 @@ public class AbstractIntegrationTest {
 
   private static String getContent(final InputStream inputStream) throws IOException {
     final StringBuilder content = new StringBuilder();
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
       String line = null;
       while ((line = reader.readLine()) != null) {
         content.append(line).append('\n');
