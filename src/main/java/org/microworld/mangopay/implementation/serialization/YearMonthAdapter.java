@@ -18,6 +18,7 @@ package org.microworld.mangopay.implementation.serialization;
 import java.lang.reflect.Type;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -28,7 +29,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public class YearMonthAdapter implements JsonSerializer<YearMonth>, JsonDeserializer<YearMonth> {
-  private static final DateTimeFormatter YEAR_MONTH_PATTERN = DateTimeFormatter.ofPattern("MMyy");
+  private static final DateTimeFormatter YEAR_MONTH_PATTERN = DateTimeFormatter.ofPattern("MMyy", Locale.ENGLISH);
 
   @Override
   public JsonElement serialize(final YearMonth src, final Type typeOfSrc, final JsonSerializationContext context) {
