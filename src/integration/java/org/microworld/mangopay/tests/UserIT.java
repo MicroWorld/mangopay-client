@@ -169,7 +169,7 @@ public class UserIT extends AbstractIntegrationTest {
   public void getUserWithInvalidId() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
-    thrown.expectMessage("RessourceNotFound: Cannot found the ressource UserLegal with the id=10"); // Misleading error message.
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource User with the id=10");
     client.getUserService().get("10");
   }
 
