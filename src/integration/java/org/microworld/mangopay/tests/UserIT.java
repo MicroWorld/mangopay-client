@@ -188,7 +188,7 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserBankAccounts() throws MalformedURLException, IOException, InterruptedException {
+  public void listUserBankAccounts() throws InterruptedException {
     final Person person = fairy.person();
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final BankAccount bankAccount1 = client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
@@ -215,7 +215,7 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserKycDocument() throws MalformedURLException, IOException, InterruptedException {
+  public void listUserKycDocument() throws InterruptedException {
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final KycDocument kycDocument1 = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.ADDRESS_PROOF, null));
     Thread.sleep(2000);

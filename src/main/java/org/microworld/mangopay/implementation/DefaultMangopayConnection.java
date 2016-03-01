@@ -179,7 +179,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
     }
   }
 
-  private Token getToken() throws IOException {
+  private Token getToken() {
     if (token == null || token.isExpired()) {
       final Map<String, String> data = new HashMap<>();
       data.put("grant_type", "client_credentials");
