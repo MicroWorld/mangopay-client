@@ -18,7 +18,11 @@ package org.microworld.mangopay.exceptions;
 import org.microworld.mangopay.entities.Error;
 
 public class MangopayException extends RuntimeException {
-  private static final long serialVersionUID = 2731523113620863203L;
+  private static final long serialVersionUID = 3367303069161411738L;
+
+  public MangopayException(final String message) {
+    super(message);
+  }
 
   public MangopayException(final Error error) {
     super(createMessage(error));
