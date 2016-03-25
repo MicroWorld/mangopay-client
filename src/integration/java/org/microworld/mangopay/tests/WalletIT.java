@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.microworld.mangopay.entities.FundsType.DEFAULT;
 import static org.microworld.mangopay.search.SortDirection.DESCENDING;
 import static org.microworld.mangopay.search.SortField.CREATION_DATE;
 import static org.microworld.test.Matchers.around;
@@ -34,6 +35,8 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.microworld.mangopay.entities.Amount;
+import org.microworld.mangopay.entities.FundsType;
 import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.TransactionType;
@@ -50,16 +53,16 @@ public class WalletIT extends AbstractIntegrationTest {
     final User walletOwner = client.getUserService().create(randomNaturalUser());
 
     final Wallet createdWallet = client.getWalletService().create(new Wallet(walletOwner.getId(), EUR, "Euro account", null));
-    assertThat(createdWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now())));
+    assertThat(createdWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now(), 0, DEFAULT)));
 
     final Wallet fetchedWallet = client.getWalletService().get(createdWallet.getId());
-    assertThat(fetchedWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now())));
+    assertThat(fetchedWallet, is(wallet(walletOwner.getId(), EUR, "Euro account", null, Instant.now(), 0, DEFAULT)));
     assertThat(fetchedWallet.getId(), is(equalTo(createdWallet.getId())));
 
     fetchedWallet.setDescription("EUR account");
     fetchedWallet.setTag("Something");
     final Wallet updatedWallet = client.getWalletService().update(fetchedWallet);
-    assertThat(updatedWallet, is(wallet(walletOwner.getId(), EUR, "EUR account", "Something", Instant.now())));
+    assertThat(updatedWallet, is(wallet(walletOwner.getId(), EUR, "EUR account", "Something", Instant.now(), 0, DEFAULT)));
     assertThat(updatedWallet.getId(), is(equalTo(fetchedWallet.getId())));
   }
 
@@ -113,13 +116,16 @@ public class WalletIT extends AbstractIntegrationTest {
     assertThat(transactions.get(1).getType(), is(equalTo(TransactionType.PAYIN)));
   }
 
-  private Matcher<Wallet> wallet(final String ownerId, final Currency currency, final String description, final String tag, final Instant creationDate) {
+  @SuppressWarnings("unchecked")
+  private Matcher<Wallet> wallet(final String ownerId, final Currency currency, final String description, final String tag, final Instant creationDate, final int balance, final FundsType fundsType) {
     return allOf(
         hasProperty("id", is(notNullValue())),
         hasProperty("ownerId", is(equalTo(ownerId))),
         hasProperty("currency", is(equalTo(currency))),
         hasProperty("description", is(equalTo(description))),
         hasProperty("tag", is(equalTo(tag))),
-        hasProperty("creationDate", is(around(creationDate))));
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("balance", is(equalTo(new Amount(currency, balance)))),
+        hasProperty("fundsType", is(equalTo(fundsType))));
   }
 }

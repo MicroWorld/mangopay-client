@@ -28,6 +28,10 @@ public class Wallet extends Entity {
   private final Currency currency;
   @SerializedName("Description")
   private String description;
+  @SerializedName("Balance")
+  private Amount balance;
+  @SerializedName("FundsType")
+  private FundsType fundsType;
 
   public Wallet(final String ownerId, final Currency currency, final String description, final String tag) {
     owners = new ArrayList<>(1);
@@ -51,5 +55,13 @@ public class Wallet extends Entity {
 
   public void setDescription(final String description) {
     this.description = description;
+  }
+
+  public Amount getBalance() {
+    return balance;
+  }
+
+  public FundsType getFundsType() {
+    return fundsType;
   }
 }
