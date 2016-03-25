@@ -37,7 +37,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.microworld.mangopay.MangopayClient;
-import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.TestEnvironment;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.CardRegistration;
@@ -58,14 +57,12 @@ public class AbstractIntegrationTest {
 
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
-  protected MangopayConnection connection;
   protected MangopayClient client;
   protected Fairy fairy;
 
   @Before
   public void setUpTestEnvironment() {
-    connection = TestEnvironment.getInstance().getConnection();
-    client = MangopayClient.createDefault(connection);
+    client = MangopayClient.createDefault(TestEnvironment.getInstance().getConnection());
     fairy = Fairy.create();
   }
 
