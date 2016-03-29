@@ -15,6 +15,7 @@
  */
 package org.microworld.mangopay.tests;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -143,9 +144,8 @@ public class BankAccountIT extends AbstractIntegrationTest {
     client.getBankAccountService().get(user.getId(), "10");
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<IbanBankAccount> ibanBankAccount(final IbanBankAccount ibanBankAccount, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("type", is(equalTo(ibanBankAccount.getType()))),
         hasProperty("ownerName", is(equalTo(ibanBankAccount.getOwnerName()))),
@@ -153,12 +153,11 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("iban", is(equalTo(ibanBankAccount.getIban()))),
         hasProperty("bic", is(equalTo(ibanBankAccount.getBic()))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(ibanBankAccount.getTag()))));
+        hasProperty("tag", is(equalTo(ibanBankAccount.getTag())))));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<OtherBankAccount> otherBankAccount(final OtherBankAccount otherBankAccount, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("type", is(equalTo(otherBankAccount.getType()))),
         hasProperty("ownerName", is(equalTo(otherBankAccount.getOwnerName()))),
@@ -167,12 +166,11 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("bic", is(equalTo(otherBankAccount.getBic()))),
         hasProperty("accountNumber", is(equalTo(otherBankAccount.getAccountNumber()))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(otherBankAccount.getTag()))));
+        hasProperty("tag", is(equalTo(otherBankAccount.getTag())))));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<BritishBankAccount> britishBankAccount(final BritishBankAccount britishBankAccount, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("type", is(equalTo(britishBankAccount.getType()))),
         hasProperty("ownerName", is(equalTo(britishBankAccount.getOwnerName()))),
@@ -180,12 +178,11 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("accountNumber", is(equalTo(britishBankAccount.getAccountNumber()))),
         hasProperty("sortCode", is(equalTo(britishBankAccount.getSortCode()))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(britishBankAccount.getTag()))));
+        hasProperty("tag", is(equalTo(britishBankAccount.getTag())))));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<CanadianBankAccount> canadianBankAccount(final CanadianBankAccount canadianBankAccount, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("type", is(equalTo(canadianBankAccount.getType()))),
         hasProperty("ownerName", is(equalTo(canadianBankAccount.getOwnerName()))),
@@ -195,12 +192,11 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("branchCode", is(equalTo(canadianBankAccount.getBranchCode()))),
         hasProperty("accountNumber", is(equalTo(canadianBankAccount.getAccountNumber()))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(canadianBankAccount.getTag()))));
+        hasProperty("tag", is(equalTo(canadianBankAccount.getTag())))));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<UsaBankAccount> usaBankAccount(final UsaBankAccount canadianBankAccount, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("type", is(equalTo(canadianBankAccount.getType()))),
         hasProperty("ownerName", is(equalTo(canadianBankAccount.getOwnerName()))),
@@ -209,6 +205,6 @@ public class BankAccountIT extends AbstractIntegrationTest {
         hasProperty("aba", is(equalTo(canadianBankAccount.getAba()))),
         hasProperty("depositAccountType", is(equalTo(canadianBankAccount.getDepositAccountType()))),
         hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(canadianBankAccount.getTag()))));
+        hasProperty("tag", is(equalTo(canadianBankAccount.getTag())))));
   }
 }

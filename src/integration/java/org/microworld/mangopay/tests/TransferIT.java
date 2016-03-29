@@ -15,6 +15,7 @@
  */
 package org.microworld.mangopay.tests;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -104,10 +105,8 @@ public class TransferIT extends AbstractIntegrationTest {
     return user;
   }
 
-  @SuppressWarnings("unchecked")
-  private Matcher<Transfer> transfer(final String authorId, final String debitedWalletId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final TransactionStatus status, final String resultCode,
-      final String resultMessage, final String tag, final Instant creationDate) {
-    return allOf(
+  private Matcher<Transfer> transfer(final String authorId, final String debitedWalletId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final TransactionStatus status, final String resultCode, final String resultMessage, final String tag, final Instant creationDate) {
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("authorId", is(equalTo(authorId))),
         hasProperty("debitedWalletId", is(equalTo(debitedWalletId))),
@@ -120,6 +119,6 @@ public class TransferIT extends AbstractIntegrationTest {
         hasProperty("resultCode", is(equalTo(resultCode))),
         hasProperty("resultMessage", is(equalTo(resultMessage))),
         hasProperty("tag", is(equalTo(tag))),
-        hasProperty("creationDate", is(around(creationDate))));
+        hasProperty("creationDate", is(around(creationDate)))));
   }
 }

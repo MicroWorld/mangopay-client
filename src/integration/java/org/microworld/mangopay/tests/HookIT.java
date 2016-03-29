@@ -15,6 +15,7 @@
  */
 package org.microworld.mangopay.tests;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.empty;
@@ -97,15 +98,14 @@ public class HookIT extends AbstractIntegrationTest {
     return hook;
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<Hook> hook(final EventType eventType, final String url, final HookStatus status, final HookValidity validity, final String tag, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("eventType", is(equalTo(eventType))),
         hasProperty("url", is(equalTo(url))),
         hasProperty("status", is(equalTo(status))),
         hasProperty("validity", is(equalTo(validity))),
         hasProperty("tag", is(equalTo(tag))),
-        hasProperty("creationDate", is(around(creationDate))));
+        hasProperty("creationDate", is(around(creationDate)))));
   }
 }

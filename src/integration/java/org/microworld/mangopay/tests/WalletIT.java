@@ -15,6 +15,7 @@
  */
 package org.microworld.mangopay.tests;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -116,9 +117,8 @@ public class WalletIT extends AbstractIntegrationTest {
     assertThat(transactions.get(1).getType(), is(equalTo(TransactionType.PAYIN)));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<Wallet> wallet(final String ownerId, final Currency currency, final String description, final String tag, final Instant creationDate, final int balance, final FundsType fundsType) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("ownerId", is(equalTo(ownerId))),
         hasProperty("currency", is(equalTo(currency))),
@@ -126,6 +126,6 @@ public class WalletIT extends AbstractIntegrationTest {
         hasProperty("tag", is(equalTo(tag))),
         hasProperty("creationDate", is(around(creationDate))),
         hasProperty("balance", is(equalTo(new Amount(currency, balance)))),
-        hasProperty("fundsType", is(equalTo(fundsType))));
+        hasProperty("fundsType", is(equalTo(fundsType)))));
   }
 }

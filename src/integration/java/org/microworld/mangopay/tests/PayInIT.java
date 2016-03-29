@@ -15,6 +15,7 @@
  */
 package org.microworld.mangopay.tests;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -53,8 +54,7 @@ public class PayInIT extends AbstractIntegrationTest {
     assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
   }
 
-  protected static DirectCardPayIn createDirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl,
-      final String tag) {
+  protected static DirectCardPayIn createDirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final String tag) {
     final DirectCardPayIn directCardPayIn = new DirectCardPayIn();
     directCardPayIn.setAuthorId(authorId);
     directCardPayIn.setCreditedUserId(creditedUserId);
@@ -68,10 +68,8 @@ public class PayInIT extends AbstractIntegrationTest {
     return directCardPayIn;
   }
 
-  @SuppressWarnings("unchecked")
-  private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl,
-      final TransactionStatus status, final String tag, final Instant creationDate) {
-    return allOf(
+  private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final TransactionStatus status, final String tag, final Instant creationDate) {
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("authorId", is(equalTo(authorId))),
         hasProperty("creditedUserId", is(equalTo(creditedUserId))),
@@ -89,6 +87,6 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("paymentType", is(equalTo(TransactionPaymentType.CARD))),
         hasProperty("executionType", is(equalTo(TransactionExecutionType.DIRECT))),
         hasProperty("tag", is(equalTo(tag))),
-        hasProperty("creationDate", is(around(creationDate))));
+        hasProperty("creationDate", is(around(creationDate)))));
   }
 }

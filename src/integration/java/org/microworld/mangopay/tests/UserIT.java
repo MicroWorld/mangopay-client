@@ -15,6 +15,7 @@
  */
 package org.microworld.mangopay.tests;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -258,9 +259,8 @@ public class UserIT extends AbstractIntegrationTest {
     assertThat(transactions.get(1).getType(), is(equalTo(TransactionType.PAYIN)));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<NaturalUser> naturalUser(final NaturalUser user, final KycLevel kycLevel, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("email", is(equalTo(user.getEmail()))),
         hasProperty("personType", is(equalTo(PersonType.NATURAL))),
@@ -276,12 +276,11 @@ public class UserIT extends AbstractIntegrationTest {
         hasProperty("incomeRange", is(equalTo(user.getIncomeRange()))),
         hasProperty("proofOfIdentity", is(nullValue())),
         hasProperty("proofOfAddress", is(nullValue())),
-        hasProperty("tag", is(equalTo(user.getTag()))));
+        hasProperty("tag", is(equalTo(user.getTag())))));
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<LegalUser> legalUser(final LegalUser legalUser, final KycLevel kycLevel, final Instant creationDate) {
-    return allOf(
+    return allOf(asList(
         hasProperty("id", is(notNullValue())),
         hasProperty("email", is(equalTo(legalUser.getEmail()))),
         hasProperty("personType", is(equalTo(PersonType.LEGAL))),
@@ -300,6 +299,6 @@ public class UserIT extends AbstractIntegrationTest {
         hasProperty("statute", is(nullValue())),
         hasProperty("proofOfRegistration", is(nullValue())),
         hasProperty("shareholderDeclaration", is(nullValue())),
-        hasProperty("tag", is(equalTo(legalUser.getTag()))));
+        hasProperty("tag", is(equalTo(legalUser.getTag())))));
   }
 }
