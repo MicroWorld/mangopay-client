@@ -140,7 +140,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
     // This one is not very consistent with the rest of the API. Usually we get a "ressource_not_found" message.
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
-    thrown.expectMessage("BankAccountId: The BankAccountId is incorrect");
+    thrown.expectMessage("BankAccountId: The value 10 is not valid");
     client.getBankAccountService().get(user.getId(), "10");
   }
 
