@@ -15,9 +15,14 @@
  */
 package org.microworld.mangopay.implementation.services;
 
+import java.util.List;
+
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.misc.HttpMethod;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
 import org.microworld.mangopay.services.BankAccountService;
 
 public class DefaultBankAccountService implements BankAccountService {
@@ -35,5 +40,10 @@ public class DefaultBankAccountService implements BankAccountService {
   @Override
   public BankAccount get(final String userId, final String bankAccountId) {
     return connection.queryForObject(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts/{1}", null, userId, bankAccountId);
+  }
+
+  @Override
+  public List<BankAccount> list(final String userId, final Page page) {
+    return connection.queryForList(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts", Filter.none(), Sort.byDefault(), page, userId);
   }
 }

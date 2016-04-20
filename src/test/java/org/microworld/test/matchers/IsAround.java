@@ -18,6 +18,7 @@ package org.microworld.test.matchers;
 import java.time.Instant;
 
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 public class IsAround extends TypeSafeDiagnosingMatcher<Instant> {
@@ -40,5 +41,9 @@ public class IsAround extends TypeSafeDiagnosingMatcher<Instant> {
       return false;
     }
     return true;
+  }
+
+  public static Matcher<Instant> around(final Instant operand) {
+    return new IsAround(operand);
   }
 }

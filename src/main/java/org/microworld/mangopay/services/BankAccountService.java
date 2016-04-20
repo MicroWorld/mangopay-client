@@ -15,10 +15,15 @@
  */
 package org.microworld.mangopay.services;
 
+import java.util.List;
+
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
+import org.microworld.mangopay.search.Page;
 
 public interface BankAccountService {
   BankAccount create(String userId, BankAccount bankAccount);
 
   BankAccount get(String userId, String bankAccountId);
+
+  List<BankAccount> list(String userId, Page page);
 }

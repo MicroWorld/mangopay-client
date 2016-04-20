@@ -17,21 +17,20 @@ package org.microworld.mangopay.tests;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.microworld.test.Matchers.around;
+import static org.microworld.test.Matchers.bankAccount;
 
 import java.time.Instant;
+import java.util.List;
 
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.entities.bankaccounts.BritishBankAccount;
 import org.microworld.mangopay.entities.bankaccounts.CanadianBankAccount;
 import org.microworld.mangopay.entities.bankaccounts.DepositAccountType;
@@ -39,6 +38,7 @@ import org.microworld.mangopay.entities.bankaccounts.IbanBankAccount;
 import org.microworld.mangopay.entities.bankaccounts.OtherBankAccount;
 import org.microworld.mangopay.entities.bankaccounts.UsaBankAccount;
 import org.microworld.mangopay.exceptions.MangopayException;
+import org.microworld.mangopay.search.Page;
 
 import io.codearte.jfairy.producer.person.Person;
 
@@ -57,11 +57,10 @@ public class BankAccountIT extends AbstractIntegrationTest {
     final Instant creationDate = Instant.now();
     final IbanBankAccount ibanBankAccount = new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence());
     final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), ibanBankAccount);
-    assertThat(createdBankAccount, is(ibanBankAccount(ibanBankAccount, creationDate)));
+    assertThat(createdBankAccount, is(bankAccount(ibanBankAccount, true, creationDate)));
 
     final IbanBankAccount fetchedBankAccount = (IbanBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
-    assertThat(fetchedBankAccount, is(ibanBankAccount(createdBankAccount, creationDate)));
-    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+    assertThat(fetchedBankAccount, is(bankAccount(createdBankAccount)));
   }
 
   @Test
@@ -69,11 +68,10 @@ public class BankAccountIT extends AbstractIntegrationTest {
     final Instant creationDate = Instant.now();
     final BritishBankAccount britishBankAccount = new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", null);
     final BritishBankAccount createdBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), britishBankAccount);
-    assertThat(createdBankAccount, is(britishBankAccount(britishBankAccount, creationDate)));
+    assertThat(createdBankAccount, is(bankAccount(britishBankAccount, true, creationDate)));
 
     final BritishBankAccount fetchedBankAccount = (BritishBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
-    assertThat(fetchedBankAccount, is(britishBankAccount(createdBankAccount, creationDate)));
-    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+    assertThat(fetchedBankAccount, is(bankAccount(createdBankAccount)));
   }
 
   @Test
@@ -81,23 +79,21 @@ public class BankAccountIT extends AbstractIntegrationTest {
     final Instant creationDate = Instant.now();
     final CanadianBankAccount canadianBankAccount = new CanadianBankAccount(person.fullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo");
     final CanadianBankAccount createdBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), canadianBankAccount);
-    assertThat(createdBankAccount, is(canadianBankAccount(canadianBankAccount, creationDate)));
+    assertThat(createdBankAccount, is(bankAccount(canadianBankAccount, true, creationDate)));
 
     final CanadianBankAccount fetchedBankAccount = (CanadianBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
-    assertThat(fetchedBankAccount, is(canadianBankAccount(createdBankAccount, creationDate)));
-    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+    assertThat(fetchedBankAccount, is(bankAccount(createdBankAccount)));
   }
 
   @Test
   public void createAndGetUsaBankAccount() {
     final Instant creationDate = Instant.now();
-    final UsaBankAccount canadianBankAccount = new UsaBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar");
-    final UsaBankAccount createdBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), canadianBankAccount);
-    assertThat(createdBankAccount, is(usaBankAccount(canadianBankAccount, creationDate)));
+    final UsaBankAccount usaBankAccount = new UsaBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar");
+    final UsaBankAccount createdBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), usaBankAccount);
+    assertThat(createdBankAccount, is(bankAccount(usaBankAccount, true, creationDate)));
 
     final UsaBankAccount fetchedBankAccount = (UsaBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
-    assertThat(fetchedBankAccount, is(usaBankAccount(createdBankAccount, creationDate)));
-    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+    assertThat(fetchedBankAccount, is(bankAccount(createdBankAccount)));
   }
 
   @Test
@@ -105,11 +101,10 @@ public class BankAccountIT extends AbstractIntegrationTest {
     final Instant creationDate = Instant.now();
     final OtherBankAccount otherBankAccount = new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null);
     final OtherBankAccount createdBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), otherBankAccount);
-    assertThat(createdBankAccount, is(otherBankAccount(otherBankAccount, creationDate)));
+    assertThat(createdBankAccount, is(bankAccount(otherBankAccount, true, creationDate)));
 
     final OtherBankAccount fetchedBankAccount = (OtherBankAccount) client.getBankAccountService().get(user.getId(), createdBankAccount.getId());
-    assertThat(fetchedBankAccount, is(otherBankAccount(createdBankAccount, creationDate)));
-    assertThat(fetchedBankAccount.getId(), is(equalTo(createdBankAccount.getId())));
+    assertThat(fetchedBankAccount, is(bankAccount(createdBankAccount)));
   }
 
   @Test
@@ -144,67 +139,28 @@ public class BankAccountIT extends AbstractIntegrationTest {
     client.getBankAccountService().get(user.getId(), "10");
   }
 
-  private Matcher<IbanBankAccount> ibanBankAccount(final IbanBankAccount ibanBankAccount, final Instant creationDate) {
-    return allOf(asList(
-        hasProperty("id", is(notNullValue())),
-        hasProperty("type", is(equalTo(ibanBankAccount.getType()))),
-        hasProperty("ownerName", is(equalTo(ibanBankAccount.getOwnerName()))),
-        hasProperty("ownerAddress", is(equalTo(ibanBankAccount.getOwnerAddress()))),
-        hasProperty("iban", is(equalTo(ibanBankAccount.getIban()))),
-        hasProperty("bic", is(equalTo(ibanBankAccount.getBic()))),
-        hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(ibanBankAccount.getTag())))));
+  @Test
+  public void listBankAccountsOfUserWithoutBankAccounts() {
+    final List<BankAccount> bankAccounts = client.getBankAccountService().list(user.getId(), Page.of(1));
+    assertThat(bankAccounts, is(empty()));
   }
 
-  private Matcher<OtherBankAccount> otherBankAccount(final OtherBankAccount otherBankAccount, final Instant creationDate) {
-    return allOf(asList(
-        hasProperty("id", is(notNullValue())),
-        hasProperty("type", is(equalTo(otherBankAccount.getType()))),
-        hasProperty("ownerName", is(equalTo(otherBankAccount.getOwnerName()))),
-        hasProperty("ownerAddress", is(equalTo(otherBankAccount.getOwnerAddress()))),
-        hasProperty("country", is(equalTo(otherBankAccount.getCountry()))),
-        hasProperty("bic", is(equalTo(otherBankAccount.getBic()))),
-        hasProperty("accountNumber", is(equalTo(otherBankAccount.getAccountNumber()))),
-        hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(otherBankAccount.getTag())))));
+  @Test
+  public void listBankAccountsOfUserWithBankAccounts() {
+    final IbanBankAccount ibanBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
+    final BritishBankAccount britishBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", null));
+    final CanadianBankAccount canadianBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), new CanadianBankAccount(person.fullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo"));
+    final UsaBankAccount usaBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), new UsaBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar"));
+    final OtherBankAccount otherBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null));
+    final List<BankAccount> bankAccounts = client.getBankAccountService().list(user.getId(), Page.of(1));
+    assertThat(bankAccounts, containsInAnyOrder(asList(bankAccount(ibanBankAccount), bankAccount(britishBankAccount), bankAccount(canadianBankAccount), bankAccount(usaBankAccount), bankAccount(otherBankAccount))));
   }
 
-  private Matcher<BritishBankAccount> britishBankAccount(final BritishBankAccount britishBankAccount, final Instant creationDate) {
-    return allOf(asList(
-        hasProperty("id", is(notNullValue())),
-        hasProperty("type", is(equalTo(britishBankAccount.getType()))),
-        hasProperty("ownerName", is(equalTo(britishBankAccount.getOwnerName()))),
-        hasProperty("ownerAddress", is(equalTo(britishBankAccount.getOwnerAddress()))),
-        hasProperty("accountNumber", is(equalTo(britishBankAccount.getAccountNumber()))),
-        hasProperty("sortCode", is(equalTo(britishBankAccount.getSortCode()))),
-        hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(britishBankAccount.getTag())))));
-  }
-
-  private Matcher<CanadianBankAccount> canadianBankAccount(final CanadianBankAccount canadianBankAccount, final Instant creationDate) {
-    return allOf(asList(
-        hasProperty("id", is(notNullValue())),
-        hasProperty("type", is(equalTo(canadianBankAccount.getType()))),
-        hasProperty("ownerName", is(equalTo(canadianBankAccount.getOwnerName()))),
-        hasProperty("ownerAddress", is(equalTo(canadianBankAccount.getOwnerAddress()))),
-        hasProperty("bankName", is(equalTo(canadianBankAccount.getBankName()))),
-        hasProperty("institutionNumber", is(equalTo(canadianBankAccount.getInstitutionNumber()))),
-        hasProperty("branchCode", is(equalTo(canadianBankAccount.getBranchCode()))),
-        hasProperty("accountNumber", is(equalTo(canadianBankAccount.getAccountNumber()))),
-        hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(canadianBankAccount.getTag())))));
-  }
-
-  private Matcher<UsaBankAccount> usaBankAccount(final UsaBankAccount canadianBankAccount, final Instant creationDate) {
-    return allOf(asList(
-        hasProperty("id", is(notNullValue())),
-        hasProperty("type", is(equalTo(canadianBankAccount.getType()))),
-        hasProperty("ownerName", is(equalTo(canadianBankAccount.getOwnerName()))),
-        hasProperty("ownerAddress", is(equalTo(canadianBankAccount.getOwnerAddress()))),
-        hasProperty("accountNumber", is(equalTo(canadianBankAccount.getAccountNumber()))),
-        hasProperty("aba", is(equalTo(canadianBankAccount.getAba()))),
-        hasProperty("depositAccountType", is(equalTo(canadianBankAccount.getDepositAccountType()))),
-        hasProperty("creationDate", is(around(creationDate))),
-        hasProperty("tag", is(equalTo(canadianBankAccount.getTag())))));
+  @Test
+  public void listBankAccountsOfInvalidUser() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource User with the id=10");
+    client.getBankAccountService().list("10", Page.of(1));
   }
 }
