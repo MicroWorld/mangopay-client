@@ -15,6 +15,8 @@
  */
 package org.microworld.mangopay.entities;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Currency;
 
 import com.google.gson.annotations.SerializedName;
@@ -26,7 +28,7 @@ public class Amount {
   private final int cents;
 
   public Amount(final Currency currency, final int cents) {
-    this.currency = currency;
+    this.currency = requireNonNull(currency);
     this.cents = cents;
   }
 
