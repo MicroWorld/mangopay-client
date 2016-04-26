@@ -44,7 +44,9 @@ import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalPersonType;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
+import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.Wallet;
 
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.company.Company;
@@ -100,6 +102,14 @@ public class AbstractIntegrationTest {
     user.setLegalRepresentativeNationality(randomCountry());
     user.setLegalRepresentativeCountryOfResidence(randomCountry());
     user.setTag(fairy.textProducer().latinSentence());
+    return user;
+  }
+
+  protected User getUserWithMoney(final int cents, final Currency currency) throws MalformedURLException, IOException {
+    final User user = client.getUserService().create(randomNaturalUser());
+    final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
+    final String cardId = registerCard(user, currency, "4970100000000154", "1218", "123").getCardId();
+    client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     return user;
   }
 

@@ -34,7 +34,6 @@ import java.util.Currency;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Amount;
-import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.TransactionStatus;
 import org.microworld.mangopay.entities.Transfer;
 import org.microworld.mangopay.entities.User;
@@ -95,14 +94,6 @@ public class TransferIT extends AbstractIntegrationTest {
     thrown.expectMessage("currency_not_available: Error: the currency used is not available");
     thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
     client.getTransferService().create(new Transfer("8252994", "8252995", "8253004", XAF, 2000, 0, null));
-  }
-
-  private User getUserWithMoney(final int cents, final Currency currency) throws MalformedURLException, IOException {
-    final User user = client.getUserService().create(randomNaturalUser());
-    final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
-    final String cardId = registerCard(user, currency, "4970100000000154", "1218", "123").getCardId();
-    client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, SecureMode.DEFAULT, "https://foo.bar", null));
-    return user;
   }
 
   private Matcher<Transfer> transfer(final String authorId, final String debitedWalletId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final TransactionStatus status, final String resultCode, final String resultMessage, final String tag, final Instant creationDate) {
