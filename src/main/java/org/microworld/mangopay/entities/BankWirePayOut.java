@@ -17,6 +17,9 @@ package org.microworld.mangopay.entities;
 
 import java.util.Currency;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.google.gson.annotations.SerializedName;
 
 public class BankWirePayOut extends Transaction {
@@ -35,6 +38,16 @@ public class BankWirePayOut extends Transaction {
     this.bankAccountId = bankAccountId;
     this.bankWireRef = bankWireReference;
     this.tag = tag;
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   public String getDebitedWalletId() {

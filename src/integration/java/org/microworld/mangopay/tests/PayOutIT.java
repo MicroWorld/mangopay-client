@@ -41,16 +41,34 @@ import org.microworld.mangopay.entities.TransactionType;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.entities.bankaccounts.IbanBankAccount;
+import org.microworld.mangopay.exceptions.MangopayException;
 
 public class PayOutIT extends AbstractIntegrationTest {
   @Test
-  public void createPayOut() throws MalformedURLException, IOException {
+  public void createAndGetPayOut() throws MalformedURLException, IOException {
     final NaturalUser user = (NaturalUser) getUserWithMoney(1000, EUR);
     final Wallet wallet = client.getUserService().getWallets(user.getId(), null, null).get(0);
     final BankAccount bankAccount = client.getBankAccountService().create(user.getId(), new IbanBankAccount(user.getFirstName() + " " + user.getLastName(), user.getAddress(), "FR7618829754160173622224154", "CMBRFR2BCME", null));
 
     final BankWirePayOut bankWirePayOut = client.getPayOutService().createBankWirePayOut(new BankWirePayOut(user.getId(), wallet.getId(), EUR, 100, 0, bankAccount.getId(), "Bank wire reference.", null));
     assertThat(bankWirePayOut, is(bankWirePayOut(Instant.now(), user.getId(), EUR, 100, 0, TransactionStatus.CREATED, wallet.getId(), bankAccount.getId(), "Bank wire reference.", null)));
+
+    final BankWirePayOut fetchedPayOut = client.getPayOutService().fetchPayOut(bankWirePayOut.getId());
+    assertThat(fetchedPayOut, is(equalTo(bankWirePayOut)));
+  }
+
+  @Test
+  public void fetchPayOutWithInvalidId() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource PayOut with the id=10");
+    client.getPayOutService().fetchPayOut("10");
+  }
+
+  @Test
+  public void fetchPayOutWithNullId() {
+    thrown.expect(NullPointerException.class);
+    client.getPayOutService().fetchPayOut(null);
   }
 
   private Matcher<BankWirePayOut> bankWirePayOut(final Instant creationDate, final String authorId, final Currency currency, final int debitedAmount, final int feesAmount, final TransactionStatus status, final String debitedWalletId, final String bankAccountId, final String bankWireReference, final String tag) {

@@ -31,4 +31,9 @@ public class DefaultPayOutService implements PayOutService {
   public BankWirePayOut createBankWirePayOut(final BankWirePayOut bankWirePayOut) {
     return connection.queryForObject(BankWirePayOut.class, HttpMethod.POST, "/payouts/bankwire", bankWirePayOut);
   }
+
+  @Override
+  public BankWirePayOut fetchPayOut(final String id) {
+    return connection.queryForObject(BankWirePayOut.class, HttpMethod.GET, "/payouts/{0}", null, id);
+  }
 }

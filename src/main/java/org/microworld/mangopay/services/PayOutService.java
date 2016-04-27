@@ -19,4 +19,6 @@ import org.microworld.mangopay.entities.BankWirePayOut;
 
 public interface PayOutService {
   BankWirePayOut createBankWirePayOut(final BankWirePayOut createBankWirePayOut);
+
+  BankWirePayOut fetchPayOut(String id);
 }
