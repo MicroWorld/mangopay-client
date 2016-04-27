@@ -40,6 +40,7 @@ import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.TestEnvironment;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.CardRegistration;
+import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalPersonType;
 import org.microworld.mangopay.entities.LegalUser;
@@ -109,7 +110,7 @@ public class AbstractIntegrationTest {
     final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
     final String cardId = registerCard(user, currency, "4970100000000154", "1218", "123").getCardId();
-    client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     return user;
   }
 

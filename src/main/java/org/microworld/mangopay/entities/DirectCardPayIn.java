@@ -15,68 +15,54 @@
  */
 package org.microworld.mangopay.entities;
 
+import java.util.Currency;
+
 import com.google.gson.annotations.SerializedName;
 
 public class DirectCardPayIn extends Transaction {
   @SerializedName("CreditedWalletId")
-  private String creditedWalletId;
+  private final String creditedWalletId;
   @SerializedName("DebitedWalletId")
   private String debitedWalletId;
   @SerializedName("CardId")
-  private String cardId;
+  private final String cardId;
   @SerializedName("SecureMode")
-  private SecureMode secureMode;
+  private final SecureMode secureMode;
   @SerializedName("SecureModeRedirectURL")
   private String secureModeRedirectUrl;
   @SerializedName("SecureModeReturnURL")
-  private String secureModeReturnUrl;
+  private final String secureModeReturnUrl;
   @SerializedName("PaymentType")
   private TransactionPaymentType paymentType;
   @SerializedName("ExecutionType")
   private TransactionExecutionType executionType;
 
-  public void setAuthorId(final String authorId) {
+  public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final String tag) {
     this.authorId = authorId;
-  }
-
-  public void setCreditedUserId(final String creditedUserId) {
     this.creditedUserId = creditedUserId;
+    this.creditedWalletId = creditedWalletId;
+    this.cardId = cardId;
+    this.debitedFunds = new Amount(currency, debitedAmount);
+    this.fees = new Amount(currency, feesAmount);
+    this.secureMode = secureMode;
+    this.secureModeReturnUrl = secureModeReturnUrl;
+    this.tag = tag;
   }
 
   public String getCreditedWalletId() {
     return creditedWalletId;
   }
 
-  public void setCreditedWalletId(final String creditedWalletId) {
-    this.creditedWalletId = creditedWalletId;
-  }
-
   public String getDebitedWalletId() {
     return debitedWalletId;
-  }
-
-  public void setDebitedFunds(final Amount debitedFunds) {
-    this.debitedFunds = debitedFunds;
-  }
-
-  public void setFees(final Amount fees) {
-    this.fees = fees;
   }
 
   public String getCardId() {
     return cardId;
   }
 
-  public void setCardId(final String cardId) {
-    this.cardId = cardId;
-  }
-
   public SecureMode getSecureMode() {
     return secureMode;
-  }
-
-  public void setSecureMode(final SecureMode secureMode) {
-    this.secureMode = secureMode;
   }
 
   public String getSecureModeRedirectUrl() {
@@ -85,10 +71,6 @@ public class DirectCardPayIn extends Transaction {
 
   public String getSecureModeReturnUrl() {
     return secureModeReturnUrl;
-  }
-
-  public void setSecureModeReturnUrl(final String secureModeReturnUrl) {
-    this.secureModeReturnUrl = secureModeReturnUrl;
   }
 
   public TransactionPaymentType getPaymentType() {

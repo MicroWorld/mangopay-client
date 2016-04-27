@@ -41,6 +41,7 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.CardRegistration;
+import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PersonType;
@@ -249,7 +250,7 @@ public class UserIT extends AbstractIntegrationTest {
     final User user2 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
-    client.getPayInService().createDirectCardPayIn(PayInIT.createDirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     Thread.sleep(2000);
     client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));
 

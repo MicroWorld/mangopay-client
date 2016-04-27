@@ -50,22 +50,8 @@ public class PayInIT extends AbstractIntegrationTest {
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
     final String cardId = registerCard(user, EUR, "4970100000000154", "1218", "123").getCardId();
 
-    final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(createDirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
-  }
-
-  protected static DirectCardPayIn createDirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final String tag) {
-    final DirectCardPayIn directCardPayIn = new DirectCardPayIn();
-    directCardPayIn.setAuthorId(authorId);
-    directCardPayIn.setCreditedUserId(creditedUserId);
-    directCardPayIn.setCreditedWalletId(creditedWalletId);
-    directCardPayIn.setCardId(cardId);
-    directCardPayIn.setDebitedFunds(new Amount(currency, debitedAmount));
-    directCardPayIn.setFees(new Amount(currency, feesAmount));
-    directCardPayIn.setSecureMode(secureMode);
-    directCardPayIn.setSecureModeReturnUrl(secureModeReturnUrl);
-    directCardPayIn.setTag(tag);
-    return directCardPayIn;
   }
 
   private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final TransactionStatus status, final String tag, final Instant creationDate) {
