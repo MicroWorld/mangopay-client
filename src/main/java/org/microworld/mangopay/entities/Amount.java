@@ -19,6 +19,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Currency;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Amount {
@@ -39,36 +42,12 @@ public class Amount {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + cents;
-    result = prime * result + (currency == null ? 0 : currency.getCurrencyCode().hashCode());
-    return result;
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
   public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final Amount other = (Amount) obj;
-    if (cents != other.cents) {
-      return false;
-    }
-    if (currency == null) {
-      if (other.currency != null) {
-        return false;
-      }
-    } else if (other.currency == null || !currency.getCurrencyCode().equals(other.currency.getCurrencyCode())) {
-      return false;
-    }
-    return true;
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   public Currency getCurrency() {
