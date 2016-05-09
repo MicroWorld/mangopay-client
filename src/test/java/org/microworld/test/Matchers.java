@@ -18,11 +18,13 @@ package org.microworld.test;
 import java.time.Instant;
 
 import org.hamcrest.Matcher;
+import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.test.matchers.BankAccountMatcher;
 import org.microworld.test.matchers.IsAfter;
 import org.microworld.test.matchers.IsAround;
 import org.microworld.test.matchers.IsBefore;
+import org.microworld.test.matchers.TokenMatcher;
 
 public class Matchers {
   public static Matcher<Instant> after(final Instant instant) {
@@ -43,5 +45,9 @@ public class Matchers {
 
   public static Matcher<? super BankAccount> bankAccount(final BankAccount bankAccount, final boolean nonNullId, final Instant creationDate) {
     return new BankAccountMatcher(bankAccount, nonNullId, creationDate);
+  }
+
+  public static Matcher<Token> token(final String value, final String type, final int duration) {
+    return new TokenMatcher(duration, type, value);
   }
 }

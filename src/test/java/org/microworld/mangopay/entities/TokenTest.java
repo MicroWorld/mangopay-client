@@ -18,15 +18,12 @@ package org.microworld.mangopay.entities;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.microworld.test.Matchers.token;
 
 import java.lang.reflect.Field;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.microworld.mangopay.entities.Token;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -83,27 +80,5 @@ public class TokenTest {
     } catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private Matcher<Token> token(final String value, final String type, final int duration) {
-    return new TypeSafeDiagnosingMatcher<Token>() {
-      @Override
-      public void describeTo(final Description description) {
-        description.appendText("token ").appendValue(value).appendText(" of type ").appendValue(type).appendText(" valid for ").appendText(String.valueOf(duration)).appendText("s");
-      }
-
-      @Override
-      protected boolean matchesSafely(final Token token, final Description mismatchDescription) {
-        if (!value.equals(token.getValue()) || !type.equals(token.getType()) || duration != token.getDuration()) {
-          mismatchDescription.appendText("token ").appendValue(token.getValue()).appendText(" of type ").appendValue(token.getType()).appendText(" valid for ").appendText(String.valueOf(token.getDuration())).appendText("s");
-          return false;
-        }
-        if (token.getCreationTime() > System.nanoTime() || token.getCreationTime() < System.nanoTime() - 100000000) { // Check creation time is less than 100 ms ago
-          mismatchDescription.appendText("token with invalid creation time ").appendText(String.valueOf(token.getCreationTime())).appendText("ns");
-          return false;
-        }
-        return true;
-      }
-    };
   }
 }
