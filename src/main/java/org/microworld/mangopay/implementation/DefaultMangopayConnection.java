@@ -240,27 +240,9 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private <T> T convert(final JsonElement element, final Class<T> type) {
     final JsonObject object = element.getAsJsonObject();
     if (type.isAssignableFrom(User.class)) {
-      switch (PersonType.valueOf(object.get("PersonType").getAsString())) {
-        case LEGAL:
-          return (T) gson.fromJson(object, LegalUser.class);
-        case NATURAL:
-        default:
-          return (T) gson.fromJson(object, NaturalUser.class);
-      }
+      return (T) convertUser(object);
     } else if (type.isAssignableFrom(BankAccount.class)) {
-      switch (BankAccountType.valueOf(object.get("Type").getAsString())) {
-        case IBAN:
-          return (T) gson.fromJson(object, IbanBankAccount.class);
-        case GB:
-          return (T) gson.fromJson(object, BritishBankAccount.class);
-        case US:
-          return (T) gson.fromJson(object, UsaBankAccount.class);
-        case CA:
-          return (T) gson.fromJson(object, CanadianBankAccount.class);
-        case OTHER:
-        default:
-          return (T) gson.fromJson(object, OtherBankAccount.class);
-      }
+      return (T) convertBankAccount(object);
     } else if (type.isAssignableFrom(PayIn.class)) {
       return (T) convertPayIn(object);
     } else {
@@ -273,6 +255,32 @@ public class DefaultMangopayConnection implements MangopayConnection {
       case CARD:
       default:
         return gson.fromJson(object, DirectCardPayIn.class);
+    }
+  }
+
+  private BankAccount convertBankAccount(final JsonObject object) {
+    switch (BankAccountType.valueOf(object.get("Type").getAsString())) {
+      case IBAN:
+        return gson.fromJson(object, IbanBankAccount.class);
+      case GB:
+        return gson.fromJson(object, BritishBankAccount.class);
+      case US:
+        return gson.fromJson(object, UsaBankAccount.class);
+      case CA:
+        return gson.fromJson(object, CanadianBankAccount.class);
+      case OTHER:
+      default:
+        return gson.fromJson(object, OtherBankAccount.class);
+    }
+  }
+
+  private User convertUser(final JsonObject object) {
+    switch (PersonType.valueOf(object.get("PersonType").getAsString())) {
+      case LEGAL:
+        return gson.fromJson(object, LegalUser.class);
+      case NATURAL:
+      default:
+        return gson.fromJson(object, NaturalUser.class);
     }
   }
 }
