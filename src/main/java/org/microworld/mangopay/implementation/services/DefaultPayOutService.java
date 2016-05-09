@@ -33,7 +33,7 @@ public class DefaultPayOutService implements PayOutService {
   }
 
   @Override
-  public BankWirePayOut fetchPayOut(final String id) {
+  public BankWirePayOut getPayOut(final String id) {
     return connection.queryForObject(BankWirePayOut.class, HttpMethod.GET, "/payouts/{0}", null, id);
   }
 }
