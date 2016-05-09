@@ -250,7 +250,7 @@ public class UserIT extends AbstractIntegrationTest {
     final User user2 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
-    client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, SecureMode.DEFAULT, "https://foo.bar", null));
+    client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, "https://foo.bar", SecureMode.DEFAULT, null));
     Thread.sleep(2000);
     client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));
 
