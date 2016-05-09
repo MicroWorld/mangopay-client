@@ -46,10 +46,13 @@ import java.util.stream.Stream;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
+import org.microworld.mangopay.entities.PayIn;
+import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.User;
@@ -258,8 +261,18 @@ public class DefaultMangopayConnection implements MangopayConnection {
         default:
           return (T) gson.fromJson(object, OtherBankAccount.class);
       }
+    } else if (type.isAssignableFrom(PayIn.class)) {
+      return (T) convertPayIn(object);
     } else {
       return gson.fromJson(object, type);
+    }
+  }
+
+  private PayIn convertPayIn(final JsonObject object) {
+    switch (PayInType.valueOf(object.get("PaymentType").getAsString())) {
+      case CARD:
+      default:
+        return gson.fromJson(object, DirectCardPayIn.class);
     }
   }
 }

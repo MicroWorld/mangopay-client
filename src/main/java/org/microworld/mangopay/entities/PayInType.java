@@ -15,6 +15,6 @@
  */
 package org.microworld.mangopay.entities;
 
-public enum TransactionPaymentType {
-  CARD;
+public enum PayInType {
+  BANK_WIRE, CARD;
 }

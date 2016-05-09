@@ -34,14 +34,15 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Amount;
 import org.microworld.mangopay.entities.DirectCardPayIn;
+import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.TransactionExecutionType;
 import org.microworld.mangopay.entities.TransactionNature;
-import org.microworld.mangopay.entities.TransactionPaymentType;
 import org.microworld.mangopay.entities.TransactionStatus;
 import org.microworld.mangopay.entities.TransactionType;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.exceptions.MangopayException;
 
 public class PayInIT extends AbstractIntegrationTest {
   @Test
@@ -52,6 +53,23 @@ public class PayInIT extends AbstractIntegrationTest {
 
     final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, "https://foo.bar", null));
     assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
+
+    final DirectCardPayIn fetchedDirectCardPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdDirectCardPayIn.getId());
+    assertThat(fetchedDirectCardPayIn, is(equalTo(createdDirectCardPayIn)));
+  }
+
+  @Test
+  public void getPayInWithInvalidId() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource PayIn with the id=10");
+    client.getPayInService().getPayIn("10");
+  }
+
+  @Test
+  public void getPayInWithNullId() {
+    thrown.expect(NullPointerException.class);
+    client.getPayInService().getPayIn(null);
   }
 
   private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final TransactionStatus status, final String tag, final Instant creationDate) {
@@ -70,7 +88,7 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("status", is(equalTo(status))),
         hasProperty("type", is(equalTo(TransactionType.PAYIN))),
         hasProperty("nature", is(equalTo(TransactionNature.REGULAR))),
-        hasProperty("paymentType", is(equalTo(TransactionPaymentType.CARD))),
+        hasProperty("paymentType", is(equalTo(PayInType.CARD))),
         hasProperty("executionType", is(equalTo(TransactionExecutionType.DIRECT))),
         hasProperty("tag", is(equalTo(tag))),
         hasProperty("creationDate", is(around(creationDate)))));

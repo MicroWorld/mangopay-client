@@ -17,13 +17,12 @@ package org.microworld.mangopay.entities;
 
 import java.util.Currency;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.google.gson.annotations.SerializedName;
 
-public class DirectCardPayIn extends Transaction {
-  @SerializedName("CreditedWalletId")
-  private final String creditedWalletId;
-  @SerializedName("DebitedWalletId")
-  private String debitedWalletId;
+public class DirectCardPayIn extends PayIn {
   @SerializedName("CardId")
   private final String cardId;
   @SerializedName("SecureMode")
@@ -32,10 +31,6 @@ public class DirectCardPayIn extends Transaction {
   private String secureModeRedirectUrl;
   @SerializedName("SecureModeReturnURL")
   private final String secureModeReturnUrl;
-  @SerializedName("PaymentType")
-  private TransactionPaymentType paymentType;
-  @SerializedName("ExecutionType")
-  private TransactionExecutionType executionType;
 
   public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final String tag) {
     this.authorId = authorId;
@@ -49,12 +44,14 @@ public class DirectCardPayIn extends Transaction {
     this.tag = tag;
   }
 
-  public String getCreditedWalletId() {
-    return creditedWalletId;
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
-  public String getDebitedWalletId() {
-    return debitedWalletId;
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   public String getCardId() {
@@ -71,13 +68,5 @@ public class DirectCardPayIn extends Transaction {
 
   public String getSecureModeReturnUrl() {
     return secureModeReturnUrl;
-  }
-
-  public TransactionPaymentType getPaymentType() {
-    return paymentType;
-  }
-
-  public TransactionExecutionType getExecutionType() {
-    return executionType;
   }
 }

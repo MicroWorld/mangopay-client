@@ -16,7 +16,10 @@
 package org.microworld.mangopay.services;
 
 import org.microworld.mangopay.entities.DirectCardPayIn;
+import org.microworld.mangopay.entities.PayIn;
 
 public interface PayInService {
+  PayIn getPayIn(String id);
+
   DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
 }
