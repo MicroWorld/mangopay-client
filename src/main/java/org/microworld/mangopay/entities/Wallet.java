@@ -15,6 +15,8 @@
  */
 package org.microworld.mangopay.entities;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -39,9 +41,9 @@ public class Wallet extends Entity {
 
   public Wallet(final String ownerId, final Currency currency, final String description, final String tag) {
     owners = new ArrayList<>(1);
-    owners.add(ownerId);
-    this.currency = currency;
-    this.description = description;
+    owners.add(requireNonNull(ownerId, "Owner ID must not be null."));
+    this.currency = requireNonNull(currency, "Currency must not be null.");
+    this.description = requireNonNull(description, "Description must not be null.");
     this.tag = tag;
   }
 
@@ -77,7 +79,7 @@ public class Wallet extends Entity {
   }
 
   public void setDescription(final String description) {
-    this.description = description;
+    this.description = requireNonNull(description, "Description must not be null.");
   }
 
   public Amount getBalance() {
