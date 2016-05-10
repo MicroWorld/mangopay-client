@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.entities;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.Currency;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -37,11 +35,11 @@ public class BankWirePayIn extends PayIn {
   private BankAccount bankAccount;
 
   public BankWirePayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int declaredDebitedAmount, final int declaredFees, final String tag) {
-    this.authorId = requireNonNull(authorId, "Author ID must not be null.");
+    this.authorId = authorId;
     this.creditedUserId = creditedUserId;
-    this.creditedWalletId = requireNonNull(creditedWalletId, "Credited wallet ID must not be null.");
-    this.declaredDebitedFunds = new Amount(requireNonNull(currency, "Currency must not be null."), declaredDebitedAmount);
-    this.declaredFees = new Amount(requireNonNull(currency, "Currency must not be null."), declaredFees);
+    this.creditedWalletId = creditedWalletId;
+    this.declaredDebitedFunds = new Amount(currency, declaredDebitedAmount);
+    this.declaredFees = new Amount(currency, declaredFees);
     this.tag = tag;
   }
 

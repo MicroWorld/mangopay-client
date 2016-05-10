@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.entities;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.Currency;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -32,7 +30,7 @@ public class Amount {
   private final int cents;
 
   public Amount(final Currency currency, final int cents) {
-    this.currency = requireNonNull(currency);
+    this.currency = currency;
     this.cents = cents;
   }
 

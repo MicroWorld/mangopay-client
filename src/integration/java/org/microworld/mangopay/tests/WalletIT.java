@@ -77,6 +77,14 @@ public class WalletIT extends AbstractIntegrationTest {
   }
 
   @Test
+  public void createWalletWithMissingCurrency() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
+    thrown.expectMessage("Currency: The Currency field is required.");
+    client.getWalletService().create(new Wallet("7589576", null, "The description", null));
+  }
+
+  @Test
   public void createWalletWithMissingDescription() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");

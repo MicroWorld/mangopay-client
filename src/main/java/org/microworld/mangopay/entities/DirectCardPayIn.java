@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.entities;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.Currency;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -36,13 +34,13 @@ public class DirectCardPayIn extends PayIn {
   private final String secureModeReturnUrl;
 
   public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String secureModeReturnUrl, final SecureMode secureMode, final String tag) {
-    this.authorId = requireNonNull(authorId, "Author ID must not be null.");
-    this.creditedUserId = requireNonNull(creditedUserId, "Credited user ID must not be null.");
-    this.creditedWalletId = requireNonNull(creditedWalletId, "Credited wallet ID must not be null.");
-    this.cardId = requireNonNull(cardId, "Card ID must not be null.");
-    this.debitedFunds = new Amount(requireNonNull(currency, "Currency must not be null."), debitedAmount);
-    this.fees = new Amount(requireNonNull(currency, "Currency must not be null."), feesAmount);
-    this.secureModeReturnUrl = requireNonNull(secureModeReturnUrl, "Secure mode return URL must not be null.");
+    this.authorId = authorId;
+    this.creditedUserId = creditedUserId;
+    this.creditedWalletId = creditedWalletId;
+    this.cardId = cardId;
+    this.debitedFunds = new Amount(currency, debitedAmount);
+    this.fees = new Amount(currency, feesAmount);
+    this.secureModeReturnUrl = secureModeReturnUrl;
     this.secureMode = secureMode;
     this.tag = tag;
   }

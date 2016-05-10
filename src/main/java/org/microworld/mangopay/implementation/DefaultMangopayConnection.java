@@ -15,6 +15,8 @@
  */
 package org.microworld.mangopay.implementation;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +28,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -102,9 +103,9 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private Token token;
 
   public DefaultMangopayConnection(final String host, final String clientId, final String passphrase) {
-    this.host = Objects.requireNonNull(host, "host");
-    this.clientId = Objects.requireNonNull(clientId, "clientId");
-    this.encodedAuthenticationString = Base64.getEncoder().encodeToString((clientId + ":" + Objects.requireNonNull(passphrase, "passphrase")).getBytes(Charset.forName("ISO-8859-1")));
+    this.host = requireNonNull(host, "The host must not be null.");
+    this.clientId = requireNonNull(clientId, "The clientId must not be null.");
+    this.encodedAuthenticationString = Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(StandardCharsets.ISO_8859_1));
     final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
     builder.registerTypeAdapter(MangopayUnauthorizedException.class, new MangopayUnauthorizedExceptionDeserializer());
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());

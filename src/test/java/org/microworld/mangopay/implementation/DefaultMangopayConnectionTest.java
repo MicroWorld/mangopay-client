@@ -33,21 +33,21 @@ public class DefaultMangopayConnectionTest {
   @Test
   public void contructorThrowsExceptionIfHostIsNull() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("host");
+    thrown.expectMessage("The host must not be null.");
     new DefaultMangopayConnection(null, "foo", "bar");
   }
 
   @Test
   public void contructorThrowsExceptionIfClientIdIsNull() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("clientId");
+    thrown.expectMessage("The clientId must not be null.");
     new DefaultMangopayConnection("foo", null, "bar");
   }
 
   @Test
   public void contructorThrowsExceptionIfPassphraseIsNull() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("passphrase");
+    thrown.expectMessage("The passphrase must not be null.");
     new DefaultMangopayConnection("foo", "bar", null);
   }
 

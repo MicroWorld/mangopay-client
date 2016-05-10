@@ -16,7 +16,6 @@
 package org.microworld.mangopay.entities;
 
 import java.util.Currency;
-import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -57,8 +56,8 @@ public class CardRegistration extends Entity {
   }
 
   public CardRegistration(final String userId, final Currency currency, final CardType cardType, final String tag) {
-    this.userId = Objects.requireNonNull(userId);
-    this.currency = Objects.requireNonNull(currency);
+    this.userId = userId;
+    this.currency = currency;
     this.cardType = cardType;
     this.tag = tag;
   }
