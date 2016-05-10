@@ -239,11 +239,11 @@ public class DefaultMangopayConnection implements MangopayConnection {
   @SuppressWarnings("unchecked")
   private <T> T convert(final JsonElement element, final Class<T> type) {
     final JsonObject object = element.getAsJsonObject();
-    if (type.isAssignableFrom(User.class)) {
+    if (type.equals(User.class)) {
       return (T) convertUser(object);
-    } else if (type.isAssignableFrom(BankAccount.class)) {
+    } else if (type.equals(BankAccount.class)) {
       return (T) convertBankAccount(object);
-    } else if (type.isAssignableFrom(PayIn.class)) {
+    } else if (type.equals(PayIn.class)) {
       return (T) convertPayIn(object);
     } else {
       return gson.fromJson(object, type);
