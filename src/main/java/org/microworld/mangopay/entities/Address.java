@@ -23,17 +23,26 @@ import com.google.gson.annotations.SerializedName;
 
 public class Address {
   @SerializedName("AddressLine1")
-  private String addressLine1;
+  private final String addressLine1;
   @SerializedName("AddressLine2")
-  private String addressLine2;
+  private final String addressLine2;
   @SerializedName("City")
-  private String city;
+  private final String city;
   @SerializedName("Region")
-  private String region;
+  private final String region;
   @SerializedName("PostalCode")
-  private String postalCode;
+  private final String postalCode;
   @SerializedName("Country")
-  private String country;
+  private final String country;
+
+  public Address(final String addressLine1, final String addressLine2, final String city, final String region, final String postalCode, final String country) {
+    this.addressLine1 = addressLine1;
+    this.addressLine2 = addressLine2;
+    this.city = city;
+    this.region = region;
+    this.postalCode = postalCode;
+    this.country = country;
+  }
 
   @Override
   public String toString() {
@@ -54,47 +63,23 @@ public class Address {
     return addressLine1;
   }
 
-  public void setAddressLine1(final String addressLine1) {
-    this.addressLine1 = addressLine1;
-  }
-
   public String getAddressLine2() {
     return addressLine2;
-  }
-
-  public void setAddressLine2(final String addressLine2) {
-    this.addressLine2 = addressLine2;
   }
 
   public String getCity() {
     return city;
   }
 
-  public void setCity(final String city) {
-    this.city = city;
-  }
-
   public String getRegion() {
     return region;
-  }
-
-  public void setRegion(final String region) {
-    this.region = region;
   }
 
   public String getPostalCode() {
     return postalCode;
   }
 
-  public void setPostalCode(final String postalCode) {
-    this.postalCode = postalCode;
-  }
-
   public String getCountry() {
     return country;
-  }
-
-  public void setCountry(final String country) {
-    this.country = country;
   }
 }

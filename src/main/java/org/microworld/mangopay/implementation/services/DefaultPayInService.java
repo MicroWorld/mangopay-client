@@ -16,6 +16,7 @@
 package org.microworld.mangopay.implementation.services;
 
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.BankWirePayIn;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.PayIn;
 import org.microworld.mangopay.misc.HttpMethod;
@@ -36,5 +37,10 @@ public class DefaultPayInService implements PayInService {
   @Override
   public DirectCardPayIn createDirectCardPayIn(final DirectCardPayIn directCardPayIn) {
     return connection.queryForObject(DirectCardPayIn.class, HttpMethod.POST, "/payins/card/direct", directCardPayIn);
+  }
+
+  @Override
+  public BankWirePayIn createBankWirePayIn(final BankWirePayIn bankWirePayIn) {
+    return connection.queryForObject(BankWirePayIn.class, HttpMethod.POST, "/payins/bankwire/direct", bankWirePayIn);
   }
 }

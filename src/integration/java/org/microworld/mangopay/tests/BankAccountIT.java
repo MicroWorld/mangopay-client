@@ -122,11 +122,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
     thrown.expectMessage("IBAN: The field IBAN must match the regular expression '^[a-zA-Z]{2}\\d{2}\\s*(\\w{4}\\s*){2,7}\\w{1,4}\\s*$'.");
-    final Address address = new Address();
-    address.setAddressLine1("Street");
-    address.setCity("City");
-    address.setCountry("FR");
-    address.setPostalCode("WX123");
+    final Address address = new Address("Street", null, "City", null, "WX123", "FR");
     client.getBankAccountService().create(user.getId(), new IbanBankAccount("Foo", address, "FAKE_IBAN_NUMBER", null, null));
   }
 

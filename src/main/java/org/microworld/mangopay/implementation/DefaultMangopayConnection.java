@@ -21,12 +21,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -46,6 +49,7 @@ import java.util.stream.Stream;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.BankWirePayIn;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IncomeRange;
@@ -245,13 +249,32 @@ public class DefaultMangopayConnection implements MangopayConnection {
       return (T) convertBankAccount(object);
     } else if (type.equals(PayIn.class)) {
       return (T) convertPayIn(object);
+    } else if (type.equals(BankWirePayIn.class)) {
+      return (T) convertBankWirePayIn(object);
     } else {
       return gson.fromJson(object, type);
     }
   }
 
+  private PayIn convertBankWirePayIn(final JsonObject object) {
+    return AccessController.doPrivileged((PrivilegedAction<BankWirePayIn>) () -> {
+      try {
+        final JsonObject bankAccount = object.remove("BankAccount").getAsJsonObject();
+        final BankWirePayIn payIn = gson.fromJson(object, BankWirePayIn.class);
+        final Field bankAccountField = BankWirePayIn.class.getDeclaredField("bankAccount");
+        bankAccountField.setAccessible(true);
+        bankAccountField.set(payIn, convertBankAccount(bankAccount));
+        return payIn;
+      } catch (final NoSuchFieldException | IllegalAccessException e) {
+        throw new RuntimeException(e);
+      }
+    });
+  }
+
   private PayIn convertPayIn(final JsonObject object) {
     switch (PayInType.valueOf(object.get("PaymentType").getAsString())) {
+      case BANK_WIRE:
+        return convertBankWirePayIn(object);
       case CARD:
       default:
         return gson.fromJson(object, DirectCardPayIn.class);

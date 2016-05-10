@@ -119,14 +119,7 @@ public class AbstractIntegrationTest {
   }
 
   protected Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
-    final Address address = new Address();
-    address.setAddressLine1(fairyAddress.streetNumber() + ", " + fairyAddress.street());
-    address.setAddressLine2(fairyAddress.apartmentNumber());
-    address.setCity(fairyAddress.getCity());
-    address.setCountry(randomCountry());
-    address.setPostalCode(fairyAddress.getPostalCode());
-    address.setRegion(fairy.textProducer().latinWord());
-    return address;
+    return new Address(fairyAddress.streetNumber() + ", " + fairyAddress.street(), fairyAddress.apartmentNumber(), fairyAddress.getCity(), fairy.textProducer().latinWord(), fairyAddress.getPostalCode(), randomCountry());
   }
 
   protected CardRegistration registerCard(final User user, final Currency currency, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {
