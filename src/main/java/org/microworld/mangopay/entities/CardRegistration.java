@@ -18,6 +18,10 @@ package org.microworld.mangopay.entities;
 import java.util.Currency;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.google.gson.annotations.SerializedName;
 
 public class CardRegistration extends Entity {
@@ -56,7 +60,22 @@ public class CardRegistration extends Entity {
     this.userId = Objects.requireNonNull(userId);
     this.currency = Objects.requireNonNull(currency);
     this.cardType = cardType;
-    setTag(tag);
+    this.tag = tag;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   public String getUserId() {

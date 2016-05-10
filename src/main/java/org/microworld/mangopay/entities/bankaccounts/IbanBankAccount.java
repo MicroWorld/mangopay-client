@@ -15,6 +15,9 @@
  */
 package org.microworld.mangopay.entities.bankaccounts;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.microworld.mangopay.entities.Address;
 
 import com.google.gson.annotations.SerializedName;
@@ -32,6 +35,21 @@ public class IbanBankAccount extends BankAccount {
     this.iban = iban;
     this.bic = bic;
     this.tag = tag;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   public String getIban() {

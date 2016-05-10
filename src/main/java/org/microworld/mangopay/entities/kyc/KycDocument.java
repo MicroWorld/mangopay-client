@@ -15,6 +15,9 @@
  */
 package org.microworld.mangopay.entities.kyc;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.microworld.mangopay.entities.Entity;
 
 import com.google.gson.annotations.SerializedName;
@@ -32,6 +35,21 @@ public class KycDocument extends Entity {
   public KycDocument(final KycDocumentType type, final String tag) {
     this.type = type;
     this.tag = tag;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   public void setStatusToValidationAsked() {

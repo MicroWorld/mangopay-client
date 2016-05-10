@@ -38,8 +38,4 @@ public abstract class Entity {
   public String getTag() {
     return tag;
   }
-
-  public void setTag(final String tag) {
-    this.tag = tag;
-  }
 }

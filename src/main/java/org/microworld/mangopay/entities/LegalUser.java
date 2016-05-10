@@ -17,6 +17,10 @@ package org.microworld.mangopay.entities;
 
 import java.time.LocalDate;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.google.gson.annotations.SerializedName;
 
 public class LegalUser extends User {
@@ -46,6 +50,21 @@ public class LegalUser extends User {
   private String proofOfRegistration;
   @SerializedName("ShareholderDeclaration")
   private String shareholderDeclaration;
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+  }
 
   public String getName() {
     return name;

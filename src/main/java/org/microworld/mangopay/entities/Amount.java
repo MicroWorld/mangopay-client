@@ -21,6 +21,7 @@ import java.util.Currency;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -37,7 +38,7 @@ public class Amount {
 
   @Override
   public String toString() {
-    return "Amount [currency=" + currency + ", cents=" + cents + "]";
+    return ToStringBuilder.reflectionToString(this);
   }
 
   @Override

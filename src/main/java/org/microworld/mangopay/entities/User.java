@@ -27,6 +27,10 @@ public abstract class User extends Entity {
   @SerializedName("KYCLevel")
   private KycLevel kycLevel;
 
+  public void setTag(final String tag) {
+    this.tag = tag;
+  }
+
   public String getEmail() {
     return email;
   }

@@ -19,6 +19,7 @@ import java.util.Currency;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -38,6 +39,11 @@ public class BankWirePayOut extends Transaction {
     this.bankAccountId = bankAccountId;
     this.bankWireRef = bankWireReference;
     this.tag = tag;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
   }
 
   @Override
