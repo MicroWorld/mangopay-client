@@ -49,6 +49,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.BankWirePayIn;
+import org.microworld.mangopay.entities.BankWirePayOut;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.Error;
 import org.microworld.mangopay.entities.IncomeRange;
@@ -56,6 +57,7 @@ import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
 import org.microworld.mangopay.entities.PayIn;
 import org.microworld.mangopay.entities.PayInType;
+import org.microworld.mangopay.entities.PayOut;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.User;
@@ -246,6 +248,8 @@ public class DefaultMangopayConnection implements MangopayConnection {
       return (T) convertUser(object);
     } else if (type.equals(BankAccount.class)) {
       return (T) convertBankAccount(object);
+    } else if (type.equals(PayOut.class)) {
+      return (T) convert(object, BankWirePayOut.class);
     } else if (type.equals(PayIn.class)) {
       return (T) convertPayIn(object);
     } else if (type.equals(BankWirePayIn.class)) {

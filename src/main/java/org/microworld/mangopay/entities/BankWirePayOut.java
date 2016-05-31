@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BankWirePayOut extends Transaction {
+public class BankWirePayOut extends PayOut {
   @SerializedName("DebitedWalletId")
   private final String debitedWalletId;
   @SerializedName("BankAccountId")
