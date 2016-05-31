@@ -19,7 +19,7 @@ import java.time.Instant;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Transaction extends Entity {
+public class Transaction extends Entity { // Should be abstract but can't because of some partial results returned by the API, see DefaultMangoPayConnection.convertTransaction.
   @SerializedName("AuthorId")
   protected String authorId;
   @SerializedName("CreditedUserId")

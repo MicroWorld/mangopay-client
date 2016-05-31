@@ -60,6 +60,7 @@ import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.PayOut;
 import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
+import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.entities.bankaccounts.BankAccountType;
@@ -254,9 +255,25 @@ public class DefaultMangopayConnection implements MangopayConnection {
       return (T) convertPayIn(object);
     } else if (type.equals(BankWirePayIn.class)) {
       return (T) convertBankWirePayIn(object);
+    } else if (type.equals(Transaction.class)) {
+      return (T) convertTransaction(object);
     } else {
       return gson.fromJson(object, type);
     }
+  }
+
+  private Transaction convertTransaction(final JsonObject object) {
+    // See https://github.com/Mangopay/mangopay/issues/13 about why this code is not used.
+    // switch (TransactionType.valueOf(object.get("Type").getAsString())) {
+    // case PAYIN:
+    // return convert(object, PayIn.class);
+    // case PAYOUT:
+    // return convert(object, PayOut.class);
+    // case TRANSFER:
+    // default:
+    // return convert(object, Transfer.class);
+    // }
+    return gson.fromJson(object, Transaction.class);
   }
 
   private PayIn convertBankWirePayIn(final JsonObject object) {
