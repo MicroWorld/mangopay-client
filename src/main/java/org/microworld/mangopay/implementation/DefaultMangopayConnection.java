@@ -16,6 +16,7 @@
 package org.microworld.mangopay.implementation;
 
 import static java.util.Objects.requireNonNull;
+import static org.microworld.mangopay.misc.Reflections.setFieldValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,14 +24,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -258,18 +256,10 @@ public class DefaultMangopayConnection implements MangopayConnection {
   }
 
   private PayIn convertBankWirePayIn(final JsonObject object) {
-    return AccessController.doPrivileged((PrivilegedAction<BankWirePayIn>) () -> {
-      try {
-        final JsonObject bankAccount = object.remove("BankAccount").getAsJsonObject();
-        final BankWirePayIn payIn = gson.fromJson(object, BankWirePayIn.class);
-        final Field bankAccountField = BankWirePayIn.class.getDeclaredField("bankAccount");
-        bankAccountField.setAccessible(true);
-        bankAccountField.set(payIn, convertBankAccount(bankAccount));
-        return payIn;
-      } catch (final NoSuchFieldException | IllegalAccessException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    final JsonObject bankAccount = object.remove("BankAccount").getAsJsonObject();
+    final BankWirePayIn payIn = gson.fromJson(object, BankWirePayIn.class);
+    setFieldValue(BankWirePayIn.class, "bankAccount", payIn, convertBankAccount(bankAccount));
+    return payIn;
   }
 
   private PayIn convertPayIn(final JsonObject object) {

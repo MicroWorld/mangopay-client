@@ -18,11 +18,8 @@ package org.microworld.mangopay.entities;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.microworld.mangopay.misc.Reflections.setFieldValue;
 import static org.microworld.test.Matchers.token;
-
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -58,31 +55,11 @@ public class TokenTest {
   }
 
   private Token createToken(final String value, final String type, final int duration, final long creationTime) {
-    return AccessController.doPrivileged((PrivilegedAction<Token>) () -> {
-      try {
-        final Token token = new Token();
-        final Field[] fields = Token.class.getDeclaredFields();
-        for (final Field field : fields) {
-          field.setAccessible(true);
-          switch (field.getName()) {
-            case "value":
-              field.set(token, value);
-              break;
-            case "type":
-              field.set(token, type);
-              break;
-            case "duration":
-              field.set(token, duration);
-              break;
-            case "creationTime":
-              field.set(token, creationTime);
-              break;
-          }
-        }
-        return token;
-      } catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    final Token token = new Token();
+    setFieldValue(Token.class, "value", token, value);
+    setFieldValue(Token.class, "type", token, type);
+    setFieldValue(Token.class, "duration", token, duration);
+    setFieldValue(Token.class, "creationTime", token, creationTime);
+    return token;
   }
 }
