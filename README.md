@@ -1,5 +1,7 @@
 # Mangopay Client
 
+[![License](https://img.shields.io/github/license/MicroWorld/mangopay-client.svg?maxAge=2592000)](https://github.com/MicroWorld/mangopay-client/blob/master/LICENSE.txt)
+
 Mangopay Client is a Java 8 client library to work with [Mangopay REST API v2.01](https://docs.mangopay.com/api-references/).  
 The official Mangopay client ([MangopaySDK](https://github.com/Mangopay/mangopay2-java-sdk)) is not built with `maven`, does not adhere much with Java conventions and has many methods throwing `Exception`, all that making it annoying to use, hence the creation of this Mangopay Client.
 
@@ -23,7 +25,3 @@ This library is not yet published on [maven central](http://search.maven.org/).
     MangopayConnection connection = MangopayConnection.createDefault(host, clientId, passphrase);
     MangopayClient client = MangopayClient.createDefault(connection);
     User user = client.getUserService().get("7571175");
-
-## License
-
-Apache License, Version 2.0.

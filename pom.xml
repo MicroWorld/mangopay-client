@@ -107,7 +107,7 @@
             <email>contact@microworld.org</email>
           </properties>
           <excludes>
-            <exclude>LICENSE</exclude>
+            <exclude>LICENSE.txt</exclude>
             <exclude>src/main/resources/**</exclude>
             <exclude>src/test/resources/**</exclude>
             <exclude>src/integration/resources/**</exclude>
