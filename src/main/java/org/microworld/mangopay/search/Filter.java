@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.microworld.mangopay.entities.EventType;
+import org.microworld.mangopay.entities.TransactionNature;
 import org.microworld.mangopay.entities.TransactionStatus;
 import org.microworld.mangopay.entities.TransactionType;
 import org.microworld.mangopay.entities.kyc.KycDocumentStatus;
@@ -70,6 +71,10 @@ public class Filter implements ParameterHolder {
 
   public static Filter kycDocumentStatus(final KycDocumentStatus kycDocumentStatus) {
     return new Filter("Status", kycDocumentStatus.name());
+  }
+
+  public static Filter transactionNature(final TransactionNature transactionNature) {
+    return new Filter("Nature", transactionNature.name());
   }
 
   public static Filter transactionType(final TransactionType transactionType) {
