@@ -30,6 +30,16 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
 public interface UserService {
+  default User create(final User user) {
+    if (user instanceof LegalUser) {
+      return create((LegalUser) user);
+    } else if (user instanceof NaturalUser) {
+      return create((NaturalUser) user);
+    } else {
+      throw new IllegalStateException("Only LegalUser and NaturalUser instances are allowed.");
+    }
+  }
+
   LegalUser create(final LegalUser user);
 
   NaturalUser create(final NaturalUser user);
