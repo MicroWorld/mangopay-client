@@ -40,6 +40,16 @@ public interface UserService {
     }
   }
 
+  default User update(final User user) {
+    if (user instanceof LegalUser) {
+      return update((LegalUser) user);
+    } else if (user instanceof NaturalUser) {
+      return update((NaturalUser) user);
+    } else {
+      throw new IllegalStateException("Only LegalUser and NaturalUser instances are allowed.");
+    }
+  }
+
   LegalUser create(final LegalUser user);
 
   NaturalUser create(final NaturalUser user);
