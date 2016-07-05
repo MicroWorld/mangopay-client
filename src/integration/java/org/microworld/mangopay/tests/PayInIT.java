@@ -51,19 +51,6 @@ import org.microworld.mangopay.exceptions.MangopayException;
 
 public class PayInIT extends AbstractIntegrationTest {
   @Test
-  public void directCardPayIn() throws MalformedURLException, IOException {
-    final User user = client.getUserService().create(randomNaturalUser());
-    final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
-    final String cardId = registerCard(user, EUR, "4970100000000154", "1218", "123").getCardId();
-
-    final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, "https://foo.bar", SecureMode.DEFAULT, null));
-    assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, SecureMode.DEFAULT, null, TransactionStatus.SUCCEEDED, null, Instant.now())));
-
-    final DirectCardPayIn fetchedDirectCardPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdDirectCardPayIn.getId());
-    assertThat(fetchedDirectCardPayIn, is(equalTo(createdDirectCardPayIn)));
-  }
-
-  @Test
   public void bankWirePayIn() {
     final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
@@ -76,6 +63,19 @@ public class PayInIT extends AbstractIntegrationTest {
     setFieldValue(Transaction.class, "creditedFunds", fetchedBankWirePayIn, null); // See https://github.com/Mangopay/mangopay/issues/11
     setFieldValue(Transaction.class, "fees", fetchedBankWirePayIn, null); // See https://github.com/Mangopay/mangopay/issues/11
     assertThat(fetchedBankWirePayIn, is(equalTo(createdBankWirePayIn)));
+  }
+
+  @Test
+  public void directCardPayIn() throws MalformedURLException, IOException {
+    final User user = client.getUserService().create(randomNaturalUser());
+    final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
+    final String cardId = registerCard(user, EUR, "4970100000000154", "1218", "123").getCardId();
+
+    final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
+    assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, SecureMode.DEFAULT, null, null, TransactionStatus.SUCCEEDED, null, Instant.now(), Instant.now(), "000000", "Success")));
+
+    final DirectCardPayIn fetchedDirectCardPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdDirectCardPayIn.getId());
+    assertThat(fetchedDirectCardPayIn, is(equalTo(createdDirectCardPayIn)));
   }
 
   @Test
@@ -92,26 +92,36 @@ public class PayInIT extends AbstractIntegrationTest {
     client.getPayInService().getPayIn(null);
   }
 
-  private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final SecureMode secureMode, final String secureModeReturnUrl, final TransactionStatus status, final String tag, final Instant creationDate) {
+  private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final SecureMode secureMode, final String secureModeReturnUrl, final String secureModeRedirectUrl, final TransactionStatus status, final String tag, final Instant creationDate, final Instant executionDate, final String resultCode, final String resultMessage) {
     return allOf(asList(
+        // Entity
         hasProperty("id", is(notNullValue())),
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("tag", is(equalTo(tag))),
+        // Transaction
         hasProperty("authorId", is(equalTo(authorId))),
         hasProperty("creditedUserId", is(equalTo(creditedUserId))),
-        hasProperty("creditedWalletId", is(equalTo(creditedWalletId))),
-        hasProperty("debitedWalletId", is(nullValue())),
-        hasProperty("cardId", is(equalTo(cardId))),
         hasProperty("debitedFunds", is(equalTo(new Amount(currency, debitedAmount)))),
-        hasProperty("fees", is(equalTo(new Amount(currency, feesAmount)))),
         hasProperty("creditedFunds", is(equalTo(new Amount(currency, debitedAmount - feesAmount)))),
-        hasProperty("secureMode", is(equalTo(secureMode))),
-        hasProperty("secureModeReturnUrl", is(equalTo(secureModeReturnUrl))),
+        hasProperty("fees", is(equalTo(new Amount(currency, feesAmount)))),
         hasProperty("status", is(equalTo(status))),
+        hasProperty("resultCode", is(equalTo(resultCode))),
+        hasProperty("resultMessage", is(equalTo(resultMessage))),
+        hasProperty("executionDate", is(is(around(executionDate)))),
         hasProperty("type", is(equalTo(TransactionType.PAYIN))),
         hasProperty("nature", is(equalTo(TransactionNature.REGULAR))),
+        // PayIn
+        hasProperty("creditedWalletId", is(equalTo(creditedWalletId))),
+        hasProperty("debitedWalletId", is(nullValue())),
         hasProperty("paymentType", is(equalTo(PayInType.CARD))),
         hasProperty("executionType", is(equalTo(TransactionExecutionType.DIRECT))),
-        hasProperty("tag", is(equalTo(tag))),
-        hasProperty("creationDate", is(around(creationDate)))));
+        // CardPayIn
+        hasProperty("secureMode", is(equalTo(secureMode))),
+        hasProperty("statementDescriptor", is(equalTo(statementDescriptor))),
+        // DirectCardPayIn
+        hasProperty("cardId", is(equalTo(cardId))),
+        hasProperty("secureModeReturnUrl", is(equalTo(secureModeReturnUrl))),
+        hasProperty("secureModeRedirectUrl", is(equalTo(secureModeRedirectUrl)))));
   }
 
   private Matcher<BankWirePayIn> bankWirePayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int declaredDebitedAmount, final int declaredFeesAmount, final String tag, final TransactionStatus status, final Instant creationDate) {

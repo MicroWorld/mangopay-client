@@ -110,7 +110,7 @@ public class AbstractIntegrationTest {
     final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
     final String cardId = registerCard(user, currency, "4970100000000154", "1218", "123").getCardId();
-    client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, "https://foo.bar", SecureMode.DEFAULT, null));
+    client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
     return user;
   }
 

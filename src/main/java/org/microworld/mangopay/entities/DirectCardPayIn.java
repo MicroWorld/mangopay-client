@@ -23,17 +23,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DirectCardPayIn extends PayIn {
+public class DirectCardPayIn extends CardPayIn {
   @SerializedName("CardId")
   private final String cardId;
-  @SerializedName("SecureMode")
-  private final SecureMode secureMode;
   @SerializedName("SecureModeRedirectURL")
   private String secureModeRedirectUrl;
   @SerializedName("SecureModeReturnURL")
   private final String secureModeReturnUrl;
 
-  public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String secureModeReturnUrl, final SecureMode secureMode, final String tag) {
+  public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final String secureModeReturnUrl, final SecureMode secureMode, final String tag) {
     this.authorId = authorId;
     this.creditedUserId = creditedUserId;
     this.creditedWalletId = creditedWalletId;
@@ -42,6 +40,7 @@ public class DirectCardPayIn extends PayIn {
     this.fees = new Amount(currency, feesAmount);
     this.secureModeReturnUrl = secureModeReturnUrl;
     this.secureMode = secureMode;
+    this.statementDescriptor = statementDescriptor;
     this.tag = tag;
   }
 
@@ -62,10 +61,6 @@ public class DirectCardPayIn extends PayIn {
 
   public String getCardId() {
     return cardId;
-  }
-
-  public SecureMode getSecureMode() {
-    return secureMode;
   }
 
   public String getSecureModeRedirectUrl() {
