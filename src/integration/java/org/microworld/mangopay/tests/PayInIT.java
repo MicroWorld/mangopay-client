@@ -40,7 +40,7 @@ import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.Transaction;
-import org.microworld.mangopay.entities.TransactionExecutionType;
+import org.microworld.mangopay.entities.ExecutionType;
 import org.microworld.mangopay.entities.TransactionNature;
 import org.microworld.mangopay.entities.TransactionStatus;
 import org.microworld.mangopay.entities.TransactionType;
@@ -92,6 +92,36 @@ public class PayInIT extends AbstractIntegrationTest {
     client.getPayInService().getPayIn(null);
   }
 
+  private Matcher<BankWirePayIn> bankWirePayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int declaredDebitedAmount, final int declaredFeesAmount, final String tag, final TransactionStatus status, final Instant creationDate) {
+    return allOf(asList(
+        // Entity
+        hasProperty("id", is(notNullValue())),
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("tag", is(equalTo(tag))),
+        // Transaction
+        hasProperty("authorId", is(equalTo(authorId))),
+        hasProperty("creditedUserId", is(equalTo(creditedUserId))),
+        hasProperty("debitedFunds", is(nullValue())),
+        hasProperty("creditedFunds", is(nullValue())),
+        hasProperty("fees", is(nullValue())),
+        hasProperty("status", is(equalTo(status))),
+        hasProperty("resultCode", is(nullValue())),
+        hasProperty("resultMessage", is(nullValue())),
+        hasProperty("executionDate", is(nullValue())),
+        hasProperty("type", is(equalTo(TransactionType.PAYIN))),
+        hasProperty("nature", is(equalTo(TransactionNature.REGULAR))),
+        // PayIn
+        hasProperty("creditedWalletId", is(equalTo(creditedWalletId))),
+        hasProperty("debitedWalletId", is(nullValue())),
+        hasProperty("paymentType", is(equalTo(PayInType.BANK_WIRE))),
+        hasProperty("executionType", is(equalTo(ExecutionType.DIRECT))),
+        // BankWirePayIn
+        hasProperty("declaredDebitedFunds", is(equalTo(new Amount(currency, declaredDebitedAmount)))),
+        hasProperty("declaredFees", is(equalTo(new Amount(currency, declaredFeesAmount)))),
+        hasProperty("wireReference", is(notNullValue())),
+        hasProperty("bankAccount", is(equalTo(new IbanBankAccount("MANGOPAY", new Address("1 Mango Street", null, "Paris", null, "75010", "FR"), "FR7618829754160173622224251", "CMBRFR2BCME", null))))));
+  }
+
   private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final SecureMode secureMode, final String secureModeReturnUrl, final String secureModeRedirectUrl, final TransactionStatus status, final String tag, final Instant creationDate, final Instant executionDate, final String resultCode, final String resultMessage) {
     return allOf(asList(
         // Entity
@@ -107,14 +137,14 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("status", is(equalTo(status))),
         hasProperty("resultCode", is(equalTo(resultCode))),
         hasProperty("resultMessage", is(equalTo(resultMessage))),
-        hasProperty("executionDate", is(is(around(executionDate)))),
+        hasProperty("executionDate", is(around(executionDate))),
         hasProperty("type", is(equalTo(TransactionType.PAYIN))),
         hasProperty("nature", is(equalTo(TransactionNature.REGULAR))),
         // PayIn
         hasProperty("creditedWalletId", is(equalTo(creditedWalletId))),
         hasProperty("debitedWalletId", is(nullValue())),
         hasProperty("paymentType", is(equalTo(PayInType.CARD))),
-        hasProperty("executionType", is(equalTo(TransactionExecutionType.DIRECT))),
+        hasProperty("executionType", is(equalTo(ExecutionType.DIRECT))),
         // CardPayIn
         hasProperty("secureMode", is(equalTo(secureMode))),
         hasProperty("statementDescriptor", is(equalTo(statementDescriptor))),
@@ -122,31 +152,5 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("cardId", is(equalTo(cardId))),
         hasProperty("secureModeReturnUrl", is(equalTo(secureModeReturnUrl))),
         hasProperty("secureModeRedirectUrl", is(equalTo(secureModeRedirectUrl)))));
-  }
-
-  private Matcher<BankWirePayIn> bankWirePayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int declaredDebitedAmount, final int declaredFeesAmount, final String tag, final TransactionStatus status, final Instant creationDate) {
-    return allOf(asList(
-        hasProperty("id", is(notNullValue())),
-        hasProperty("authorId", is(equalTo(authorId))),
-        hasProperty("creditedUserId", is(equalTo(creditedUserId))),
-        hasProperty("creditedWalletId", is(equalTo(creditedWalletId))),
-        hasProperty("declaredDebitedFunds", is(equalTo(new Amount(currency, declaredDebitedAmount)))),
-        hasProperty("declaredFees", is(equalTo(new Amount(currency, declaredFeesAmount)))),
-        hasProperty("debitedWalletId", is(nullValue())),
-        hasProperty("debitedFunds", is(nullValue())),
-        hasProperty("creditedFunds", is(nullValue())),
-        hasProperty("fees", is(nullValue())),
-        hasProperty("wireReference", is(notNullValue())),
-        hasProperty("bankAccount", is(equalTo(new IbanBankAccount("MANGOPAY", new Address("1 Mango Street", null, "Paris", null, "75010", "FR"), "FR7618829754160173622224251", "CMBRFR2BCME", null)))),
-        hasProperty("resultCode", is(nullValue())),
-        hasProperty("resultMessage", is(nullValue())),
-        hasProperty("executionDate", is(nullValue())),
-        hasProperty("type", is(equalTo(TransactionType.PAYIN))),
-        hasProperty("nature", is(equalTo(TransactionNature.REGULAR))),
-        hasProperty("paymentType", is(equalTo(PayInType.BANK_WIRE))),
-        hasProperty("executionType", is(equalTo(TransactionExecutionType.DIRECT))),
-        hasProperty("tag", is(equalTo(tag))),
-        hasProperty("status", is(equalTo(status))),
-        hasProperty("creationDate", is(around(creationDate)))));
   }
 }

@@ -25,7 +25,7 @@ public abstract class PayIn extends Transaction {
   @SerializedName("PaymentType")
   protected PayInType paymentType;
   @SerializedName("ExecutionType")
-  protected TransactionExecutionType executionType;
+  protected ExecutionType executionType;
 
   public String getCreditedWalletId() {
     return creditedWalletId;
@@ -39,7 +39,7 @@ public abstract class PayIn extends Transaction {
     return paymentType;
   }
 
-  public TransactionExecutionType getExecutionType() {
+  public ExecutionType getExecutionType() {
     return executionType;
   }
 }
