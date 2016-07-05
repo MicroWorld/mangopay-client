@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum TransactionNature {
-  REGULAR, REFUND, REPUDIATION;
+  REFUND, REGULAR, REPUDIATION, SETTLEMENT;
 }

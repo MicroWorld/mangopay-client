@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum PayInType {
-  BANK_WIRE, CARD;
+  BANK_WIRE, CARD, DIRECT_DEBIT, PREAUTHORIZED;
 }

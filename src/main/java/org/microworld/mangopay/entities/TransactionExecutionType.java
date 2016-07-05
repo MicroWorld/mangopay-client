@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum TransactionExecutionType {
-  WEB, DIRECT;
+  DIRECT, WEB;
 }

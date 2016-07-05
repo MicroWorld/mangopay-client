@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum CardType {
-  CB_VISA_MASTERCARD, MAESTRO, DINERS;
+  AMEX, BCMC, CB_VISA_MASTERCARD, DINERS, IDEAL, MAESTRO, MASTERPASS, P24, PAYLIB;
 }

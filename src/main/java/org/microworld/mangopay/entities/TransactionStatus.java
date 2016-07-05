@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum TransactionStatus {
-  CREATED, SUCCEEDED, FAILED;
+  CREATED, FAILED, SUCCEEDED;
 }
