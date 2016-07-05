@@ -18,6 +18,7 @@ package org.microworld.mangopay.tests;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anEmptyMap;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
@@ -36,6 +37,8 @@ import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.Amount;
 import org.microworld.mangopay.entities.BankWirePayIn;
+import org.microworld.mangopay.entities.CardType;
+import org.microworld.mangopay.entities.CultureCode;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.SecureMode;
@@ -46,6 +49,7 @@ import org.microworld.mangopay.entities.TransactionStatus;
 import org.microworld.mangopay.entities.TransactionType;
 import org.microworld.mangopay.entities.User;
 import org.microworld.mangopay.entities.Wallet;
+import org.microworld.mangopay.entities.WebCardPayIn;
 import org.microworld.mangopay.entities.bankaccounts.IbanBankAccount;
 import org.microworld.mangopay.exceptions.MangopayException;
 
@@ -76,6 +80,18 @@ public class PayInIT extends AbstractIntegrationTest {
 
     final DirectCardPayIn fetchedDirectCardPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdDirectCardPayIn.getId());
     assertThat(fetchedDirectCardPayIn, is(equalTo(createdDirectCardPayIn)));
+  }
+
+  @Test
+  public void webCardPayIn() {
+    final User user = client.getUserService().create(randomNaturalUser());
+    final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
+
+    final WebCardPayIn createdWebCardPayIn = client.getPayInService().createWebCardPayIn(new WebCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, "https://my.site.com", null, SecureMode.DEFAULT, null));
+    assertThat(createdWebCardPayIn, is(webCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, SecureMode.DEFAULT, "https://my.site.com/?transactionId=" + createdWebCardPayIn.getId(), null, TransactionStatus.CREATED, null, Instant.now(), null, null)));
+
+    final WebCardPayIn fetchedWebCardPayIn = (WebCardPayIn) client.getPayInService().getPayIn(createdWebCardPayIn.getId());
+    assertThat(fetchedWebCardPayIn, is(equalTo(createdWebCardPayIn)));
   }
 
   @Test
@@ -152,5 +168,39 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("cardId", is(equalTo(cardId))),
         hasProperty("secureModeReturnUrl", is(equalTo(secureModeReturnUrl))),
         hasProperty("secureModeRedirectUrl", is(equalTo(secureModeRedirectUrl)))));
+  }
+
+  private Matcher<WebCardPayIn> webCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final CardType cardType, final Currency currency, final int debitedAmount, final int feesAmount, final CultureCode cultureCode, final String statementDescriptor, final SecureMode secureMode, final String returnUrl, final String templateUrl, final TransactionStatus status, final String tag, final Instant creationDate, final String resultCode, final String resultMessage) {
+    return allOf(asList(
+        // Entity
+        hasProperty("id", is(notNullValue())),
+        hasProperty("creationDate", is(around(creationDate))),
+        hasProperty("tag", is(equalTo(tag))),
+        // Transaction
+        hasProperty("authorId", is(equalTo(authorId))),
+        hasProperty("creditedUserId", is(equalTo(creditedUserId))),
+        hasProperty("debitedFunds", is(equalTo(new Amount(currency, debitedAmount)))),
+        hasProperty("creditedFunds", is(equalTo(new Amount(currency, debitedAmount - feesAmount)))),
+        hasProperty("fees", is(equalTo(new Amount(currency, feesAmount)))),
+        hasProperty("status", is(equalTo(status))),
+        hasProperty("resultCode", is(equalTo(resultCode))),
+        hasProperty("resultMessage", is(equalTo(resultMessage))),
+        hasProperty("executionDate", is(nullValue())),
+        hasProperty("type", is(equalTo(TransactionType.PAYIN))),
+        hasProperty("nature", is(equalTo(TransactionNature.REGULAR))),
+        // PayIn
+        hasProperty("creditedWalletId", is(equalTo(creditedWalletId))),
+        hasProperty("debitedWalletId", is(nullValue())),
+        hasProperty("paymentType", is(equalTo(PayInType.CARD))),
+        hasProperty("executionType", is(equalTo(ExecutionType.WEB))),
+        // CardPayIn
+        hasProperty("secureMode", is(equalTo(secureMode))),
+        hasProperty("statementDescriptor", is(equalTo(statementDescriptor))),
+        // WebCardPayIn
+        hasProperty("cultureCode", is(equalTo(cultureCode))),
+        hasProperty("cardType", is(equalTo(cardType))),
+        hasProperty("returnUrl", is(equalTo(returnUrl))),
+        hasProperty("redirectUrl", is(notNullValue())),
+        hasProperty("templateUrlOptions", is(anEmptyMap()))));
   }
 }

@@ -52,6 +52,7 @@ import org.microworld.mangopay.entities.BankWirePayIn;
 import org.microworld.mangopay.entities.BankWirePayOut;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.Error;
+import org.microworld.mangopay.entities.ExecutionType;
 import org.microworld.mangopay.entities.IncomeRange;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
@@ -62,6 +63,7 @@ import org.microworld.mangopay.entities.PersonType;
 import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
+import org.microworld.mangopay.entities.WebCardPayIn;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.entities.bankaccounts.BankAccountType;
 import org.microworld.mangopay.entities.bankaccounts.BritishBankAccount;
@@ -276,21 +278,31 @@ public class DefaultMangopayConnection implements MangopayConnection {
     return gson.fromJson(object, Transaction.class);
   }
 
-  private PayIn convertBankWirePayIn(final JsonObject object) {
-    final JsonObject bankAccount = object.remove("BankAccount").getAsJsonObject();
-    final BankWirePayIn payIn = gson.fromJson(object, BankWirePayIn.class);
-    setFieldValue(BankWirePayIn.class, "bankAccount", payIn, convertBankAccount(bankAccount));
-    return payIn;
-  }
-
   private PayIn convertPayIn(final JsonObject object) {
     switch (PayInType.valueOf(object.get("PaymentType").getAsString())) {
       case BANK_WIRE:
         return convertBankWirePayIn(object);
       case CARD:
       default:
-        return gson.fromJson(object, DirectCardPayIn.class);
+        return convertCardPayIn(object);
     }
+  }
+
+  private PayIn convertCardPayIn(final JsonObject object) {
+    switch (ExecutionType.valueOf(object.get("ExecutionType").getAsString())) {
+      case DIRECT:
+        return gson.fromJson(object, DirectCardPayIn.class);
+      case WEB:
+      default:
+        return gson.fromJson(object, WebCardPayIn.class);
+    }
+  }
+
+  private PayIn convertBankWirePayIn(final JsonObject object) {
+    final JsonObject bankAccount = object.remove("BankAccount").getAsJsonObject();
+    final BankWirePayIn payIn = gson.fromJson(object, BankWirePayIn.class);
+    setFieldValue(BankWirePayIn.class, "bankAccount", payIn, convertBankAccount(bankAccount));
+    return payIn;
   }
 
   private BankAccount convertBankAccount(final JsonObject object) {

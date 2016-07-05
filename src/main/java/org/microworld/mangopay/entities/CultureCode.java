@@ -13,19 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.services;
+package org.microworld.mangopay.entities;
 
-import org.microworld.mangopay.entities.BankWirePayIn;
-import org.microworld.mangopay.entities.DirectCardPayIn;
-import org.microworld.mangopay.entities.PayIn;
-import org.microworld.mangopay.entities.WebCardPayIn;
-
-public interface PayInService {
-  PayIn getPayIn(String id);
-
-  BankWirePayIn createBankWirePayIn(BankWirePayIn bankWirePayIn);
-
-  DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
-
-  WebCardPayIn createWebCardPayIn(WebCardPayIn webCardPayIn);
+public enum CultureCode {
+  CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, IT, NL, NO, PL, PT, SK, SV;
 }
