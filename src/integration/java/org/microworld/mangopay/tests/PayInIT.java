@@ -88,7 +88,7 @@ public class PayInIT extends AbstractIntegrationTest {
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
 
     final WebCardPayIn createdWebCardPayIn = client.getPayInService().createWebCardPayIn(new WebCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, "https://my.site.com", null, SecureMode.DEFAULT, null));
-    assertThat(createdWebCardPayIn, is(webCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, SecureMode.DEFAULT, "https://my.site.com/?transactionId=" + createdWebCardPayIn.getId(), null, TransactionStatus.CREATED, null, Instant.now(), null, null)));
+    assertThat(createdWebCardPayIn, is(webCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, SecureMode.DEFAULT, "https://my.site.com/?transactionId=" + createdWebCardPayIn.getId(), TransactionStatus.CREATED, null, Instant.now(), null, null)));
 
     final WebCardPayIn fetchedWebCardPayIn = (WebCardPayIn) client.getPayInService().getPayIn(createdWebCardPayIn.getId());
     assertThat(fetchedWebCardPayIn, is(equalTo(createdWebCardPayIn)));
@@ -170,7 +170,7 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("secureModeRedirectUrl", is(equalTo(secureModeRedirectUrl)))));
   }
 
-  private Matcher<WebCardPayIn> webCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final CardType cardType, final Currency currency, final int debitedAmount, final int feesAmount, final CultureCode cultureCode, final String statementDescriptor, final SecureMode secureMode, final String returnUrl, final String templateUrl, final TransactionStatus status, final String tag, final Instant creationDate, final String resultCode, final String resultMessage) {
+  private Matcher<WebCardPayIn> webCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final CardType cardType, final Currency currency, final int debitedAmount, final int feesAmount, final CultureCode cultureCode, final String statementDescriptor, final SecureMode secureMode, final String returnUrl, final TransactionStatus status, final String tag, final Instant creationDate, final String resultCode, final String resultMessage) {
     return allOf(asList(
         // Entity
         hasProperty("id", is(notNullValue())),
