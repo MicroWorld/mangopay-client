@@ -24,18 +24,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class IbanBankAccount extends BankAccount {
   @SerializedName("IBAN")
-  private final String iban;
+  private String iban;
   @SerializedName("BIC")
-  private final String bic;
+  private String bic;
+
+  protected IbanBankAccount() {
+    super();
+  }
 
   public IbanBankAccount(final String ownerName, final Address ownerAddress, final String iban, final String bic, final String tag) {
+    super();
     this.type = BankAccountType.IBAN;
     this.ownerName = ownerName;
     this.ownerAddress = ownerAddress;
     this.iban = iban;
     this.bic = bic;
     this.tag = tag;
-    this.active = true;
   }
 
   @Override

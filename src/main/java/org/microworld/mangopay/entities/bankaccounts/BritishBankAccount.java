@@ -24,18 +24,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class BritishBankAccount extends BankAccount {
   @SerializedName("AccountNumber")
-  private final String accountNumber;
+  private String accountNumber;
   @SerializedName("SortCode")
-  private final String sortCode;
+  private String sortCode;
+
+  protected BritishBankAccount() {
+    super();
+  }
 
   public BritishBankAccount(final String ownerName, final Address ownerAddress, final String accountNumber, final String sortCode, final String tag) {
+    super();
     this.type = BankAccountType.GB;
     this.ownerName = ownerName;
     this.ownerAddress = ownerAddress;
     this.accountNumber = accountNumber;
     this.sortCode = sortCode;
     this.tag = tag;
-    this.active = true;
   }
 
   @Override

@@ -32,6 +32,10 @@ public abstract class BankAccount extends Entity {
   @SerializedName("Active")
   protected boolean active;
 
+  protected BankAccount() {
+    this.active = true;
+  }
+
   public BankAccountType getType() {
     return type;
   }

@@ -24,13 +24,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class UsaBankAccount extends BankAccount {
   @SerializedName("AccountNumber")
-  private final String accountNumber;
+  private String accountNumber;
   @SerializedName("ABA")
-  private final String aba;
+  private String aba;
   @SerializedName("DepositAccountType")
-  private final DepositAccountType depositAccountType;
+  private DepositAccountType depositAccountType;
+
+  protected UsaBankAccount() {
+    super();
+  }
 
   public UsaBankAccount(final String ownerName, final Address ownerAddress, final String accountNumber, final String aba, final DepositAccountType depositAccountType, final String tag) {
+    super();
     this.type = BankAccountType.US;
     this.ownerName = ownerName;
     this.ownerAddress = ownerAddress;
@@ -38,7 +43,6 @@ public class UsaBankAccount extends BankAccount {
     this.aba = aba;
     this.depositAccountType = depositAccountType;
     this.tag = tag;
-    this.active = true;
   }
 
   @Override

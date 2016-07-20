@@ -24,15 +24,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class CanadianBankAccount extends BankAccount {
   @SerializedName("BankName")
-  private final String bankName;
+  private String bankName;
   @SerializedName("InstitutionNumber")
-  private final String institutionNumber;
+  private String institutionNumber;
   @SerializedName("BranchCode")
-  private final String branchCode;
+  private String branchCode;
   @SerializedName("AccountNumber")
-  private final String accountNumber;
+  private String accountNumber;
+
+  protected CanadianBankAccount() {
+    super();
+  }
 
   public CanadianBankAccount(final String ownerName, final Address ownerAddress, final String bankName, final String institutionNumber, final String branchCode, final String accountNumber, final String tag) {
+    super();
     this.type = BankAccountType.CA;
     this.ownerName = ownerName;
     this.ownerAddress = ownerAddress;
@@ -41,7 +46,6 @@ public class CanadianBankAccount extends BankAccount {
     this.branchCode = branchCode;
     this.accountNumber = accountNumber;
     this.tag = tag;
-    this.active = true;
   }
 
   @Override

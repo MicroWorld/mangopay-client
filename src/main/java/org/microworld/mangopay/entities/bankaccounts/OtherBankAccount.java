@@ -30,7 +30,12 @@ public class OtherBankAccount extends BankAccount {
   @SerializedName("AccountNumber")
   private String accountNumber;
 
+  protected OtherBankAccount() {
+    super();
+  }
+
   public OtherBankAccount(final String ownerName, final Address ownerAddress, final String country, final String bic, final String accountNumber, final String tag) {
+    super();
     this.type = BankAccountType.OTHER;
     this.ownerName = ownerName;
     this.ownerAddress = ownerAddress;
@@ -38,7 +43,6 @@ public class OtherBankAccount extends BankAccount {
     this.bic = bic;
     this.accountNumber = accountNumber;
     this.tag = tag;
-    this.active = true;
   }
 
   @Override
@@ -60,23 +64,11 @@ public class OtherBankAccount extends BankAccount {
     return country;
   }
 
-  public void setCountry(final String country) {
-    this.country = country;
-  }
-
   public String getBic() {
     return bic;
   }
 
-  public void setBic(final String bic) {
-    this.bic = bic;
-  }
-
   public String getAccountNumber() {
     return accountNumber;
-  }
-
-  public void setAccountNumber(final String accountNumber) {
-    this.accountNumber = accountNumber;
   }
 }

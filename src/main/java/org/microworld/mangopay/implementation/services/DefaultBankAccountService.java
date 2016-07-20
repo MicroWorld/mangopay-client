@@ -38,6 +38,11 @@ public class DefaultBankAccountService implements BankAccountService {
   }
 
   @Override
+  public BankAccount deactivate(final String userId, final String bankAccountId) {
+    return connection.queryForObject(BankAccount.class, HttpMethod.PUT, "/users/{0}/bankaccounts/{1}", "{\"Active\":false}", userId, bankAccountId);
+  }
+
+  @Override
   public BankAccount get(final String userId, final String bankAccountId) {
     return connection.queryForObject(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts/{1}", null, userId, bankAccountId);
   }

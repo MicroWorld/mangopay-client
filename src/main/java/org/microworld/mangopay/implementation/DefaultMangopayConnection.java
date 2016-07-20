@@ -162,10 +162,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
       LOG.debug("Request: {} {}", connection.getRequestMethod(), url);
       if (data != null) {
         try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8)) {
-          final JsonObject jsonObject = gson.toJsonTree(data).getAsJsonObject();
-          jsonObject.remove("Id");
-          jsonObject.remove("CreationDate");
-          final String json = gson.toJson(jsonObject);
+          final String json = data instanceof String ? (String) data : toJson(data);
           LOG.debug("Request data: {}", json);
           output.write(json);
           output.flush();
@@ -188,6 +185,14 @@ public class DefaultMangopayConnection implements MangopayConnection {
     } catch (final IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private String toJson(final Object data) {
+    final JsonObject jsonObject = gson.toJsonTree(data).getAsJsonObject();
+    jsonObject.remove("Id");
+    jsonObject.remove("CreationDate");
+    final String json = gson.toJson(jsonObject);
+    return json;
   }
 
   private Token getToken() {

@@ -23,6 +23,8 @@ import org.microworld.mangopay.search.Page;
 public interface BankAccountService {
   BankAccount create(String userId, BankAccount bankAccount);
 
+  BankAccount deactivate(String userId, String bankAccountId);
+
   BankAccount get(String userId, String bankAccountId);
 
   List<BankAccount> list(String userId, Page page);

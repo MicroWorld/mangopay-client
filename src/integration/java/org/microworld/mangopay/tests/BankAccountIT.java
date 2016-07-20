@@ -20,6 +20,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.microworld.test.Matchers.bankAccount;
 
 import java.time.Instant;
@@ -158,5 +160,12 @@ public class BankAccountIT extends AbstractIntegrationTest {
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
     thrown.expectMessage("RessourceNotFound: Cannot found the ressource User with the id=10");
     client.getBankAccountService().list("10", Page.of(1));
+  }
+
+  @Test
+  public void deactivateBankAccount() {
+    final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
+    assertTrue(createdBankAccount.isActive());
+    assertFalse(client.getBankAccountService().deactivate(user.getId(), createdBankAccount.getId()).isActive());
   }
 }
