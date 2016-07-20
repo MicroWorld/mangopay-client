@@ -41,6 +41,7 @@ public class CanadianBankAccount extends BankAccount {
     this.branchCode = branchCode;
     this.accountNumber = accountNumber;
     this.tag = tag;
+    this.active = true;
   }
 
   @Override

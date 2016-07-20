@@ -35,6 +35,7 @@ public class BritishBankAccount extends BankAccount {
     this.accountNumber = accountNumber;
     this.sortCode = sortCode;
     this.tag = tag;
+    this.active = true;
   }
 
   @Override

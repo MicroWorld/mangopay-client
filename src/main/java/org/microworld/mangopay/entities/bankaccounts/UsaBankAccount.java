@@ -38,6 +38,7 @@ public class UsaBankAccount extends BankAccount {
     this.aba = aba;
     this.depositAccountType = depositAccountType;
     this.tag = tag;
+    this.active = true;
   }
 
   @Override

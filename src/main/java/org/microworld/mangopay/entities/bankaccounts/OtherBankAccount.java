@@ -38,6 +38,7 @@ public class OtherBankAccount extends BankAccount {
     this.bic = bic;
     this.accountNumber = accountNumber;
     this.tag = tag;
+    this.active = true;
   }
 
   @Override

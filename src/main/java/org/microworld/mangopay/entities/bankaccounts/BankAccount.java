@@ -29,6 +29,8 @@ public abstract class BankAccount extends Entity {
   protected Address ownerAddress;
   @SerializedName("UserId")
   protected String userId;
+  @SerializedName("Active")
+  protected boolean active;
 
   public BankAccountType getType() {
     return type;
@@ -44,5 +46,9 @@ public abstract class BankAccount extends Entity {
 
   public String getUserId() {
     return userId;
+  }
+
+  public boolean isActive() {
+    return active;
   }
 }

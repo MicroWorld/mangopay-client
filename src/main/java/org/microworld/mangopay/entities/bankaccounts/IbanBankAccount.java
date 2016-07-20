@@ -35,6 +35,7 @@ public class IbanBankAccount extends BankAccount {
     this.iban = iban;
     this.bic = bic;
     this.tag = tag;
+    this.active = true;
   }
 
   @Override
