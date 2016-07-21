@@ -56,7 +56,7 @@ public class KycIT extends AbstractIntegrationTest {
     assertThat(fetchedKycDocument, is(kycDocument(createdKycDocument, KycDocumentStatus.CREATED, creationDate)));
     assertThat(fetchedKycDocument.getId(), is(equalTo(createdKycDocument.getId())));
 
-    final KycDocument askedValidationKycDocument = client.getKycService().validateDocument(user.getId(), fetchedKycDocument);
+    final KycDocument askedValidationKycDocument = client.getKycService().validateDocument(user.getId(), fetchedKycDocument.getId());
     assertThat(askedValidationKycDocument, is(kycDocument(fetchedKycDocument, KycDocumentStatus.VALIDATION_ASKED, creationDate)));
     assertThat(askedValidationKycDocument.getId(), is(equalTo(fetchedKycDocument.getId())));
   }

@@ -25,7 +25,7 @@ public interface KycService {
 
   KycDocument getDocument(String userId, String documentId);
 
-  KycDocument validateDocument(String userId, KycDocument document);
+  KycDocument validateDocument(String userId, String documentId);
 
   void uploadPage(String userId, String documentId, InputStream page) throws IOException;
 }
