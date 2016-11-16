@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.microworld.mangopay.entities.HookValidity.VALID;
 import static org.microworld.test.Matchers.around;
 
 import java.time.Instant;
@@ -53,7 +54,7 @@ public class HookIT extends AbstractIntegrationTest {
     hook.setUrl("https://example.com/hook");
     hook.setTag("New url");
     final Hook updatedHook = client.getHookService().update(hook);
-    assertThat(updatedHook, is(hook(hook.getEventType(), "https://example.com/hook", hook.getStatus(), hook.getValidity(), "New url", hook.getCreationDate())));
+    assertThat(updatedHook, is(hook(hook.getEventType(), "https://example.com/hook", hook.getStatus(), VALID, "New url", hook.getCreationDate())));
     assertThat(updatedHook.getId(), is(equalTo(hook.getId())));
   }
 
