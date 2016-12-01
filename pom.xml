@@ -77,7 +77,7 @@
     <dependency>
       <groupId>io.codearte.jfairy</groupId>
       <artifactId>jfairy</artifactId>
-      <version>0.5.3</version>
+      <version>0.5.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>

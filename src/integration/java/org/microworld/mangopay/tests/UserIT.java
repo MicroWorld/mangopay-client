@@ -193,9 +193,9 @@ public class UserIT extends AbstractIntegrationTest {
   public void listUserBankAccounts() throws InterruptedException {
     final Person person = fairy.person();
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
-    final BankAccount bankAccount1 = client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
+    final BankAccount bankAccount1 = client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
     Thread.sleep(2000);
-    final BankAccount bankAccount2 = client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", fairy.textProducer().latinSentence()));
+    final BankAccount bankAccount2 = client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.getFullName(), createAddress(person.getAddress()), "33333334", "070093", fairy.textProducer().latinSentence()));
 
     final List<BankAccount> bankAccounts = client.getUserService().getBankAccounts(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     assertThat(bankAccounts, hasSize(2));

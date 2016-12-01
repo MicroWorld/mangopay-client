@@ -73,11 +73,11 @@ public class AbstractIntegrationTest {
     final Person person = fairy.person();
 
     final NaturalUser user = new NaturalUser();
-    user.setEmail(person.email());
-    user.setFirstName(person.firstName());
-    user.setLastName(person.lastName());
+    user.setEmail(person.getEmail());
+    user.setFirstName(person.getFirstName());
+    user.setLastName(person.getLastName());
     user.setAddress(createAddress(person.getAddress()));
-    user.setBirthday(LocalDate.parse(person.dateOfBirth().toString("yyyy-MM-dd")));
+    user.setBirthday(LocalDate.parse(person.getDateOfBirth().toString("yyyy-MM-dd")));
     user.setNationality(randomCountry());
     user.setCountryOfResidence(randomCountry());
     user.setOccupation(fairy.textProducer().latinSentence());
@@ -91,15 +91,15 @@ public class AbstractIntegrationTest {
     final Company company = fairy.company();
 
     final LegalUser user = new LegalUser();
-    user.setEmail(company.email());
-    user.setName(company.name());
+    user.setEmail(company.getEmail());
+    user.setName(company.getName());
     user.setLegalPersonType(LegalPersonType.values()[fairy.baseProducer().randomBetween(0, LegalPersonType.values().length - 1)]);
     user.setHeadquartersAddress(createAddress(fairy.person().getAddress()));
-    user.setLegalRepresentativeFirstName(person.firstName());
-    user.setLegalRepresentativeLastName(person.lastName());
-    user.setLegalRepresentativeEmail(person.email());
+    user.setLegalRepresentativeFirstName(person.getFirstName());
+    user.setLegalRepresentativeLastName(person.getLastName());
+    user.setLegalRepresentativeEmail(person.getEmail());
     user.setLegalRepresentativeAddress(createAddress(person.getAddress()));
-    user.setLegalRepresentativeBirthday(LocalDate.parse(person.dateOfBirth().toString("yyyy-MM-dd")));
+    user.setLegalRepresentativeBirthday(LocalDate.parse(person.getDateOfBirth().toString("yyyy-MM-dd")));
     user.setLegalRepresentativeNationality(randomCountry());
     user.setLegalRepresentativeCountryOfResidence(randomCountry());
     user.setTag(fairy.textProducer().latinSentence());
@@ -119,7 +119,7 @@ public class AbstractIntegrationTest {
   }
 
   protected Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
-    return new Address(fairyAddress.streetNumber() + ", " + fairyAddress.street(), fairyAddress.apartmentNumber(), fairyAddress.getCity(), fairy.textProducer().latinWord(), fairyAddress.getPostalCode(), randomCountry());
+    return new Address(fairyAddress.getStreetNumber() + ", " + fairyAddress.getStreet(), fairyAddress.getApartmentNumber(), fairyAddress.getCity(), fairy.textProducer().latinWord(), fairyAddress.getPostalCode(), randomCountry());
   }
 
   protected CardRegistration registerCard(final User user, final Currency currency, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {

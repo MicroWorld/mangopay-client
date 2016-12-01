@@ -57,7 +57,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
   @Test
   public void createAndGetIbanBankAccount() {
     final Instant creationDate = Instant.now();
-    final IbanBankAccount ibanBankAccount = new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence());
+    final IbanBankAccount ibanBankAccount = new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence());
     final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), ibanBankAccount);
     assertThat(createdBankAccount, is(bankAccount(ibanBankAccount, true, creationDate)));
 
@@ -68,7 +68,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
   @Test
   public void createAndGetBritishBankAccount() {
     final Instant creationDate = Instant.now();
-    final BritishBankAccount britishBankAccount = new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", null);
+    final BritishBankAccount britishBankAccount = new BritishBankAccount(person.getFullName(), createAddress(person.getAddress()), "33333334", "070093", null);
     final BritishBankAccount createdBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), britishBankAccount);
     assertThat(createdBankAccount, is(bankAccount(britishBankAccount, true, creationDate)));
 
@@ -79,7 +79,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
   @Test
   public void createAndGetCanadianBankAccount() {
     final Instant creationDate = Instant.now();
-    final CanadianBankAccount canadianBankAccount = new CanadianBankAccount(person.fullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo");
+    final CanadianBankAccount canadianBankAccount = new CanadianBankAccount(person.getFullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo");
     final CanadianBankAccount createdBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), canadianBankAccount);
     assertThat(createdBankAccount, is(bankAccount(canadianBankAccount, true, creationDate)));
 
@@ -90,7 +90,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
   @Test
   public void createAndGetUsaBankAccount() {
     final Instant creationDate = Instant.now();
-    final UsaBankAccount usaBankAccount = new UsaBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar");
+    final UsaBankAccount usaBankAccount = new UsaBankAccount(person.getFullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar");
     final UsaBankAccount createdBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), usaBankAccount);
     assertThat(createdBankAccount, is(bankAccount(usaBankAccount, true, creationDate)));
 
@@ -101,7 +101,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
   @Test
   public void createAndGetOtherBankAccount() {
     final Instant creationDate = Instant.now();
-    final OtherBankAccount otherBankAccount = new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null);
+    final OtherBankAccount otherBankAccount = new OtherBankAccount(person.getFullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null);
     final OtherBankAccount createdBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), otherBankAccount);
     assertThat(createdBankAccount, is(bankAccount(otherBankAccount, true, creationDate)));
 
@@ -145,11 +145,11 @@ public class BankAccountIT extends AbstractIntegrationTest {
 
   @Test
   public void listBankAccountsOfUserWithBankAccounts() {
-    final IbanBankAccount ibanBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
-    final BritishBankAccount britishBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.fullName(), createAddress(person.getAddress()), "33333334", "070093", null));
-    final CanadianBankAccount canadianBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), new CanadianBankAccount(person.fullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo"));
-    final UsaBankAccount usaBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), new UsaBankAccount(person.fullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar"));
-    final OtherBankAccount otherBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), new OtherBankAccount(person.fullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null));
+    final IbanBankAccount ibanBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
+    final BritishBankAccount britishBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.getFullName(), createAddress(person.getAddress()), "33333334", "070093", null));
+    final CanadianBankAccount canadianBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), new CanadianBankAccount(person.getFullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo"));
+    final UsaBankAccount usaBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), new UsaBankAccount(person.getFullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar"));
+    final OtherBankAccount otherBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), new OtherBankAccount(person.getFullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null));
     final List<BankAccount> bankAccounts = client.getBankAccountService().list(user.getId(), Page.of(1));
     assertThat(bankAccounts, containsInAnyOrder(asList(bankAccount(ibanBankAccount), bankAccount(britishBankAccount), bankAccount(canadianBankAccount), bankAccount(usaBankAccount), bankAccount(otherBankAccount))));
   }
@@ -164,7 +164,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
 
   @Test
   public void deactivateBankAccount() {
-    final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.fullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
+    final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
     assertTrue(createdBankAccount.isActive());
     assertFalse(client.getBankAccountService().deactivate(user.getId(), createdBankAccount.getId()).isActive());
   }
