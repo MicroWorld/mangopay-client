@@ -24,7 +24,7 @@ public class ConnectIT extends AbstractIntegrationTest {
   @Test
   public void anExceptionIsThrownWhenConnectingToMangopayWithInvalidCredentials() {
     thrown.expect(MangopayUnauthorizedException.class);
-    thrown.expectMessage("invalid_client: Authentication failed");
+    thrown.expectMessage("invalid_client: Your authorization do not allow you to access to this information");
     final MangopayConnection connection = MangopayConnection.createDefault("api.sandbox.mangopay.com", "bar", "baz");
     MangopayClient.createDefault(connection).getUserService().get("42");
   }
