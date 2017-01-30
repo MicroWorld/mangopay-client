@@ -20,12 +20,15 @@ import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.exceptions.MangopayUnauthorizedException;
 
+import io.codearte.jfairy.producer.person.Person;
+
 public class ConnectIT extends AbstractIntegrationTest {
   @Test
   public void anExceptionIsThrownWhenConnectingToMangopayWithInvalidCredentials() {
+    final Person client = fairy.person();
     thrown.expect(MangopayUnauthorizedException.class);
-    thrown.expectMessage("invalid_client: Your authorization do not allow you to access to this information");
-    final MangopayConnection connection = MangopayConnection.createDefault("api.sandbox.mangopay.com", "bar", "baz");
+    thrown.expectMessage("invalid_client: (no error description)");
+    final MangopayConnection connection = MangopayConnection.createDefault("api.sandbox.mangopay.com", client.getUsername(), client.getPassword());
     MangopayClient.createDefault(connection).getUserService().get("42");
   }
 }

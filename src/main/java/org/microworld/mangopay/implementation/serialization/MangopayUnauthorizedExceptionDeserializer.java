@@ -16,6 +16,7 @@
 package org.microworld.mangopay.implementation.serialization;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 import org.microworld.mangopay.exceptions.MangopayUnauthorizedException;
 
@@ -29,6 +30,6 @@ public class MangopayUnauthorizedExceptionDeserializer implements JsonDeserializ
   @Override
   public MangopayUnauthorizedException deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
     final JsonObject object = json.getAsJsonObject();
-    return new MangopayUnauthorizedException(object.get("error").getAsString(), object.get("error_description").getAsString());
+    return new MangopayUnauthorizedException(object.get("error").getAsString(), Optional.ofNullable(object.get("error_description")).map(JsonElement::getAsString).orElse("(no error description)"));
   }
 }
