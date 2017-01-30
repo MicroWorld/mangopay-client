@@ -77,13 +77,13 @@
     <dependency>
       <groupId>io.codearte.jfairy</groupId>
       <artifactId>jfairy</artifactId>
-      <version>0.5.5</version>
+      <version>0.5.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.1.8</version>
+      <version>1.1.9</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -124,7 +124,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.0</version>
+        <version>3.6.1</version>
         <configuration>
           <encoding>${project.build.sourceEncoding}</encoding>
           <showDeprecation>true</showDeprecation>
@@ -136,7 +136,7 @@
       <plugin>
         <groupId>org.gaul</groupId>
         <artifactId>modernizer-maven-plugin</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
         <configuration>
           <javaVersion>${maven.compiler.source}</javaVersion>
           <includeTestClasses>true</includeTestClasses>
