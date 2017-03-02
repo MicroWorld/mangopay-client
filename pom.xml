@@ -54,7 +54,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.22</version>
+      <version>1.7.24</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -83,7 +83,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.1.9</version>
+      <version>1.2.1</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -155,7 +155,7 @@
       <plugin>
         <groupId>de.thetaphi</groupId>
         <artifactId>forbiddenapis</artifactId>
-        <version>2.2</version>
+        <version>2.3</version>
         <configuration>
           <failOnUnsupportedJava>false</failOnUnsupportedJava><!-- Don't fail if the plugin doesn't support current Java version -->
           <bundledSignatures>
@@ -177,7 +177,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.12</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>add-test-source</id>
@@ -220,7 +220,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.8</version>
+        <version>0.7.9</version>
         <configuration>
           <output>file</output>
           <append>true</append>
