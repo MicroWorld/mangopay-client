@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.microworld.mangopay.misc.Reflections.setFieldValue;
 import static org.microworld.test.Matchers.around;
 
 import java.io.IOException;
@@ -43,7 +42,6 @@ import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.ExecutionType;
 import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.SecureMode;
-import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.TransactionNature;
 import org.microworld.mangopay.entities.TransactionStatus;
 import org.microworld.mangopay.entities.TransactionType;
@@ -63,9 +61,6 @@ public class PayInIT extends AbstractIntegrationTest {
     assertThat(createdBankWirePayIn, is(bankWirePayIn(user.getId(), user.getId(), wallet.getId(), EUR, 1337, 5, null, TransactionStatus.CREATED, Instant.now())));
 
     final BankWirePayIn fetchedBankWirePayIn = (BankWirePayIn) client.getPayInService().getPayIn(createdBankWirePayIn.getId());
-    setFieldValue(Transaction.class, "debitedFunds", fetchedBankWirePayIn, null); // See https://github.com/Mangopay/mangopay/issues/11
-    setFieldValue(Transaction.class, "creditedFunds", fetchedBankWirePayIn, null); // See https://github.com/Mangopay/mangopay/issues/11
-    setFieldValue(Transaction.class, "fees", fetchedBankWirePayIn, null); // See https://github.com/Mangopay/mangopay/issues/11
     assertThat(fetchedBankWirePayIn, is(equalTo(createdBankWirePayIn)));
   }
 

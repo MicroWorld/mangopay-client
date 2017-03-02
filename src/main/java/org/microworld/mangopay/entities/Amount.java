@@ -21,12 +21,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Amount {
-  @SerializedName("Currency")
   private final Currency currency;
-  @SerializedName("Amount")
   private final int cents;
 
   public Amount(final Currency currency, final int cents) {
