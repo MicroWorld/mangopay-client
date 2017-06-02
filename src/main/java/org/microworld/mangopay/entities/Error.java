@@ -15,6 +15,9 @@
  */
 package org.microworld.mangopay.entities;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Optional.ofNullable;
+
 import java.time.Instant;
 import java.util.Map;
 
@@ -49,6 +52,6 @@ public class Error {
   }
 
   public Map<String, String> getErrors() {
-    return errors;
+    return ofNullable(errors).orElse(emptyMap());
   }
 }

@@ -45,7 +45,7 @@ public class KycIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void createGetAndValidateDocument() {
+  public void createAndGetDocument() {
     final Instant creationDate = Instant.now();
 
     final KycDocument kycDocument = new KycDocument(KycDocumentType.IDENTITY_PROOF, fairy.textProducer().latinSentence());
@@ -55,10 +55,6 @@ public class KycIT extends AbstractIntegrationTest {
     final KycDocument fetchedKycDocument = client.getKycService().getDocument(user.getId(), createdKycDocument.getId());
     assertThat(fetchedKycDocument, is(kycDocument(createdKycDocument, KycDocumentStatus.CREATED, creationDate)));
     assertThat(fetchedKycDocument.getId(), is(equalTo(createdKycDocument.getId())));
-
-    final KycDocument askedValidationKycDocument = client.getKycService().validateDocument(user.getId(), fetchedKycDocument.getId());
-    assertThat(askedValidationKycDocument, is(kycDocument(fetchedKycDocument, KycDocumentStatus.VALIDATION_ASKED, creationDate)));
-    assertThat(askedValidationKycDocument.getId(), is(equalTo(fetchedKycDocument.getId())));
   }
 
   @Test
@@ -78,10 +74,23 @@ public class KycIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void uploadPage() throws IOException {
+  public void validateDocumentWithNoPages() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("cant_validate_empty_document: You can not request validation for a document which has no pages");
+
+    final KycDocument kycDocument = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.IDENTITY_PROOF, fairy.textProducer().latinSentence()));
+    client.getKycService().validateDocument(user.getId(), kycDocument.getId());
+  }
+
+  @Test
+  public void uploadPageAndValidateDocument() throws IOException {
     final KycDocument kycDocument = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.IDENTITY_PROOF, fairy.textProducer().latinSentence()));
     final InputStream file = KycIT.class.getClassLoader().getResourceAsStream("kyc/empty.pdf");
     client.getKycService().uploadPage(user.getId(), kycDocument.getId(), file);
+
+    final KycDocument askedValidationKycDocument = client.getKycService().validateDocument(user.getId(), kycDocument.getId());
+    assertThat(askedValidationKycDocument, is(kycDocument(kycDocument, KycDocumentStatus.VALIDATION_ASKED, Instant.now())));
+    assertThat(askedValidationKycDocument.getId(), is(equalTo(kycDocument.getId())));
   }
 
   private Matcher<KycDocument> kycDocument(final KycDocument kycDocument, final KycDocumentStatus status, final Instant creationDate) {
