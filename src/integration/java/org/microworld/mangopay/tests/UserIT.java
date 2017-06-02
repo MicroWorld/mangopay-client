@@ -38,6 +38,7 @@ import java.time.Instant;
 import java.util.List;
 
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.CardRegistration;
@@ -87,6 +88,7 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
+  @Ignore("Regression on MANGOPAY side, waiting for their answer.")
   public void createNaturalUserWithMissingMandatoryFields() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
