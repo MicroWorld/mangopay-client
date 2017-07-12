@@ -20,7 +20,7 @@
 
   <groupId>org.microworld</groupId>
   <artifactId>mangopay-client</artifactId>
-  <version>0.0.19-SNAPSHOT</version>
+  <version>0.0.19</version>
   <packaging>jar</packaging>
 
   <name>Mangopay Client</name>
