@@ -17,6 +17,8 @@ package org.microworld.mangopay;
 
 import java.util.List;
 
+import org.microworld.mangopay.entities.RateLimit;
+import org.microworld.mangopay.entities.RateLimitInterval;
 import org.microworld.mangopay.implementation.DefaultMangopayConnection;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.search.Filter;
@@ -33,4 +35,6 @@ public interface MangopayConnection {
   <T> T queryForObject(final Class<T> type, final HttpMethod method, final String path, final Object data, String... pathParameters);
 
   void query(HttpMethod method, String path, Object data, String... pathParameters);
+
+  RateLimit getRateLimit(RateLimitInterval interval);
 }

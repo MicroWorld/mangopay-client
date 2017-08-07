@@ -63,6 +63,8 @@ import org.microworld.mangopay.entities.PayIn;
 import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.PayOut;
 import org.microworld.mangopay.entities.PersonType;
+import org.microworld.mangopay.entities.RateLimit;
+import org.microworld.mangopay.entities.RateLimitInterval;
 import org.microworld.mangopay.entities.Token;
 import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.User;
@@ -105,6 +107,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private final String host;
   private final String clientId;
   private final String encodedAuthenticationString;
+  private final Map<RateLimitInterval, RateLimit> rateLimits;
   private final Gson gson;
   private Token token;
 
@@ -112,6 +115,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
     this.host = requireNonNull(host, "The host must not be null.");
     this.clientId = requireNonNull(clientId, "The clientId must not be null.");
     this.encodedAuthenticationString = encodeAuthenticationString(clientId, passphrase);
+    this.rateLimits = new HashMap<>();
     final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
     builder.registerTypeAdapter(MangopayUnauthorizedException.class, new MangopayUnauthorizedExceptionDeserializer());
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());
@@ -120,6 +124,17 @@ public class DefaultMangopayConnection implements MangopayConnection {
     builder.registerTypeAdapter(YearMonth.class, new YearMonthAdapter());
     builder.registerTypeAdapter(IncomeRange.class, new IncomeRangeAdapter());
     this.gson = builder.create();
+  }
+
+  @Override
+  public RateLimit getRateLimit(final RateLimitInterval interval) {
+    final RateLimit limit = rateLimits.get(interval);
+    if (limit == null) {
+      request(HttpMethod.GET, "/clients", new String[] {}, emptyMap(), null, false);
+      return rateLimits.get(interval);
+    } else {
+      return limit;
+    }
   }
 
   @Override
@@ -172,6 +187,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
         }
       }
       final int responseCode = connection.getResponseCode();
+      parseRateLimits(rateLimits, connection.getHeaderFields());
 
       LOG.debug("Response code: {}", responseCode);
       switch (responseCode) {
@@ -341,5 +357,20 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   static String encodeAuthenticationString(final String clientId, final String passphrase) {
     return Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(ISO_8859_1));
+  }
+
+  static void parseRateLimits(final Map<RateLimitInterval, RateLimit> limits, final Map<String, List<String>> headers) {
+    final int numberOfIntervals = RateLimitInterval.values().length;
+    final List<String> madeList = headers.getOrDefault("X-RateLimit", emptyList());
+    final List<String> remainingList = headers.getOrDefault("X-RateLimit-Remaining", emptyList());
+    final List<String> resetList = headers.getOrDefault("X-RateLimit-Reset", emptyList());
+    if (resetList.size() >= numberOfIntervals && remainingList.size() >= numberOfIntervals && madeList.size() >= numberOfIntervals) {
+      for (final RateLimitInterval interval : RateLimitInterval.values()) {
+        final Integer callsMade = Integer.valueOf(madeList.get(numberOfIntervals - 1 - interval.ordinal()));
+        final Integer callsRemaining = Integer.valueOf(remainingList.get(numberOfIntervals - 1 - interval.ordinal()));
+        final Instant reset = Instant.ofEpochSecond(Long.valueOf(resetList.get(numberOfIntervals - 1 - interval.ordinal())));
+        limits.put(interval, new RateLimit(callsMade, callsRemaining, reset));
+      }
+    }
   }
 }

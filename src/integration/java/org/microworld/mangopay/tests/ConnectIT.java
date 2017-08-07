@@ -15,11 +15,22 @@
  */
 package org.microworld.mangopay.tests;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.microworld.mangopay.TestEnvironment.SANDBOX_CLIENT_ID;
 import static org.microworld.mangopay.TestEnvironment.SANDBOX_HOST;
+import static org.microworld.mangopay.TestEnvironment.SANDBOX_PASSPHRASE;
+import static org.microworld.mangopay.entities.RateLimitInterval._15_MINUTES;
+import static org.microworld.mangopay.entities.RateLimitInterval._1_DAY;
+import static org.microworld.mangopay.entities.RateLimitInterval._1_HOUR;
+import static org.microworld.mangopay.entities.RateLimitInterval._30_MINUTES;
 
 import org.junit.Test;
 import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.RateLimit;
 import org.microworld.mangopay.exceptions.MangopayUnauthorizedException;
 
 import io.codearte.jfairy.producer.person.Person;
@@ -32,5 +43,22 @@ public class ConnectIT extends AbstractIntegrationTest {
     thrown.expectMessage("invalid_client: (no error description)");
     final MangopayConnection connection = MangopayConnection.createDefault(SANDBOX_HOST, client.getUsername(), client.getPassword());
     MangopayClient.createDefault(connection).getUserService().get("42");
+  }
+
+  @Test
+  public void connectedClientProvidesRateLimitInformation() {
+    final MangopayConnection connection = MangopayConnection.createDefault(SANDBOX_HOST, SANDBOX_CLIENT_ID, SANDBOX_PASSPHRASE);
+    assertThat(connection.getRateLimit(_15_MINUTES), is(notNullValue()));
+    assertThat(connection.getRateLimit(_30_MINUTES), is(notNullValue()));
+    assertThat(connection.getRateLimit(_1_HOUR), is(notNullValue()));
+    assertThat(connection.getRateLimit(_1_DAY), is(notNullValue()));
+
+    assertThat(total(connection.getRateLimit(_15_MINUTES)), is(lessThan(total(connection.getRateLimit(_30_MINUTES)))));
+    assertThat(total(connection.getRateLimit(_30_MINUTES)), is(lessThan(total(connection.getRateLimit(_1_HOUR)))));
+    assertThat(total(connection.getRateLimit(_1_HOUR)), is(lessThan(total(connection.getRateLimit(_1_DAY)))));
+  }
+
+  private int total(final RateLimit rateLimit) {
+    return rateLimit.getCallsMade() + rateLimit.getCallsRemaining();
   }
 }
