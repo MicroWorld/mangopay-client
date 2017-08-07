@@ -111,7 +111,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
   public DefaultMangopayConnection(final String host, final String clientId, final String passphrase) {
     this.host = requireNonNull(host, "The host must not be null.");
     this.clientId = requireNonNull(clientId, "The clientId must not be null.");
-    this.encodedAuthenticationString = Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(ISO_8859_1));
+    this.encodedAuthenticationString = encodeAuthenticationString(clientId, passphrase);
     final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
     builder.registerTypeAdapter(MangopayUnauthorizedException.class, new MangopayUnauthorizedExceptionDeserializer());
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());
@@ -337,5 +337,9 @@ public class DefaultMangopayConnection implements MangopayConnection {
       default:
         return gson.fromJson(object, NaturalUser.class);
     }
+  }
+
+  static String encodeAuthenticationString(final String clientId, final String passphrase) {
+    return Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(ISO_8859_1));
   }
 }
