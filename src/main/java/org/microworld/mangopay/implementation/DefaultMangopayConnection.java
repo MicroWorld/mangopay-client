@@ -127,6 +127,11 @@ public class DefaultMangopayConnection implements MangopayConnection {
   }
 
   @Override
+  public String getClientId() {
+    return this.clientId;
+  }
+
+  @Override
   public RateLimit getRateLimit(final RateLimitInterval interval) {
     final RateLimit limit = rateLimits.get(interval);
     if (limit == null) {

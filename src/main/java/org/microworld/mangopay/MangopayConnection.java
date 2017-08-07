@@ -30,6 +30,8 @@ public interface MangopayConnection {
     return new DefaultMangopayConnection(host, clientId, passphrase);
   }
 
+  String getClientId();
+
   <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, Filter filter, Sort sort, Page page, String... pathParameters);
 
   <T> T queryForObject(final Class<T> type, final HttpMethod method, final String path, final Object data, String... pathParameters);
