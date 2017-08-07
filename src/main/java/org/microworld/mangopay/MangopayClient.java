@@ -32,6 +32,8 @@ public interface MangopayClient {
     return new DefaultMangopayClient(connection);
   }
 
+  MangopayConnection getConnection();
+
   BankAccountService getBankAccountService();
 
   CardRegistrationService getCardRegistrationService();

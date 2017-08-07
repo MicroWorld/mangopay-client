@@ -46,6 +46,11 @@ public class DefaultMangopayClient implements MangopayClient {
   }
 
   @Override
+  public MangopayConnection getConnection() {
+    return connection;
+  }
+
+  @Override
   public BankAccountService getBankAccountService() {
     return new DefaultBankAccountService(connection);
   }
