@@ -16,14 +16,14 @@
 package org.microworld.mangopay;
 
 public class TestEnvironment {
+  public static final String SANDBOX_PASSPHRASE = "cqFfFrWfCcb7UadHNxx2C9Lo6Djw8ZduLi7J9USTmu8bhxxpju";
+  public static final String SANDBOX_CLIENT_ID = "sdk-unit-tests";
+  public static final String SANDBOX_HOST = "api.sandbox.mangopay.com";
   private static TestEnvironment testEnvironment;
   private final MangopayConnection connection;
 
   private TestEnvironment() {
-    final String host = "api.sandbox.mangopay.com";
-    final String clientId = "sdk-unit-tests";
-    final String passphrase = "cqFfFrWfCcb7UadHNxx2C9Lo6Djw8ZduLi7J9USTmu8bhxxpju";
-    connection = MangopayConnection.createDefault(host, clientId, passphrase);
+    connection = MangopayConnection.createDefault(SANDBOX_HOST, SANDBOX_CLIENT_ID, SANDBOX_PASSPHRASE);
   }
 
   public static TestEnvironment getInstance() {

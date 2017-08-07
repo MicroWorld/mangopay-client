@@ -15,6 +15,8 @@
  */
 package org.microworld.mangopay.tests;
 
+import static org.microworld.mangopay.TestEnvironment.SANDBOX_HOST;
+
 import org.junit.Test;
 import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
@@ -28,7 +30,7 @@ public class ConnectIT extends AbstractIntegrationTest {
     final Person client = fairy.person();
     thrown.expect(MangopayUnauthorizedException.class);
     thrown.expectMessage("invalid_client: (no error description)");
-    final MangopayConnection connection = MangopayConnection.createDefault("api.sandbox.mangopay.com", client.getUsername(), client.getPassword());
+    final MangopayConnection connection = MangopayConnection.createDefault(SANDBOX_HOST, client.getUsername(), client.getPassword());
     MangopayClient.createDefault(connection).getUserService().get("42");
   }
 }
