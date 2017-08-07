@@ -15,7 +15,13 @@
  */
 package org.microworld.mangopay.implementation;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
 import static org.microworld.mangopay.misc.Reflections.setFieldValue;
 
 import java.io.BufferedReader;
@@ -28,20 +34,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -108,7 +111,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
   public DefaultMangopayConnection(final String host, final String clientId, final String passphrase) {
     this.host = requireNonNull(host, "The host must not be null.");
     this.clientId = requireNonNull(clientId, "The clientId must not be null.");
-    this.encodedAuthenticationString = Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(StandardCharsets.ISO_8859_1));
+    this.encodedAuthenticationString = Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(ISO_8859_1));
     final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
     builder.registerTypeAdapter(MangopayUnauthorizedException.class, new MangopayUnauthorizedExceptionDeserializer());
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());
@@ -129,12 +132,12 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   @Override
   public <T> T queryForObject(final Class<T> type, final HttpMethod method, final String path, final Object data, final String... pathParameters) {
-    return convert(new JsonParser().parse(request(method, path, pathParameters, Collections.emptyMap(), data, false)), type);
+    return convert(new JsonParser().parse(request(method, path, pathParameters, emptyMap(), data, false)), type);
   }
 
   @Override
   public void query(final HttpMethod method, final String path, final Object data, final String... pathParameters) {
-    request(method, path, pathParameters, Collections.emptyMap(), data, false);
+    request(method, path, pathParameters, emptyMap(), data, false);
   }
 
   private String request(final HttpMethod method, final String path, final String[] pathParameters, final Map<String, String> query, final Object data, final boolean isAuthorizationRequest) {
@@ -161,7 +164,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
       LOG.debug("Request: {} {}", connection.getRequestMethod(), url);
       if (data != null) {
-        try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8)) {
+        try (OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {
           final String json = data instanceof String ? (String) data : toJson(data);
           LOG.debug("Request data: {}", json);
           output.write(json);
@@ -199,13 +202,13 @@ public class DefaultMangopayConnection implements MangopayConnection {
     if (token == null || token.isExpired()) {
       final Map<String, String> data = new HashMap<>();
       data.put("grant_type", "client_credentials");
-      token = gson.fromJson(request(HttpMethod.POST, "/oauth/token", new String[] {}, Collections.emptyMap(), data, true), Token.class);
+      token = gson.fromJson(request(HttpMethod.POST, "/oauth/token", new String[] {}, emptyMap(), data, true), Token.class);
     }
     return token;
   }
 
   private Map<String, String> toQuery(final ParameterHolder... holders) {
-    return Stream.of(holders).filter(Objects::nonNull).map(ParameterHolder::getParameters).map(Map::entrySet).flatMap(Collection::stream).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    return Stream.of(holders).filter(Objects::nonNull).map(ParameterHolder::getParameters).map(Map::entrySet).flatMap(Collection::stream).collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private URL createUrl(final boolean isAuthorizationRequest, final String path, final String[] pathParameters, final Map<String, String> query) throws MalformedURLException {
@@ -222,7 +225,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
     }
     url.append(parsedPath);
 
-    final String queryString = query.entrySet().stream().map(DefaultMangopayConnection::toNameValue).collect(Collectors.joining("&"));
+    final String queryString = query.entrySet().stream().map(DefaultMangopayConnection::toNameValue).collect(joining("&"));
     if (!query.isEmpty()) {
       url.append("?").append(queryString);
     }
@@ -231,7 +234,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   private static String toNameValue(final Entry<String, String> entry) {
     try {
-      return URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8.name()) + "=" + URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8.name());
+      return URLEncoder.encode(entry.getKey(), UTF_8.name()) + "=" + URLEncoder.encode(entry.getValue(), UTF_8.name());
     } catch (final UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
@@ -239,7 +242,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   private String getContent(final InputStream inputStream) throws IOException {
     final StringBuilder content = new StringBuilder();
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, UTF_8))) {
       String line = null;
       while ((line = reader.readLine()) != null) {
         content.append(line).append('\n');
