@@ -16,5 +16,16 @@
 package org.microworld.mangopay.entities;
 
 public enum RateLimitInterval {
-  _15_MINUTES, _30_MINUTES, _1_HOUR, _1_DAY;
+  _15_MINUTES("00:15"), _30_MINUTES("00:30"), _1_HOUR("01:00"), _1_DAY("24:00");
+
+  private final String description;
+
+  private RateLimitInterval(final String description) {
+    this.description = description;
+  }
+
+  @Override
+  public String toString() {
+    return description;
+  }
 }
