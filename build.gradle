@@ -1,0 +1,117 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'de.thetaphi:forbiddenapis:2.3'
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'jacoco'
+    id 'pmd'
+    id 'findbugs'
+    id 'maven'
+    id 'com.github.hierynomus.license' version '0.14.0'
+    id 'com.simonharrer.modernizer' version '1.5.0-1'
+    id "de.aaschmid.cpd" version "1.0"
+    id 'net.researchgate.release' version '2.6.0'
+}
+
+// Old style plugin
+// https://github.com/policeman-tools/forbidden-apis/wiki/GradleUsage
+apply plugin: 'de.thetaphi.forbiddenapis'
+
+group = 'org.microworld'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    integration {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+    }
+}
+
+configurations {
+    integrationCompile.extendsFrom testCompile
+    integrationRuntime.extendsFrom testRuntime
+    deployerJars
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.apache.commons:commons-lang3:3.6'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    testCompile 'ch.qos.logback:logback-classic:1.2.3'
+
+    integrationCompile 'io.codearte.jfairy:jfairy:0.5.7'
+
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:2.12'
+}
+
+repositories {
+    mavenCentral()
+}
+
+task integration(type: Test) {
+    testClassesDirs = sourceSets.integration.output.classesDirs
+    classpath = sourceSets.integration.runtimeClasspath
+    mustRunAfter test
+}
+
+check.dependsOn integration
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.setDebug true
+    options.setDeprecation true
+    options.setWarnings true
+}
+
+license {
+    header = file('LICENSE-HEADER.txt')
+    exclude('**/*.pdf')
+}
+
+forbiddenApis {
+    failOnUnsupportedJava = false
+    bundledSignatures = [ 'jdk-unsafe', 'jdk-deprecated', 'jdk-system-out', 'jdk-non-portable' ]
+}
+
+jacoco {
+    toolVersion = '0.7.9'
+}
+
+findbugs {
+    ignoreFailures = true
+    effort = 'max'
+    reportLevel = 'low'
+}
+
+cpdCheck {
+    ignoreFailures = true
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            configuration = configurations.deployerJars
+            repository(url: 'sftp://git@scm.microworld.org/home/git/maven/release')
+            snapshotRepository(url: 'sftp://git@scm.microworld.org/home/git/maven/snapshot')
+        }
+    }
+}
+
+release {
+    buildTasks = ['assemble']
+    tagTemplate = '$name-$version'
+    git {
+        requireBranch = 'master'
+    }
+}
