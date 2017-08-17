@@ -44,14 +44,14 @@ stage('Checks') {
         node {
             checkout scm
             unstash 'build'
-            sh './gradlew pmdMain pmdTest pmdFunctionalTest'
+            sh './gradlew pmdMain pmdTest pmdIntegration'
             step([$class: 'PmdPublisher', canRunOnFailed: true, pattern: 'build/reports/pmd/*.xml'])
         }
     }, findbugs: {
         node {
             checkout scm
             unstash 'build'
-            sh './gradlew findbugsMain findbugsTest findbugsFunctionalTest'
+            sh './gradlew findbugsMain findbugsTest findbugsIntegration'
             step([$class: 'FindBugsPublisher', canRunOnFailed: true, pattern: 'build/reports/findbugs/*.xml'])
         }
     }, jacoco: {
