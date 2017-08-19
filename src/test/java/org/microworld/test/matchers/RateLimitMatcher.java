@@ -42,6 +42,9 @@ public class RateLimitMatcher extends TypeSafeDiagnosingMatcher<RateLimit> {
   }
 
   private boolean isEqualTo(final RateLimit actual) {
+    if (!IsEqual.equalTo(rateLimit.getInterval()).matches(actual.getInterval())) {
+      return false;
+    }
     if (!IsEqual.equalTo(rateLimit.getCallsMade()).matches(actual.getCallsMade())) {
       return false;
     }

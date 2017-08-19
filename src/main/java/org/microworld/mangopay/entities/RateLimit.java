@@ -17,15 +17,40 @@ package org.microworld.mangopay.entities;
 
 import java.time.Instant;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class RateLimit {
   private final int callsMade;
   private final int callsRemaining;
   private final Instant reset;
+  private final RateLimitInterval interval;
 
-  public RateLimit(final int callsMade, final int callsRemaining, final Instant reset) {
+  public RateLimit(final RateLimitInterval interval, final int callsMade, final int callsRemaining, final Instant reset) {
+    this.interval = interval;
     this.callsMade = callsMade;
     this.callsRemaining = callsRemaining;
     this.reset = reset;
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
+  }
+
+  public RateLimitInterval getInterval() {
+    return interval;
   }
 
   public int getCallsMade() {

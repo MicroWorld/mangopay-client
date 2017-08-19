@@ -374,7 +374,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
         final Integer callsMade = Integer.valueOf(madeList.get(numberOfIntervals - 1 - interval.ordinal()));
         final Integer callsRemaining = Integer.valueOf(remainingList.get(numberOfIntervals - 1 - interval.ordinal()));
         final Instant reset = Instant.ofEpochSecond(Long.parseLong(resetList.get(numberOfIntervals - 1 - interval.ordinal())));
-        limits.put(interval, new RateLimit(callsMade, callsRemaining, reset));
+        limits.put(interval, new RateLimit(interval, callsMade, callsRemaining, reset));
       }
     }
   }

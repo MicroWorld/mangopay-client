@@ -78,10 +78,10 @@ public class DefaultMangopayConnectionTest {
 
     DefaultMangopayConnection.parseRateLimits(limits, headers);
 
-    assertThat(limits, hasEntry(equalTo(_15_MINUTES), rateLimit(1, 10, ofEpochSecond(1500000000))));
-    assertThat(limits, hasEntry(equalTo(_30_MINUTES), rateLimit(2, 20, ofEpochSecond(1500001800))));
-    assertThat(limits, hasEntry(equalTo(_1_HOUR), rateLimit(3, 30, ofEpochSecond(1500003600))));
-    assertThat(limits, hasEntry(equalTo(_1_DAY), rateLimit(4, 40, ofEpochSecond(1500086400))));
+    assertThat(limits, hasEntry(equalTo(_15_MINUTES), rateLimit(_15_MINUTES, 1, 10, ofEpochSecond(1500000000))));
+    assertThat(limits, hasEntry(equalTo(_30_MINUTES), rateLimit(_30_MINUTES, 2, 20, ofEpochSecond(1500001800))));
+    assertThat(limits, hasEntry(equalTo(_1_HOUR), rateLimit(_1_HOUR, 3, 30, ofEpochSecond(1500003600))));
+    assertThat(limits, hasEntry(equalTo(_1_DAY), rateLimit(_1_DAY, 4, 40, ofEpochSecond(1500086400))));
   }
 
   @Test
