@@ -24,6 +24,7 @@ import org.microworld.mangopay.implementation.services.DefaultHookService;
 import org.microworld.mangopay.implementation.services.DefaultKycService;
 import org.microworld.mangopay.implementation.services.DefaultPayInService;
 import org.microworld.mangopay.implementation.services.DefaultPayOutService;
+import org.microworld.mangopay.implementation.services.DefaultRefundService;
 import org.microworld.mangopay.implementation.services.DefaultTransferService;
 import org.microworld.mangopay.implementation.services.DefaultUserService;
 import org.microworld.mangopay.implementation.services.DefaultWalletService;
@@ -34,6 +35,7 @@ import org.microworld.mangopay.services.HookService;
 import org.microworld.mangopay.services.KycService;
 import org.microworld.mangopay.services.PayInService;
 import org.microworld.mangopay.services.PayOutService;
+import org.microworld.mangopay.services.RefundService;
 import org.microworld.mangopay.services.TransferService;
 import org.microworld.mangopay.services.UserService;
 import org.microworld.mangopay.services.WalletService;
@@ -83,6 +85,11 @@ public class DefaultMangopayClient implements MangopayClient {
   @Override
   public PayOutService getPayOutService() {
     return new DefaultPayOutService(connection);
+  }
+
+  @Override
+  public RefundService getRefundService() {
+    return new DefaultRefundService(connection);
   }
 
   @Override

@@ -8,9 +8,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class RefundReason {
   @SerializedName("RefundReasonType")
-  private RefundReasonType type;
+  private final RefundReasonType type;
   @SerializedName("RefundReasonMessage")
-  private String message;
+  private final String message;
+
+  public RefundReason(final RefundReasonType type, final String message) {
+    this.type = type;
+    this.message = message;
+  }
 
   @Override
   public String toString() {
