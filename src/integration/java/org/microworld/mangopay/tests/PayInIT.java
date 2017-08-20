@@ -57,11 +57,11 @@ public class PayInIT extends AbstractIntegrationTest {
     final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
 
-    final BankWirePayIn createdBankWirePayIn = client.getPayInService().createBankWirePayIn(new BankWirePayIn(user.getId(), user.getId(), wallet.getId(), EUR, 1337, 5, null));
-    assertThat(createdBankWirePayIn, is(bankWirePayIn(user.getId(), user.getId(), wallet.getId(), EUR, 1337, 5, null, TransactionStatus.CREATED, Instant.now())));
+    final BankWirePayIn createdPayIn = client.getPayInService().createBankWirePayIn(new BankWirePayIn(user.getId(), user.getId(), wallet.getId(), EUR, 1337, 5, null));
+    assertThat(createdPayIn, is(bankWirePayIn(user.getId(), user.getId(), wallet.getId(), EUR, 1337, 5, null, TransactionStatus.CREATED, Instant.now())));
 
-    final BankWirePayIn fetchedBankWirePayIn = (BankWirePayIn) client.getPayInService().getPayIn(createdBankWirePayIn.getId());
-    assertThat(fetchedBankWirePayIn, is(equalTo(createdBankWirePayIn)));
+    final BankWirePayIn fetchedPayIn = (BankWirePayIn) client.getPayInService().getPayIn(createdPayIn.getId());
+    assertThat(fetchedPayIn, is(equalTo(createdPayIn)));
   }
 
   @Test
@@ -70,11 +70,11 @@ public class PayInIT extends AbstractIntegrationTest {
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
     final String cardId = registerCard(user, EUR, "4970100000000154", "1218", "123").getCardId();
 
-    final DirectCardPayIn createdDirectCardPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
-    assertThat(createdDirectCardPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, SecureMode.DEFAULT, null, null, TransactionStatus.SUCCEEDED, null, Instant.now(), Instant.now(), "000000", "Success")));
+    final DirectCardPayIn createdPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
+    assertThat(createdPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, SecureMode.DEFAULT, null, null, TransactionStatus.SUCCEEDED, null, Instant.now(), Instant.now(), "000000", "Success")));
 
-    final DirectCardPayIn fetchedDirectCardPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdDirectCardPayIn.getId());
-    assertThat(fetchedDirectCardPayIn, is(equalTo(createdDirectCardPayIn)));
+    final DirectCardPayIn fetchedPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdPayIn.getId());
+    assertThat(fetchedPayIn, is(equalTo(createdPayIn)));
   }
 
   @Test
@@ -82,11 +82,11 @@ public class PayInIT extends AbstractIntegrationTest {
     final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
 
-    final WebCardPayIn createdWebCardPayIn = client.getPayInService().createWebCardPayIn(new WebCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, "https://my.site.com", null, SecureMode.DEFAULT, null));
-    assertThat(createdWebCardPayIn, is(webCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, SecureMode.DEFAULT, "https://my.site.com/?transactionId=" + createdWebCardPayIn.getId(), TransactionStatus.CREATED, null, Instant.now(), null, null)));
+    final WebCardPayIn createdPayIn = client.getPayInService().createWebCardPayIn(new WebCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, "https://my.site.com", null, SecureMode.DEFAULT, null));
+    assertThat(createdPayIn, is(webCardPayIn(user.getId(), user.getId(), wallet.getId(), CardType.CB_VISA_MASTERCARD, EUR, 4200, 0, CultureCode.FR, null, SecureMode.DEFAULT, "https://my.site.com/?transactionId=" + createdPayIn.getId(), TransactionStatus.CREATED, null, Instant.now(), null, null)));
 
-    final WebCardPayIn fetchedWebCardPayIn = (WebCardPayIn) client.getPayInService().getPayIn(createdWebCardPayIn.getId());
-    assertThat(fetchedWebCardPayIn, is(equalTo(createdWebCardPayIn)));
+    final WebCardPayIn fetchedPayIn = (WebCardPayIn) client.getPayInService().getPayIn(createdPayIn.getId());
+    assertThat(fetchedPayIn, is(equalTo(createdPayIn)));
   }
 
   @Test
