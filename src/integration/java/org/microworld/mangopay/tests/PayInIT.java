@@ -32,6 +32,7 @@ import java.time.Instant;
 import java.util.Currency;
 
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.Amount;
@@ -40,6 +41,7 @@ import org.microworld.mangopay.entities.CardType;
 import org.microworld.mangopay.entities.CultureCode;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.ExecutionType;
+import org.microworld.mangopay.entities.PayInRefundParameters;
 import org.microworld.mangopay.entities.PayInType;
 import org.microworld.mangopay.entities.SecureMode;
 import org.microworld.mangopay.entities.TransactionNature;
@@ -75,6 +77,10 @@ public class PayInIT extends AbstractIntegrationTest {
 
     final DirectCardPayIn fetchedPayIn = (DirectCardPayIn) client.getPayInService().getPayIn(createdPayIn.getId());
     assertThat(fetchedPayIn, is(equalTo(createdPayIn)));
+
+    assertThat(client.getWalletService().get(wallet.getId()).getBalance().getCents(), is(equalTo(4200)));
+    client.getPayInService().refund(createdPayIn.getId(), new PayInRefundParameters(user.getId(), null, null, null));
+    assertThat(client.getWalletService().get(wallet.getId()).getBalance().getCents(), is(equalTo(0)));
   }
 
   @Test
@@ -101,6 +107,15 @@ public class PayInIT extends AbstractIntegrationTest {
   public void getPayInWithNullId() {
     thrown.expect(NullPointerException.class);
     client.getPayInService().getPayIn(null);
+  }
+
+  @Test
+  @Ignore
+  public void refundPayInWithInvalidId() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource Transfer with the id=10");
+    client.getPayInService().refund("10", new PayInRefundParameters("11", null, null, null));
   }
 
   private Matcher<BankWirePayIn> bankWirePayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int declaredDebitedAmount, final int declaredFeesAmount, final String tag, final TransactionStatus status, final Instant creationDate) {

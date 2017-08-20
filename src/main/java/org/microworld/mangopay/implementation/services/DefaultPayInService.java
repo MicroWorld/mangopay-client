@@ -19,6 +19,8 @@ import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.BankWirePayIn;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.PayIn;
+import org.microworld.mangopay.entities.PayInRefundParameters;
+import org.microworld.mangopay.entities.Refund;
 import org.microworld.mangopay.entities.WebCardPayIn;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.PayInService;
@@ -48,5 +50,10 @@ public class DefaultPayInService implements PayInService {
   @Override
   public WebCardPayIn createWebCardPayIn(final WebCardPayIn webCardPayIn) {
     return connection.queryForObject(WebCardPayIn.class, HttpMethod.POST, "/payins/card/web", webCardPayIn);
+  }
+
+  @Override
+  public Refund refund(final String id, final PayInRefundParameters parameters) {
+    return connection.queryForObject(Refund.class, HttpMethod.POST, "/payins/{0}/refunds", parameters, id);
   }
 }
