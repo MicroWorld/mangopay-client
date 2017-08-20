@@ -16,7 +16,9 @@
 package org.microworld.mangopay.implementation.services;
 
 import org.microworld.mangopay.MangopayConnection;
+import org.microworld.mangopay.entities.Refund;
 import org.microworld.mangopay.entities.Transfer;
+import org.microworld.mangopay.entities.TransferRefundParameters;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.TransferService;
 
@@ -35,5 +37,10 @@ public class DefaultTransferService implements TransferService {
   @Override
   public Transfer get(final String id) {
     return connection.queryForObject(Transfer.class, HttpMethod.GET, "/transfers/{0}", null, id);
+  }
+
+  @Override
+  public Refund refund(final String id, final String authorId, final String tag) {
+    return connection.queryForObject(Refund.class, HttpMethod.POST, "/transfers/{0}/refunds", new TransferRefundParameters(authorId, tag), id);
   }
 }
