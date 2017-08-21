@@ -15,23 +15,21 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.time.Instant;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class RateLimit {
-  private final int callsMade;
-  private final int callsRemaining;
-  private final Instant reset;
-  private final RateLimitInterval interval;
+import com.google.gson.annotations.SerializedName;
 
-  public RateLimit(final RateLimitInterval interval, final int callsMade, final int callsRemaining, final Instant reset) {
-    this.interval = interval;
-    this.callsMade = callsMade;
-    this.callsRemaining = callsRemaining;
-    this.reset = reset;
+public class RefundReason {
+  @SerializedName("RefundReasonType")
+  private final RefundReasonType type;
+  @SerializedName("RefundReasonMessage")
+  private final String message;
+
+  public RefundReason(final RefundReasonType type, final String message) {
+    this.type = type;
+    this.message = message;
   }
 
   @Override
@@ -49,19 +47,11 @@ public class RateLimit {
     return EqualsBuilder.reflectionEquals(this, obj);
   }
 
-  public RateLimitInterval getInterval() {
-    return interval;
+  public RefundReasonType getType() {
+    return type;
   }
 
-  public int getCallsMade() {
-    return callsMade;
-  }
-
-  public int getCallsRemaining() {
-    return callsRemaining;
-  }
-
-  public Instant getReset() {
-    return reset;
+  public String getMessage() {
+    return message;
   }
 }

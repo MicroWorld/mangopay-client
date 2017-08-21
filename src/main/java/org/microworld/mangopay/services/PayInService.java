@@ -18,6 +18,8 @@ package org.microworld.mangopay.services;
 import org.microworld.mangopay.entities.BankWirePayIn;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.PayIn;
+import org.microworld.mangopay.entities.PayInRefundParameters;
+import org.microworld.mangopay.entities.Refund;
 import org.microworld.mangopay.entities.WebCardPayIn;
 
 public interface PayInService {
@@ -28,4 +30,6 @@ public interface PayInService {
   DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
 
   WebCardPayIn createWebCardPayIn(WebCardPayIn webCardPayIn);
+
+  Refund refund(String id, PayInRefundParameters parameters);
 }

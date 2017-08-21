@@ -13,30 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.microworld.mangopay.entities;
+package org.microworld.mangopay.services;
 
-import java.time.Duration;
+import org.microworld.mangopay.entities.Refund;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-
-public enum RateLimitInterval {
-  _15_MINUTES(Duration.ofMinutes(15)),
-  _30_MINUTES(Duration.ofMinutes(30)),
-  _1_HOUR(Duration.ofHours(1)),
-  _1_DAY(Duration.ofDays(1));
-
-  private final Duration duration;
-
-  private RateLimitInterval(final Duration duration) {
-    this.duration = duration;
-  }
-
-  @Override
-  public String toString() {
-    return DurationFormatUtils.formatDuration(duration.toMillis(), "HH:mm");
-  }
-
-  public Duration getDuration() {
-    return this.duration;
-  }
+public interface RefundService {
+  Refund get(String id);
 }

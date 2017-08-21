@@ -42,23 +42,43 @@ import org.microworld.mangopay.exceptions.MangopayException;
 
 public class TransferIT extends AbstractIntegrationTest {
   @Test
-  public void createAndGetTransfer() throws MalformedURLException, IOException {
-    final User debitedUser = getUserWithMoney(4000, EUR);
+  public void createAndGetAndRefundTransferWithNoFees() throws MalformedURLException, IOException {
+    final User debitedUser = getUserWithMoney(2000, EUR);
     final Wallet debitedWallet = client.getUserService().getWallets(debitedUser.getId(), null, null).get(0);
     final User creditedUser = client.getUserService().create(randomNaturalUser());
     final Wallet creditedWallet = client.getWalletService().create(new Wallet(creditedUser.getId(), EUR, "Wallet to be credited", null));
 
-    final Transfer transferWithNoFees = client.getTransferService().create(new Transfer(debitedUser.getId(), debitedWallet.getId(), creditedWallet.getId(), EUR, 2000, 0, null));
-    assertThat(transferWithNoFees, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 2000, 0, SUCCEEDED, "000000", "Success", null, Instant.now())));
-    final Transfer fetchedTransferWithNoFees = client.getTransferService().get(transferWithNoFees.getId());
-    assertThat(fetchedTransferWithNoFees, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 2000, 0, SUCCEEDED, "000000", "Success", null, Instant.now())));
-    assertThat(fetchedTransferWithNoFees.getId(), is(equalTo(transferWithNoFees.getId())));
+    final Transfer transfer = client.getTransferService().create(new Transfer(debitedUser.getId(), debitedWallet.getId(), creditedWallet.getId(), EUR, 2000, 0, null));
+    assertThat(transfer, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 2000, 0, SUCCEEDED, "000000", "Success", null, Instant.now())));
+    final Transfer fetchedTransfer = client.getTransferService().get(transfer.getId());
+    assertThat(fetchedTransfer, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 2000, 0, SUCCEEDED, "000000", "Success", null, Instant.now())));
+    assertThat(fetchedTransfer.getId(), is(equalTo(transfer.getId())));
 
-    final Transfer transferWithFees = client.getTransferService().create(new Transfer(debitedUser.getId(), debitedWallet.getId(), creditedWallet.getId(), EUR, 1000, 500, null));
-    assertThat(transferWithFees, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 1000, 500, SUCCEEDED, "000000", "Success", null, Instant.now())));
-    final Transfer fetchedTransferWithFees = client.getTransferService().get(transferWithFees.getId());
-    assertThat(fetchedTransferWithFees, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 1000, 500, SUCCEEDED, "000000", "Success", null, Instant.now())));
-    assertThat(fetchedTransferWithFees.getId(), is(equalTo(transferWithFees.getId())));
+    assertThat(client.getWalletService().get(debitedWallet.getId()).getBalance().getCents(), is(equalTo(0)));
+    assertThat(client.getWalletService().get(creditedWallet.getId()).getBalance().getCents(), is(equalTo(2000)));
+    client.getTransferService().refund(transfer.getId(), transfer.getAuthorId(), null);
+    assertThat(client.getWalletService().get(debitedWallet.getId()).getBalance().getCents(), is(equalTo(2000)));
+    assertThat(client.getWalletService().get(creditedWallet.getId()).getBalance().getCents(), is(equalTo(0)));
+  }
+
+  @Test
+  public void createGetAndRefundTransferWithFees() throws MalformedURLException, IOException {
+    final User debitedUser = getUserWithMoney(2000, EUR);
+    final Wallet debitedWallet = client.getUserService().getWallets(debitedUser.getId(), null, null).get(0);
+    final User creditedUser = client.getUserService().create(randomNaturalUser());
+    final Wallet creditedWallet = client.getWalletService().create(new Wallet(creditedUser.getId(), EUR, "Wallet to be credited", null));
+
+    final Transfer transfer = client.getTransferService().create(new Transfer(debitedUser.getId(), debitedWallet.getId(), creditedWallet.getId(), EUR, 1000, 500, null));
+    assertThat(transfer, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 1000, 500, SUCCEEDED, "000000", "Success", null, Instant.now())));
+    final Transfer fetchedTransfer = client.getTransferService().get(transfer.getId());
+    assertThat(fetchedTransfer, is(transfer(debitedUser.getId(), debitedWallet.getId(), creditedUser.getId(), creditedWallet.getId(), EUR, 1000, 500, SUCCEEDED, "000000", "Success", null, Instant.now())));
+    assertThat(fetchedTransfer.getId(), is(equalTo(transfer.getId())));
+
+    assertThat(client.getWalletService().get(debitedWallet.getId()).getBalance().getCents(), is(equalTo(1000)));
+    assertThat(client.getWalletService().get(creditedWallet.getId()).getBalance().getCents(), is(equalTo(500)));
+    client.getTransferService().refund(transfer.getId(), transfer.getAuthorId(), null);
+    assertThat(client.getWalletService().get(debitedWallet.getId()).getBalance().getCents(), is(equalTo(2000)));
+    assertThat(client.getWalletService().get(creditedWallet.getId()).getBalance().getCents(), is(equalTo(0)));
   }
 
   @Test
@@ -94,6 +114,14 @@ public class TransferIT extends AbstractIntegrationTest {
     thrown.expectMessage("currency_not_available: Error: the currency used is not available");
     thrown.expectMessage("currency: The currency XAF is not available or has been disabled");
     client.getTransferService().create(new Transfer("8252994", "8252995", "8253004", XAF, 2000, 0, null));
+  }
+
+  @Test
+  public void refundTransferWithInvalidId() {
+    thrown.expect(MangopayException.class);
+    thrown.expectMessage("ressource_not_found: The ressource does not exist");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource Transfer with the id=10");
+    client.getTransferService().refund("10", "11", null);
   }
 
   private Matcher<Transfer> transfer(final String authorId, final String debitedWalletId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final TransactionStatus status, final String resultCode, final String resultMessage, final String tag, final Instant creationDate) {

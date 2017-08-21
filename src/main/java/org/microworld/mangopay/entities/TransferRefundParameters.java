@@ -15,28 +15,24 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.time.Duration;
+import com.google.gson.annotations.SerializedName;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
+public class TransferRefundParameters {
+  @SerializedName("AuthorId")
+  private final String authorId;
+  @SerializedName("Tag")
+  private final String tag;
 
-public enum RateLimitInterval {
-  _15_MINUTES(Duration.ofMinutes(15)),
-  _30_MINUTES(Duration.ofMinutes(30)),
-  _1_HOUR(Duration.ofHours(1)),
-  _1_DAY(Duration.ofDays(1));
-
-  private final Duration duration;
-
-  private RateLimitInterval(final Duration duration) {
-    this.duration = duration;
+  public TransferRefundParameters(final String authorId, final String tag) {
+    this.authorId = authorId;
+    this.tag = tag;
   }
 
-  @Override
-  public String toString() {
-    return DurationFormatUtils.formatDuration(duration.toMillis(), "HH:mm");
+  public String getAuthorId() {
+    return authorId;
   }
 
-  public Duration getDuration() {
-    return this.duration;
+  public String getTag() {
+    return tag;
   }
 }

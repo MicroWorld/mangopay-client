@@ -15,10 +15,13 @@
  */
 package org.microworld.mangopay.services;
 
+import org.microworld.mangopay.entities.Refund;
 import org.microworld.mangopay.entities.Transfer;
 
 public interface TransferService {
   Transfer create(final Transfer transfer);
 
   Transfer get(String id);
+
+  Refund refund(String id, String authorId, String tag);
 }

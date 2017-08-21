@@ -30,8 +30,13 @@ public class Transfer extends Transaction {
   private final String creditedWalletId;
 
   public Transfer(final String authorId, final String debitedWalletId, final String creditedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final String tag) {
+    this(authorId, debitedWalletId, null, creditedWalletId, currency, debitedAmount, feesAmount, tag);
+  }
+
+  public Transfer(final String authorId, final String debitedWalletId, final String creditedUserId, final String creditedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final String tag) {
     this.authorId = authorId;
     this.debitedWalletId = debitedWalletId;
+    this.creditedUserId = creditedUserId;
     this.creditedWalletId = creditedWalletId;
     this.debitedFunds = new Amount(currency, debitedAmount);
     this.fees = new Amount(currency, feesAmount);
