@@ -70,7 +70,7 @@ public class PayInIT extends AbstractIntegrationTest {
   public void directCardPayIn() throws MalformedURLException, IOException {
     final User user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR wallet", null));
-    final String cardId = registerCard(user, EUR, "4970100000000154", "1218", "123").getCardId();
+    final String cardId = registerCard(user, EUR, "4706750000000017", "1221", "123").getCardId();
 
     final DirectCardPayIn createdPayIn = client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
     assertThat(createdPayIn, is(directCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, EUR, 4200, 0, null, SecureMode.DEFAULT, null, null, TransactionStatus.SUCCEEDED, null, Instant.now(), Instant.now(), "000000", "Success")));
