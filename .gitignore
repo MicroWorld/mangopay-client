@@ -3,6 +3,7 @@
 .idea
 .project
 .settings
+bin
 build
 out
 target
