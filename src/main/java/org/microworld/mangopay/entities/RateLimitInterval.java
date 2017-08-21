@@ -15,17 +15,28 @@
  */
 package org.microworld.mangopay.entities;
 
+import java.time.Duration;
+
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 public enum RateLimitInterval {
-  _15_MINUTES("00:15"), _30_MINUTES("00:30"), _1_HOUR("01:00"), _1_DAY("24:00");
+  _15_MINUTES(Duration.ofMinutes(15)),
+  _30_MINUTES(Duration.ofMinutes(30)),
+  _1_HOUR(Duration.ofHours(1)),
+  _1_DAY(Duration.ofDays(1));
 
-  private final String description;
+  private final Duration duration;
 
-  private RateLimitInterval(final String description) {
-    this.description = description;
+  private RateLimitInterval(final Duration duration) {
+    this.duration = duration;
   }
 
   @Override
   public String toString() {
-    return description;
+    return DurationFormatUtils.formatDuration(duration.toMillis(), "HH:mm");
+  }
+
+  public Duration getDuration() {
+    return this.duration;
   }
 }
