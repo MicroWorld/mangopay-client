@@ -71,9 +71,7 @@ check.dependsOn integration
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    options.setDebug true
     options.setDeprecation true
-    options.setWarnings true
 }
 
 license {
