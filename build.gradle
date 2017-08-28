@@ -61,18 +61,17 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.setDeprecation true
+}
+
 task integration(type: Test) {
     testClassesDirs = sourceSets.integration.output.classesDirs
     classpath = sourceSets.integration.runtimeClasspath
     mustRunAfter test
 }
-
 check.dependsOn integration
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.setDeprecation true
-}
 
 license {
     header = file('LICENSE-HEADER.txt')
@@ -115,3 +114,5 @@ release {
         requireBranch = 'master'
     }
 }
+
+afterReleaseBuild.dependsOn uploadArchives
