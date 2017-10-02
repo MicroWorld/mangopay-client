@@ -44,7 +44,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.apache.commons:commons-lang3:3.6'
 
@@ -52,9 +52,9 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
     testCompile 'ch.qos.logback:logback-classic:1.2.3'
 
-    integrationCompile 'io.codearte.jfairy:jfairy:0.5.7'
+    integrationCompile 'io.codearte.jfairy:jfairy:0.5.8'
 
-    deployerJars 'org.apache.maven.wagon:wagon-ssh:2.12'
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:3.0.0'
 }
 
 repositories {
