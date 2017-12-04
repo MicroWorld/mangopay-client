@@ -110,11 +110,10 @@ public class PayInIT extends AbstractIntegrationTest {
   }
 
   @Test
-  @Ignore
   public void refundPayInWithInvalidId() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("ressource_not_found: The ressource does not exist");
-    thrown.expectMessage("RessourceNotFound: Cannot found the ressource Transfer with the id=10");
+    thrown.expectMessage("RessourceNotFound: Cannot found the ressource PayIn with the id=10");
     client.getPayInService().refund("10", new PayInRefundParameters("11", null, null, null));
   }
 
