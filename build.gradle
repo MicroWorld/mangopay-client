@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'de.thetaphi:forbiddenapis:2.3'
+        classpath 'de.thetaphi:forbiddenapis:2.4.1'
     }
 }
 
@@ -15,7 +15,7 @@ plugins {
     id 'maven'
     id 'com.github.hierynomus.license' version '0.14.0'
     id 'com.simonharrer.modernizer' version '1.5.0-1'
-    id "de.aaschmid.cpd" version "1.0"
+    id 'de.aaschmid.cpd' version '1.0'
     id 'net.researchgate.release' version '2.6.0'
 }
 
@@ -48,13 +48,13 @@ configurations {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'org.apache.commons:commons-lang3:3.7'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     testRuntimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 
-    integrationImplementation 'io.codearte.jfairy:jfairy:0.5.8'
+    integrationImplementation 'io.codearte.jfairy:jfairy:0.5.9'
 
     deployerJars 'org.apache.maven.wagon:wagon-ssh:3.0.0'
 }
