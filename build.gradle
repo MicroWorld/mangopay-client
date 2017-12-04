@@ -39,20 +39,22 @@ configurations {
     compile.transitive = false
     compileClasspath.transitive = false
     integrationCompile.extendsFrom testCompile
+    integrationImplementation.extendsFrom testImplementation
     integrationRuntime.extendsFrom testRuntime
+    integrationRuntimeOnly.extendsFrom testRuntimeOnly
     deployerJars
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'org.slf4j:slf4j-api:1.7.25'
-    compile 'org.apache.commons:commons-lang3:3.6'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.apache.commons:commons-lang3:3.6'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
-    testCompile 'ch.qos.logback:logback-classic:1.2.3'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    testRuntimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 
-    integrationCompile 'io.codearte.jfairy:jfairy:0.5.8'
+    integrationImplementation 'io.codearte.jfairy:jfairy:0.5.8'
 
     deployerJars 'org.apache.maven.wagon:wagon-ssh:3.0.0'
 }
