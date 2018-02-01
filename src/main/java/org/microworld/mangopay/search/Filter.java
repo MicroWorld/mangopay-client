@@ -82,6 +82,6 @@ public class Filter implements ParameterHolder {
   }
 
   public static Filter transactionStatus(final TransactionStatus transactionStatus) {
-    return new Filter("status", transactionStatus.name());
+    return new Filter("Status", transactionStatus.name());
   }
 }

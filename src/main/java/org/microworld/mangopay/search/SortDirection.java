@@ -16,7 +16,7 @@
 package org.microworld.mangopay.search;
 
 public enum SortDirection {
-  ASCENDING("asc"), DESCENDING("desc");
+  ASCENDING("ASC"), DESCENDING("DESC");
 
   private final String value;
 

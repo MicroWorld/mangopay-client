@@ -255,7 +255,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
   private static String toNameValue(final Entry<String, String> entry) {
     try {
-      return URLEncoder.encode(entry.getKey(), UTF_8.name()) + "=" + URLEncoder.encode(entry.getValue(), UTF_8.name());
+      return URLEncoder.encode(entry.getKey(), ISO_8859_1.name()) + "=" + URLEncoder.encode(entry.getValue(), ISO_8859_1.name());
     } catch (final UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }

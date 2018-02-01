@@ -24,8 +24,8 @@ public class Page implements ParameterHolder {
   private final Map<String, String> parameters = new HashMap<>();
 
   private Page(final int pageNumber, final int pageSize) {
-    parameters.put("page", String.valueOf(pageNumber));
-    parameters.put("per_page", String.valueOf(pageSize));
+    parameters.put("Page", String.valueOf(pageNumber));
+    parameters.put("Per_Page", String.valueOf(pageSize));
   }
 
   @Override
