@@ -32,7 +32,6 @@ import java.time.Instant;
 import java.util.Currency;
 
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.Amount;
