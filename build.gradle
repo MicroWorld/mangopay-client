@@ -103,8 +103,8 @@ uploadArchives {
     repositories {
         mavenDeployer {
             configuration = configurations.deployerJars
-            repository(url: 'sftp://git@scm.microworld.org/home/git/maven/release')
-            snapshotRepository(url: 'sftp://git@scm.microworld.org/home/git/maven/snapshot')
+            repository(url: 'sftp://git@scm.abcmicrofinance.net/home/git/maven/release')
+            snapshotRepository(url: 'sftp://git@scm.abcmicrofinance.net/home/git/maven/snapshot')
         }
     }
 }
