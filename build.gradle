@@ -15,9 +15,9 @@ plugins {
     id 'maven'
     id 'idea'
     id 'com.github.hierynomus.license' version '0.14.0'
-    id 'com.simonharrer.modernizer' version '1.5.0-1'
+    id 'com.simonharrer.modernizer' version '1.6.0-1'
     id 'de.aaschmid.cpd' version '1.1'
-    id 'net.researchgate.release' version '2.6.0'
+    id 'net.researchgate.release' version '2.7.0'
 }
 
 // Old style plugin
@@ -47,7 +47,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'org.apache.commons:commons-lang3:3.7'
 
