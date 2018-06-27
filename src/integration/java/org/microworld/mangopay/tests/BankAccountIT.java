@@ -166,4 +166,12 @@ public class BankAccountIT extends AbstractIntegrationTest {
     assertTrue(createdBankAccount.isActive());
     assertFalse(client.getBankAccountService().deactivate(user.getId(), createdBankAccount.getId()).isActive());
   }
+
+  @Test
+  public void deactivatingBankAccountSeveralTimesDoesNotThrowExceptions() {
+    final IbanBankAccount createdBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
+    assertTrue(createdBankAccount.isActive());
+    assertFalse(client.getBankAccountService().deactivate(user.getId(), createdBankAccount.getId()).isActive());
+    assertFalse(client.getBankAccountService().deactivate(user.getId(), createdBankAccount.getId()).isActive());
+  }
 }
