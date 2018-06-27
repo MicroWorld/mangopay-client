@@ -35,6 +35,7 @@ import java.util.Currency;
 import java.util.List;
 
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Amount;
 import org.microworld.mangopay.entities.DirectCardPayIn;
@@ -109,6 +110,7 @@ public class WalletIT extends AbstractIntegrationTest {
   }
 
   @Test
+  @Ignore("MANGOPAY service returns Internal Server Error")
   public void listWalletTransactions() throws MalformedURLException, IOException, InterruptedException {
     final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
