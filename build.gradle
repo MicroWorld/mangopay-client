@@ -53,11 +53,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    testImplementation 'io.codearte.jfairy:jfairy:0.5.9'
     testRuntimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 
-    integrationImplementation 'io.codearte.jfairy:jfairy:0.5.9'
-
-    deployerJars 'org.apache.maven.wagon:wagon-ssh:3.0.0'
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:3.1.0'
 }
 
 repositories {
