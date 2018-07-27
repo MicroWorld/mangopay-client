@@ -110,7 +110,6 @@ public class WalletIT extends AbstractIntegrationTest {
   }
 
   @Test
-  @Ignore("MANGOPAY service returns Internal Server Error")
   public void listWalletTransactions() throws MalformedURLException, IOException, InterruptedException {
     final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
