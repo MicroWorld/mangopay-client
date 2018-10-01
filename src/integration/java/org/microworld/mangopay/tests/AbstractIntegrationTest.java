@@ -53,7 +53,7 @@ import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Person;
 
-public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
   protected static final Currency EUR = Currency.getInstance("EUR");
   protected static final Currency USD = Currency.getInstance("USD");
   protected static final Currency XAF = Currency.getInstance("XAF");
