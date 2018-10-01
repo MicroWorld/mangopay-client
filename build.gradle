@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'de.thetaphi:forbiddenapis:2.5'
+        classpath 'de.thetaphi:forbiddenapis:2.6'
     }
 }
 
@@ -49,14 +49,14 @@ configurations {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     testImplementation 'io.codearte.jfairy:jfairy:0.5.9'
     testRuntimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 
-    deployerJars 'org.apache.maven.wagon:wagon-ssh:3.1.0'
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:3.2.0'
 }
 
 repositories {
@@ -86,7 +86,7 @@ forbiddenApis {
 }
 
 jacoco {
-    toolVersion = '0.8.1'
+    toolVersion = '0.8.2'
 }
 
 findbugs {
