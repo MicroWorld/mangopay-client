@@ -35,6 +35,11 @@ stage('Checks') {
             unstash 'build'
             step([$class: 'WarningsPublisher', canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']]])
         }
+    }, license: {
+        node {
+            checkout scm
+            sh './gradlew licenseMain licenseTest licenseIntegration'
+        }
     }, jacoco: {
         node {
             checkout scm
