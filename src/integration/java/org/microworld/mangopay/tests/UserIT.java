@@ -207,9 +207,9 @@ public class UserIT extends AbstractIntegrationTest {
   @Test
   public void listUserCards() throws MalformedURLException, IOException, InterruptedException {
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
-    final CardRegistration cardRegistration1 = registerCard(user, EUR, "4970100000000154", "1218", "123");
+    final CardRegistration cardRegistration1 = registerCard(user, EUR, "4970100000000154", "1225", "123");
     Thread.sleep(2000);
-    final CardRegistration cardRegistration2 = registerCard(user, USD, "4970100000000155", "1119", "456");
+    final CardRegistration cardRegistration2 = registerCard(user, USD, "4970100000000155", "1126", "456");
 
     final List<Card> cards = client.getUserService().getCards(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     assertThat(cards, hasSize(2));
@@ -247,7 +247,7 @@ public class UserIT extends AbstractIntegrationTest {
   public void listUserTransactions() throws MalformedURLException, IOException, InterruptedException {
     final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
-    final String cardId = registerCard(user1, EUR, "4970100000000154", "1218", "123").getCardId();
+    final String cardId = registerCard(user1, EUR, "4970100000000154", "1225", "123").getCardId();
     final User user2 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
