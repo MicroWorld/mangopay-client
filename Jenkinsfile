@@ -35,27 +35,6 @@ stage('Checks') {
             unstash 'build'
             step([$class: 'WarningsPublisher', canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']]])
         }
-    }, cpd: {
-        node {
-            checkout scm
-            unstash 'build'
-            sh './gradlew cpd'
-            step([$class: 'DryPublisher', canRunOnFailed: true, pattern: 'build/reports/cpd/*.xml'])
-        }
-    }, pmd: {
-        node {
-            checkout scm
-            unstash 'build'
-            sh './gradlew pmdMain pmdTest pmdIntegration'
-            step([$class: 'PmdPublisher', canRunOnFailed: true, pattern: 'build/reports/pmd/*.xml'])
-        }
-    }, findbugs: {
-        node {
-            checkout scm
-            unstash 'build'
-            sh './gradlew findbugsMain findbugsTest findbugsIntegration'
-            step([$class: 'FindBugsPublisher', canRunOnFailed: true, pattern: 'build/reports/findbugs/*.xml'])
-        }
     }, jacoco: {
         node {
             checkout scm
