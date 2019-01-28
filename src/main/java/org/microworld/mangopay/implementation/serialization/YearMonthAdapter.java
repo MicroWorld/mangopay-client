@@ -15,37 +15,36 @@
  */
 package org.microworld.mangopay.implementation.serialization;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import java.lang.reflect.Type;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-
 public class YearMonthAdapter implements JsonSerializer<YearMonth>, JsonDeserializer<YearMonth> {
-  private static final DateTimeFormatter YEAR_MONTH_PATTERN = DateTimeFormatter.ofPattern("MMyy", Locale.ENGLISH);
+    private static final DateTimeFormatter YEAR_MONTH_PATTERN = DateTimeFormatter.ofPattern("MMyy", Locale.ENGLISH);
 
-  @Override
-  public JsonElement serialize(final YearMonth src, final Type typeOfSrc, final JsonSerializationContext context) {
-    return new JsonPrimitive(toYearMonthString(src));
-  }
+    public static String toYearMonthString(final YearMonth yearMonth) {
+        return yearMonth.format(YEAR_MONTH_PATTERN);
+    }
 
-  @Override
-  public YearMonth deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
-    return toYearMonth(json.getAsString());
-  }
+    public static YearMonth toYearMonth(final String yearMonthString) {
+        return YearMonth.parse(yearMonthString, YEAR_MONTH_PATTERN);
+    }
 
-  public static String toYearMonthString(final YearMonth yearMonth) {
-    return yearMonth.format(YEAR_MONTH_PATTERN);
-  }
+    @Override
+    public JsonElement serialize(final YearMonth src, final Type typeOfSrc, final JsonSerializationContext context) {
+        return new JsonPrimitive(toYearMonthString(src));
+    }
 
-  public static YearMonth toYearMonth(final String yearMonthString) {
-    return YearMonth.parse(yearMonthString, YEAR_MONTH_PATTERN);
-  }
+    @Override
+    public YearMonth deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
+        return toYearMonth(json.getAsString());
+    }
 }

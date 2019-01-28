@@ -15,25 +15,24 @@
  */
 package org.microworld.mangopay.implementation.serialization;
 
-import java.lang.reflect.Type;
-import java.time.Instant;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
-  @Override
-  public JsonElement serialize(final Instant src, final Type typeOfSrc, final JsonSerializationContext context) {
-    return new JsonPrimitive(src.getEpochSecond());
-  }
+import java.lang.reflect.Type;
+import java.time.Instant;
 
-  @Override
-  public Instant deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
-    return Instant.ofEpochSecond(json.getAsLong());
-  }
+public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+    @Override
+    public JsonElement serialize(final Instant src, final Type typeOfSrc, final JsonSerializationContext context) {
+        return new JsonPrimitive(src.getEpochSecond());
+    }
+
+    @Override
+    public Instant deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
+        return Instant.ofEpochSecond(json.getAsLong());
+    }
 }

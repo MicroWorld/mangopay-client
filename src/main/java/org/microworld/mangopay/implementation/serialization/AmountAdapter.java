@@ -15,45 +15,43 @@
  */
 package org.microworld.mangopay.implementation.serialization;
 
-import static org.microworld.mangopay.misc.Predicates.not;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import org.microworld.mangopay.entities.Amount;
 
 import java.lang.reflect.Type;
 import java.util.Currency;
 import java.util.Optional;
 
-import org.microworld.mangopay.entities.Amount;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import static org.microworld.mangopay.misc.Predicates.not;
 
 public class AmountAdapter implements JsonSerializer<Amount>, JsonDeserializer<Amount> {
-  private static final Currency NO_CURRENCY = Currency.getInstance("XXX");
-  private final CurrencyAdapter currencyAdapter = new CurrencyAdapter();
+    private static final Currency NO_CURRENCY = Currency.getInstance("XXX");
+    private final CurrencyAdapter currencyAdapter = new CurrencyAdapter();
 
-  @Override
-  public JsonElement serialize(final Amount src, final Type typeOfSrc, final JsonSerializationContext context) {
-    final JsonObject result = new JsonObject();
-    result.add("Currency", currencyAdapter.serialize(src.getCurrency(), null, null));
-    result.add("Amount", new JsonPrimitive(src.getCents()));
-    return result;
-  }
+    @Override
+    public JsonElement serialize(final Amount src, final Type typeOfSrc, final JsonSerializationContext context) {
+        final JsonObject result = new JsonObject();
+        result.add("Currency", currencyAdapter.serialize(src.getCurrency(), null, null));
+        result.add("Amount", new JsonPrimitive(src.getCents()));
+        return result;
+    }
 
-  @Override
-  public Amount deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
-    return Optional.of(json).filter(not(JsonElement::isJsonNull)).map(JsonElement::getAsJsonObject).map(this::toAmount).filter(this::hasCurrency).orElse(null);
-  }
+    @Override
+    public Amount deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
+        return Optional.of(json).filter(not(JsonElement::isJsonNull)).map(JsonElement::getAsJsonObject).map(this::toAmount).filter(this::hasCurrency).orElse(null);
+    }
 
-  private boolean hasCurrency(final Amount amount) {
-    return !NO_CURRENCY.equals(amount.getCurrency());
-  }
+    private boolean hasCurrency(final Amount amount) {
+        return !NO_CURRENCY.equals(amount.getCurrency());
+    }
 
-  private Amount toAmount(final JsonObject jsonObject) {
-    return new Amount(currencyAdapter.deserialize(jsonObject.get("Currency"), null, null), jsonObject.get("Amount").getAsInt());
-  }
+    private Amount toAmount(final JsonObject jsonObject) {
+        return new Amount(currencyAdapter.deserialize(jsonObject.get("Currency"), null, null), jsonObject.get("Amount").getAsInt());
+    }
 }
