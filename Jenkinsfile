@@ -49,15 +49,13 @@ if (scm.branches[0].name == 'master') {
     stage('SonarQube Analysis') {
         node {
             checkout scm
-            dir('microworldplus') {
-                withSonarQubeEnv('Sonar') {
-                    unstash 'build'
-                    unstash 'jacocoTest'
-                    unstash 'jacocoIntegration'
-                    unstash 'junitTest'
-                    unstash 'junitIntegration'
-                    sh './gradlew --info sonarqube'
-                }
+            withSonarQubeEnv('Sonar') {
+                unstash 'build'
+                unstash 'jacocoTest'
+                unstash 'jacocoIntegration'
+                unstash 'junitTest'
+                unstash 'junitIntegration'
+                sh './gradlew --info sonarqube'
             }
         }
     }
