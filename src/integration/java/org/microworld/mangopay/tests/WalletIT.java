@@ -16,6 +16,8 @@
 package org.microworld.mangopay.tests;
 
 import static java.util.Arrays.asList;
+import static org.awaitility.Awaitility.await;
+import static org.awaitility.Duration.TWO_SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -111,7 +113,7 @@ public class WalletIT extends AbstractIntegrationTest {
 
   @Test
   @Ignore("MANGOPAY service returns Internal Server Error")
-  public void listWalletTransactions() throws MalformedURLException, IOException, InterruptedException {
+  public void listWalletTransactions() throws IOException {
     final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
     final String cardId = registerCard(user1, EUR, "4970100000000154", "1218", "123").getCardId();
@@ -119,7 +121,7 @@ public class WalletIT extends AbstractIntegrationTest {
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
     client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
-    Thread.sleep(2000);
+    await().atLeast(TWO_SECONDS);
     client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));
 
     final List<Transaction> transactions = client.getWalletService().getTransactions(wallet1.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));

@@ -33,7 +33,7 @@ public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer
   }
 
   @Override
-  public Instant deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+  public Instant deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
     return Instant.ofEpochSecond(json.getAsLong());
   }
 }

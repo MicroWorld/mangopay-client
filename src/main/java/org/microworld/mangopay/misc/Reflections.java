@@ -20,6 +20,10 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 public class Reflections {
+  private Reflections() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static <T> void setFieldValue(final Class<T> type, final String fieldName, final Object target, final Object value) {
     AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
       try {

@@ -33,7 +33,7 @@ public class CurrencyAdapter implements JsonSerializer<Currency>, JsonDeserializ
   }
 
   @Override
-  public Currency deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+  public Currency deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
     return Currency.getInstance(json.getAsString());
   }
 }

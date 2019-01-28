@@ -40,6 +40,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,7 +116,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
     this.host = requireNonNull(host, "The host must not be null.");
     this.clientId = requireNonNull(clientId, "The clientId must not be null.");
     this.encodedAuthenticationString = encodeAuthenticationString(clientId, passphrase);
-    this.rateLimits = new HashMap<>();
+    this.rateLimits = new EnumMap<>(RateLimitInterval.class);
     final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
     builder.registerTypeAdapter(MangopayUnauthorizedException.class, new MangopayUnauthorizedExceptionDeserializer());
     builder.registerTypeAdapter(Instant.class, new InstantAdapter());
@@ -215,8 +216,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
     final JsonObject jsonObject = gson.toJsonTree(data).getAsJsonObject();
     jsonObject.remove("Id");
     jsonObject.remove("CreationDate");
-    final String json = gson.toJson(jsonObject);
-    return json;
+    return gson.toJson(jsonObject);
   }
 
   private Token getToken() {
@@ -264,7 +264,7 @@ public class DefaultMangopayConnection implements MangopayConnection {
   private String getContent(final InputStream inputStream) throws IOException {
     final StringBuilder content = new StringBuilder();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, UTF_8))) {
-      String line = null;
+      String line;
       while ((line = reader.readLine()) != null) {
         content.append(line).append('\n');
       }
@@ -371,8 +371,8 @@ public class DefaultMangopayConnection implements MangopayConnection {
     final List<String> resetList = headers.getOrDefault("X-RateLimit-Reset", emptyList());
     if (resetList.size() >= numberOfIntervals && remainingList.size() >= numberOfIntervals && madeList.size() >= numberOfIntervals) {
       for (final RateLimitInterval interval : RateLimitInterval.values()) {
-        final Integer callsMade = Integer.valueOf(madeList.get(numberOfIntervals - 1 - interval.ordinal()));
-        final Integer callsRemaining = Integer.valueOf(remainingList.get(numberOfIntervals - 1 - interval.ordinal()));
+        final int callsMade = Integer.parseInt(madeList.get(numberOfIntervals - 1 - interval.ordinal()));
+        final int callsRemaining = Integer.parseInt(remainingList.get(numberOfIntervals - 1 - interval.ordinal()));
         final Instant reset = Instant.ofEpochSecond(Long.parseLong(resetList.get(numberOfIntervals - 1 - interval.ordinal())));
         limits.put(interval, new RateLimit(interval, callsMade, callsRemaining, reset));
       }

@@ -28,7 +28,7 @@ import com.google.gson.JsonParseException;
 
 public class MangopayUnauthorizedExceptionDeserializer implements JsonDeserializer<MangopayUnauthorizedException> {
   @Override
-  public MangopayUnauthorizedException deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+  public MangopayUnauthorizedException deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
     final JsonObject object = json.getAsJsonObject();
     return new MangopayUnauthorizedException(object.get("error").getAsString(), Optional.ofNullable(object.get("error_description")).map(JsonElement::getAsString).orElse("(no error description)"));
   }

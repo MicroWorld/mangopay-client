@@ -45,7 +45,7 @@ public class AmountAdapter implements JsonSerializer<Amount>, JsonDeserializer<A
   }
 
   @Override
-  public Amount deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+  public Amount deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
     return Optional.of(json).filter(not(JsonElement::isJsonNull)).map(JsonElement::getAsJsonObject).map(this::toAmount).filter(this::hasCurrency).orElse(null);
   }
 

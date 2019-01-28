@@ -16,6 +16,8 @@
 package org.microworld.mangopay.tests;
 
 import static java.util.Arrays.asList;
+import static org.awaitility.Awaitility.await;
+import static org.awaitility.Duration.TWO_SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -33,12 +35,10 @@ import static org.microworld.test.Matchers.around;
 import static org.microworld.test.Matchers.before;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.List;
 
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.CardRegistration;
@@ -191,11 +191,11 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserBankAccounts() throws InterruptedException {
+  public void listUserBankAccounts() {
     final Person person = fairy.person();
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final BankAccount bankAccount1 = client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
-    Thread.sleep(2000);
+    await().atLeast(TWO_SECONDS);
     final BankAccount bankAccount2 = client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.getFullName(), createAddress(person.getAddress()), "33333334", "070093", fairy.textProducer().latinSentence()));
 
     final List<BankAccount> bankAccounts = client.getUserService().getBankAccounts(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
@@ -205,10 +205,10 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserCards() throws MalformedURLException, IOException, InterruptedException {
+  public void listUserCards() throws IOException {
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final CardRegistration cardRegistration1 = registerCard(user, EUR, "4970100000000154", "1225", "123");
-    Thread.sleep(2000);
+    await().atLeast(TWO_SECONDS);
     final CardRegistration cardRegistration2 = registerCard(user, USD, "4970100000000155", "1126", "456");
 
     final List<Card> cards = client.getUserService().getCards(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
@@ -218,10 +218,10 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserKycDocument() throws InterruptedException {
+  public void listUserKycDocument() {
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final KycDocument kycDocument1 = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.ADDRESS_PROOF, null));
-    Thread.sleep(2000);
+    await().atLeast(TWO_SECONDS);
     final KycDocument kycDocument2 = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.IDENTITY_PROOF, null));
 
     final List<KycDocument> documents = client.getUserService().getKycDocuments(user.getId(), Filter.none(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
@@ -231,10 +231,10 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserWallets() throws InterruptedException {
+  public void listUserWallets() {
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user.getId(), EUR, "EUR", null));
-    Thread.sleep(2000);
+    await().atLeast(TWO_SECONDS);
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user.getId(), USD, "USD", null));
 
     final List<Wallet> userWallets = client.getUserService().getWallets(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
@@ -244,7 +244,7 @@ public class UserIT extends AbstractIntegrationTest {
   }
 
   @Test
-  public void listUserTransactions() throws MalformedURLException, IOException, InterruptedException {
+  public void listUserTransactions() throws IOException {
     final User user1 = client.getUserService().create(randomNaturalUser());
     final Wallet wallet1 = client.getWalletService().create(new Wallet(user1.getId(), EUR, "wallet", null));
     final String cardId = registerCard(user1, EUR, "4970100000000154", "1225", "123").getCardId();
@@ -252,7 +252,7 @@ public class UserIT extends AbstractIntegrationTest {
     final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
 
     /* final DirectCardPayIn payin = */client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
-    Thread.sleep(2000);
+    await().atLeast(TWO_SECONDS);
     /* final Transfer transfer = */client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));
 
     final List<Transaction> transactions = client.getUserService().getTransactions(user1.getId(), Filter.none(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));

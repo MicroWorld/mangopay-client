@@ -29,7 +29,7 @@ import com.google.gson.JsonSerializer;
 
 public class IncomeRangeAdapter implements JsonSerializer<IncomeRange>, JsonDeserializer<IncomeRange> {
   @Override
-  public IncomeRange deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+  public IncomeRange deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) {
     return IncomeRange.parse(json.getAsString());
   }
 
