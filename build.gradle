@@ -46,16 +46,16 @@ configurations {
 
 dependencies {
     implementation('com.google.code.gson:gson:2.8.5')
-    implementation('org.slf4j:slf4j-api:1.7.25')
+    implementation('org.slf4j:slf4j-api:1.7.26')
     implementation('org.apache.commons:commons-lang3:3.8.1')
 
     testImplementation('junit:junit:4.12') { exclude group: 'org.hamcrest' }
     testImplementation('org.hamcrest:hamcrest-junit:2.0.0.0')
     testImplementation('io.codearte.jfairy:jfairy:0.5.9')
-    testImplementation('org.awaitility:awaitility:3.1.5')
+    testImplementation('org.awaitility:awaitility:3.1.6')
     testRuntimeOnly('ch.qos.logback:logback-classic:1.2.3')
 
-    deployerJars('org.apache.maven.wagon:wagon-ssh:3.3.1')
+    deployerJars('org.apache.maven.wagon:wagon-ssh:3.3.2')
 }
 
 repositories {
@@ -85,7 +85,7 @@ forbiddenApis {
 }
 
 jacoco {
-    toolVersion = '0.8.2'
+    toolVersion = '0.8.3'
 }
 
 project.tasks['sonarqube'].dependsOn tasks.withType(Test)
