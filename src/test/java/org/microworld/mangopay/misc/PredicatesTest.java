@@ -42,7 +42,7 @@ public class PredicatesTest {
 
     @Test
     public void notReturnsNegatedPredicate() {
-        assertFalse(Predicates.not((Predicate) o -> true).test(null));
-        assertTrue(Predicates.not((Predicate) o -> false).test(null));
+        assertFalse(Predicates.not((Predicate<Void>) o -> true).test(null));
+        assertTrue(Predicates.not((Predicate<Void>) o -> false).test(null));
     }
 }
