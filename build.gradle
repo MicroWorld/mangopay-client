@@ -1,9 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 plugins {
     id 'java-library'
     id 'jacoco'
@@ -104,8 +98,12 @@ uploadArchives {
     repositories {
         mavenDeployer {
             configuration = configurations.deployerJars
-            repository(url: 'sftp://git@scm.abcmicrofinance.net/home/git/maven/release')
-            snapshotRepository(url: 'sftp://git@scm.abcmicrofinance.net/home/git/maven/snapshot')
+            repository(url: "${abc_artifactory_contextUrl}/gradle-release-local") {
+                authentication(userName: "${abc_artifactory_user}", password: "${abc_artifactory_password}")
+            }
+            snapshotRepository(url: "${abc_artifactory_contextUrl}/gradle-dev-local") {
+                authentication(userName: "${abc_artifactory_user}", password: "${abc_artifactory_password}")
+            }
         }
     }
 }
