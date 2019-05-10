@@ -25,10 +25,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -52,6 +57,8 @@ import org.microworld.mangopay.entities.Wallet;
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Person;
+
+import static org.microworld.mangopay.misc.Predicates.not;
 
 public abstract class AbstractIntegrationTest {
   protected static final Currency EUR = Currency.getInstance("EUR");
@@ -115,7 +122,9 @@ public abstract class AbstractIntegrationTest {
   }
 
   protected String randomCountry() {
-    return Locale.getISOCountries()[fairy.baseProducer().randomBetween(0, Locale.getISOCountries().length - 1)];
+    List<String> blockedCountries = Arrays.asList("MN");
+    List<String> countryCodes = Arrays.stream(Locale.getISOCountries()).filter(not(blockedCountries::contains)).collect(Collectors.toList());
+    return countryCodes.get(fairy.baseProducer().randomBetween(0, countryCodes.size() - 1));
   }
 
   protected Address createAddress(final io.codearte.jfairy.producer.person.Address fairyAddress) {
