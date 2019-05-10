@@ -40,14 +40,6 @@ stage('Checks') {
             checkout scm
             sh './gradlew licenseMain licenseTest licenseIntegration'
         }
-    }, jacoco: {
-        node {
-            checkout scm
-            unstash 'build'
-            unstash 'jacocoTest'
-            unstash 'jacocoIntegration'
-            step([$class: 'JacocoPublisher', execPattern: 'build/jacoco/*.exec', classPattern: 'build/classes/java/main'])
-        }
     })
 }
 if (scm.branches[0].name == 'master') {
@@ -60,7 +52,7 @@ if (scm.branches[0].name == 'master') {
                 unstash 'jacocoIntegration'
                 unstash 'junitTest'
                 unstash 'junitIntegration'
-                sh './gradlew --info sonarqube'
+                sh './gradlew jacocoTestReport sonarqube'
             }
         }
     }

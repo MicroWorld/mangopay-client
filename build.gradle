@@ -87,6 +87,14 @@ forbiddenApis {
 jacoco {
     toolVersion = '0.8.3'
 }
+jacocoTestReport {
+    executionData "$buildDir/jacoco/test.exec", "$buildDir/jacoco/integration.exec"
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled false
+    }
+}
 
 project.tasks['sonarqube'].dependsOn tasks.withType(Test)
 sonarqube {
@@ -94,7 +102,7 @@ sonarqube {
         property 'sonar.tests', ['src/test/java', 'src/integration/java']
         property 'sonar.junit.reportPaths', ['build/test-results/test', 'build/test-results/integration']
         property 'sonar.surefire.reportsPath', ['build/test-results/test', 'build/test-results/integration']
-        property 'sonar.jacoco.reportPaths', ['build/jacoco/test.exec', 'build/jacoco/integration.exec']
+        property 'sonar.coverage.jacoco.xmlReportPaths', ['build/reports/jacoco/test/jacocoTestReport.xml']
     }
 }
 
