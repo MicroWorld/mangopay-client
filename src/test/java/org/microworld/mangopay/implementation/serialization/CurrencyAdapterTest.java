@@ -42,7 +42,7 @@ public class CurrencyAdapterTest {
 
   @Test
   public void deserialize() {
-    assertThat(adapter.deserialize(new JsonParser().parse("\"EUR\""), null, null), is(equalTo(Currency.getInstance("EUR"))));
-    assertThat(adapter.deserialize(new JsonParser().parse("\"USD\""), null, null), is(equalTo(Currency.getInstance("USD"))));
+    assertThat(adapter.deserialize(JsonParser.parseString("\"EUR\""), null, null), is(equalTo(Currency.getInstance("EUR"))));
+    assertThat(adapter.deserialize(JsonParser.parseString("\"USD\""), null, null), is(equalTo(Currency.getInstance("USD"))));
   }
 }

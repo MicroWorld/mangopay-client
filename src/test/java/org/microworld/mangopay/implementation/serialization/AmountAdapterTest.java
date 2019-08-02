@@ -50,17 +50,17 @@ public class AmountAdapterTest {
 
   @Test
   public void deserialize() {
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"EUR\",\"Amount\": -1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("EUR"), -1337))));
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"EUR\",\"Amount\": 0}"), null, null), is(equalTo(new Amount(Currency.getInstance("EUR"), 0))));
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"EUR\",\"Amount\": 1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("EUR"), 1337))));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"EUR\",\"Amount\": -1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("EUR"), -1337))));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"EUR\",\"Amount\": 0}"), null, null), is(equalTo(new Amount(Currency.getInstance("EUR"), 0))));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"EUR\",\"Amount\": 1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("EUR"), 1337))));
 
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"USD\",\"Amount\": -1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("USD"), -1337))));
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"USD\",\"Amount\": 0}"), null, null), is(equalTo(new Amount(Currency.getInstance("USD"), 0))));
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"USD\",\"Amount\": 1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("USD"), 1337))));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"USD\",\"Amount\": -1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("USD"), -1337))));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"USD\",\"Amount\": 0}"), null, null), is(equalTo(new Amount(Currency.getInstance("USD"), 0))));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"USD\",\"Amount\": 1337}"), null, null), is(equalTo(new Amount(Currency.getInstance("USD"), 1337))));
 
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"XXX\",\"Amount\": -1337}"), null, null), is(nullValue()));
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"XXX\",\"Amount\": 0}"), null, null), is(nullValue()));
-    assertThat(adapter.deserialize(new JsonParser().parse("{\"Currency\": \"XXX\",\"Amount\": 1337}"), null, null), is(nullValue()));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"XXX\",\"Amount\": -1337}"), null, null), is(nullValue()));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"XXX\",\"Amount\": 0}"), null, null), is(nullValue()));
+    assertThat(adapter.deserialize(JsonParser.parseString("{\"Currency\": \"XXX\",\"Amount\": 1337}"), null, null), is(nullValue()));
 
     assertThat(adapter.deserialize(JsonNull.INSTANCE, null, null), is(nullValue()));
   }

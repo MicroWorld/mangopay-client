@@ -17,7 +17,7 @@ package org.microworld.mangopay.tests;
 
 import static java.util.Arrays.asList;
 import static org.awaitility.Awaitility.await;
-import static org.awaitility.Duration.TWO_SECONDS;
+import static org.awaitility.Durations.TWO_SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -209,7 +209,7 @@ public class UserIT extends AbstractIntegrationTest {
     final NaturalUser user = client.getUserService().create(randomNaturalUser());
     final CardRegistration cardRegistration1 = registerCard(user, EUR, "4970100000000154", "1225", "123");
     await().atLeast(TWO_SECONDS);
-    final CardRegistration cardRegistration2 = registerCard(user, USD, "4970100000000155", "1126", "456");
+    final CardRegistration cardRegistration2 = registerCard(user, EUR, "4970100000000155", "1126", "456");
 
     final List<Card> cards = client.getUserService().getCards(user.getId(), Sort.by(CREATION_DATE, DESCENDING), Page.of(1));
     assertThat(cards, hasSize(2));

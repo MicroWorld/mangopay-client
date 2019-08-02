@@ -143,7 +143,7 @@ public class PayInIT extends AbstractIntegrationTest {
         hasProperty("declaredDebitedFunds", is(equalTo(new Amount(currency, declaredDebitedAmount)))),
         hasProperty("declaredFees", is(equalTo(new Amount(currency, declaredFeesAmount)))),
         hasProperty("wireReference", is(notNullValue())),
-        hasProperty("bankAccount", is(equalTo(new IbanBankAccount("MANGOPAY", new Address("1 Mango Street", null, "Paris", null, "75010", "FR"), "FR7618829754160173622224251", "CMBRFR2BCME", null))))));
+        hasProperty("bankAccount", is(equalTo(new IbanBankAccount("MANGOPAY SA", new Address("2 Avenue Amélie", null, "Luxembourg", null, "L-1125", "LU"), "FR7630056009271234567890182", "CCFRFRPPXXX", null))))));
   }
 
   private Matcher<DirectCardPayIn> directCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final SecureMode secureMode, final String secureModeReturnUrl, final String secureModeRedirectUrl, final TransactionStatus status, final String tag, final Instant creationDate, final Instant executionDate, final String resultCode, final String resultMessage) {

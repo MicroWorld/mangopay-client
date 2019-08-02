@@ -26,15 +26,15 @@ import org.junit.Test;
 public class YearMonthAdapterTest {
   @Test
   public void toYearMonthString() {
-    assertThat(YearMonthAdapter.toYearMonthString(YearMonth.of(2000, 01)), is(equalTo("0100")));
-    assertThat(YearMonthAdapter.toYearMonthString(YearMonth.of(2018, 07)), is(equalTo("0718")));
+    assertThat(YearMonthAdapter.toYearMonthString(YearMonth.of(2000, 1)), is(equalTo("0100")));
+    assertThat(YearMonthAdapter.toYearMonthString(YearMonth.of(2018, 7)), is(equalTo("0718")));
     assertThat(YearMonthAdapter.toYearMonthString(YearMonth.of(2099, 12)), is(equalTo("1299")));
   }
 
   @Test
   public void toYearMonth() {
-    assertThat(YearMonthAdapter.toYearMonth("0100"), is(equalTo(YearMonth.of(2000, 01))));
-    assertThat(YearMonthAdapter.toYearMonth("0718"), is(equalTo(YearMonth.of(2018, 07))));
+    assertThat(YearMonthAdapter.toYearMonth("0100"), is(equalTo(YearMonth.of(2000, 1))));
+    assertThat(YearMonthAdapter.toYearMonth("0718"), is(equalTo(YearMonth.of(2018, 7))));
     assertThat(YearMonthAdapter.toYearMonth("1299"), is(equalTo(YearMonth.of(2099, 12))));
   }
 }

@@ -17,7 +17,7 @@ package org.microworld.mangopay.tests;
 
 import static java.util.Arrays.asList;
 import static org.awaitility.Awaitility.await;
-import static org.awaitility.Duration.TWO_SECONDS;
+import static org.awaitility.Durations.TWO_SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -99,7 +99,7 @@ public class WalletIT extends AbstractIntegrationTest {
   public void createWalletWithMissingOwner() {
     thrown.expect(MangopayException.class);
     thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
-    thrown.expectMessage("externalOwnerId: The value  is not valid");
+    thrown.expectMessage("Owners: Owners field is required");
     client.getWalletService().create(new Wallet(null, USD, "The description", null));
   }
 

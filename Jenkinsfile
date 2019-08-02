@@ -29,18 +29,43 @@ stage('Tests') {
     })
 }
 stage('Checks') {
-    parallel(warnings: {
-        node {
-            checkout scm
-            unstash 'build'
-            step([$class: 'WarningsPublisher', canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']]])
+    parallel(
+        "cve": {
+            node {
+                checkout scm
+                dir('microworldplus') {
+                    unstash 'build'
+                    withEnv(["JAVA_HOME=${tool name: 'JDK11.0.2B9', type: 'jdk'}"]) {
+                        sh './gradlew dependencyCheckAnalyze'
+                    }
+                }
+            }
+        },
+        "forbidden apis": {
+            node {
+                checkout scm
+                dir('microworldplus') {
+                    unstash 'build'
+                    withEnv(["JAVA_HOME=${tool name: 'JDK11.0.2B9', type: 'jdk'}"]) {
+                        sh './gradlew forbiddenApis'
+                    }
+                }
+            }
+        },
+        "warnings": {
+            node {
+                checkout scm
+                unstash 'build'
+                step([$class: 'WarningsPublisher', canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']]])
+            }
+        },
+        "license": {
+            node {
+                checkout scm
+                sh './gradlew licenseMain licenseTest licenseIntegration'
+            }
         }
-    }, license: {
-        node {
-            checkout scm
-            sh './gradlew licenseMain licenseTest licenseIntegration'
-        }
-    })
+    )
 }
 if (scm.branches[0].name == 'master') {
     stage('SonarQube Analysis') {
