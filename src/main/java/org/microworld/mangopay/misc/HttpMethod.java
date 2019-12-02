@@ -16,5 +16,5 @@
 package org.microworld.mangopay.misc;
 
 public enum HttpMethod {
-  GET, POST, PUT;
+    GET, POST, PUT;
 }

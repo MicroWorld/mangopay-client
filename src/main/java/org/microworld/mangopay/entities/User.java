@@ -15,35 +15,34 @@
  */
 package org.microworld.mangopay.entities;
 
+import com.google.gson.annotations.SerializedName;
 import org.microworld.mangopay.entities.kyc.KycLevel;
 
-import com.google.gson.annotations.SerializedName;
-
 public abstract class User extends Entity {
-  @SerializedName("Email")
-  private String email;
-  @SerializedName("PersonType")
-  private PersonType personType;
-  @SerializedName("KYCLevel")
-  private KycLevel kycLevel;
+    @SerializedName("Email")
+    private String email;
+    @SerializedName("PersonType")
+    private PersonType personType;
+    @SerializedName("KYCLevel")
+    private KycLevel kycLevel;
 
-  public void setTag(final String tag) {
-    this.tag = tag;
-  }
+    public void setTag(final String tag) {
+        this.tag = tag;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setEmail(final String email) {
-    this.email = email;
-  }
+    public void setEmail(final String email) {
+        this.email = email;
+    }
 
-  public PersonType getPersonType() {
-    return personType;
-  }
+    public PersonType getPersonType() {
+        return personType;
+    }
 
-  public KycLevel getKycLevel() {
-    return kycLevel;
-  }
+    public KycLevel getKycLevel() {
+        return kycLevel;
+    }
 }

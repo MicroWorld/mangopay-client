@@ -18,20 +18,20 @@ package org.microworld.mangopay.exceptions;
 import org.microworld.mangopay.entities.Error;
 
 public class MangopayException extends RuntimeException {
-  private static final long serialVersionUID = 3367303069161411738L;
+    private static final long serialVersionUID = 3367303069161411738L;
 
-  public MangopayException(final String message) {
-    super(message);
-  }
+    public MangopayException(final String message) {
+        super(message);
+    }
 
-  public MangopayException(final Error error) {
-    super(createMessage(error));
-  }
+    public MangopayException(final Error error) {
+        super(createMessage(error));
+    }
 
-  private static String createMessage(final Error error) {
-    final StringBuilder message = new StringBuilder();
-    message.append(error.getType()).append(": ").append(error.getMessage());
-    error.getErrors().forEach((k, v) -> message.append("\n").append(k).append(": ").append(v));
-    return message.toString();
-  }
+    private static String createMessage(final Error error) {
+        final StringBuilder message = new StringBuilder();
+        message.append(error.getType()).append(": ").append(error.getMessage());
+        error.getErrors().forEach((k, v) -> message.append("\n").append(k).append(": ").append(v));
+        return message.toString();
+    }
 }

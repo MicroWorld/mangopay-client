@@ -15,41 +15,41 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.util.Currency;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Currency;
+
 public class Amount {
-  private final Currency currency;
-  private final int cents;
+    private final Currency currency;
+    private final int cents;
 
-  public Amount(final Currency currency, final int cents) {
-    this.currency = currency;
-    this.cents = cents;
-  }
+    public Amount(final Currency currency, final int cents) {
+        this.currency = currency;
+        this.cents = cents;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public Currency getCurrency() {
-    return currency;
-  }
+    public Currency getCurrency() {
+        return currency;
+    }
 
-  public int getCents() {
-    return cents;
-  }
+    public int getCents() {
+        return cents;
+    }
 }

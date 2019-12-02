@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.implementation.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.Wallet;
@@ -26,30 +24,32 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 import org.microworld.mangopay.services.WalletService;
 
+import java.util.List;
+
 public class DefaultWalletService implements WalletService {
-  private final MangopayConnection connection;
+    private final MangopayConnection connection;
 
-  public DefaultWalletService(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultWalletService(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public Wallet create(final Wallet wallet) {
-    return connection.queryForObject(Wallet.class, HttpMethod.POST, "/wallets", wallet);
-  }
+    @Override
+    public Wallet create(final Wallet wallet) {
+        return connection.queryForObject(Wallet.class, HttpMethod.POST, "/wallets", wallet);
+    }
 
-  @Override
-  public Wallet get(final String id) {
-    return connection.queryForObject(Wallet.class, HttpMethod.GET, "/wallets/{0}", null, id);
-  }
+    @Override
+    public Wallet get(final String id) {
+        return connection.queryForObject(Wallet.class, HttpMethod.GET, "/wallets/{0}", null, id);
+    }
 
-  @Override
-  public Wallet update(final Wallet wallet) {
-    return connection.queryForObject(Wallet.class, HttpMethod.PUT, "/wallets/{0}", wallet, wallet.getId());
-  }
+    @Override
+    public Wallet update(final Wallet wallet) {
+        return connection.queryForObject(Wallet.class, HttpMethod.PUT, "/wallets/{0}", wallet, wallet.getId());
+    }
 
-  @Override
-  public List<Transaction> getTransactions(final String walletId, final Sort sort, final Page page) {
-    return connection.queryForList(Transaction.class, HttpMethod.GET, "/wallets/{0}/transactions", Filter.none(), sort, page, walletId);
-  }
+    @Override
+    public List<Transaction> getTransactions(final String walletId, final Sort sort, final Page page) {
+        return connection.queryForList(Transaction.class, HttpMethod.GET, "/wallets/{0}/transactions", Filter.none(), sort, page, walletId);
+    }
 }

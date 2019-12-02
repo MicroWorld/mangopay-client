@@ -20,20 +20,20 @@ import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.CardRegistrationService;
 
-public class DefaultCardResgistrationService implements CardRegistrationService {
-  private final MangopayConnection connection;
+public class DefaultCardRegistrationService implements CardRegistrationService {
+    private final MangopayConnection connection;
 
-  public DefaultCardResgistrationService(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultCardRegistrationService(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public CardRegistration create(final CardRegistration cardResgistration) {
-    return connection.queryForObject(CardRegistration.class, HttpMethod.POST, "/cardregistrations", cardResgistration);
-  }
+    @Override
+    public CardRegistration create(final CardRegistration cardRegistration) {
+        return connection.queryForObject(CardRegistration.class, HttpMethod.POST, "/cardregistrations", cardRegistration);
+    }
 
-  @Override
-  public CardRegistration update(final CardRegistration cardRegistration) {
-    return connection.queryForObject(CardRegistration.class, HttpMethod.PUT, "/cardregistrations/{0}", cardRegistration, cardRegistration.getId());
-  }
+    @Override
+    public CardRegistration update(final CardRegistration cardRegistration) {
+        return connection.queryForObject(CardRegistration.class, HttpMethod.PUT, "/cardregistrations/{0}", cardRegistration, cardRegistration.getId());
+    }
 }

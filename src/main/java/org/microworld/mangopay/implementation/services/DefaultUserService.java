@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.implementation.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.LegalUser;
@@ -32,75 +30,77 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 import org.microworld.mangopay.services.UserService;
 
+import java.util.List;
+
 public class DefaultUserService implements UserService {
-  private final MangopayConnection connection;
+    private final MangopayConnection connection;
 
-  public DefaultUserService(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultUserService(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public LegalUser create(final LegalUser user) {
-    return connection.queryForObject(LegalUser.class, HttpMethod.POST, "/users/legal", user);
-  }
+    @Override
+    public LegalUser create(final LegalUser user) {
+        return connection.queryForObject(LegalUser.class, HttpMethod.POST, "/users/legal", user);
+    }
 
-  @Override
-  public NaturalUser create(final NaturalUser user) {
-    return connection.queryForObject(NaturalUser.class, HttpMethod.POST, "/users/natural", user);
-  }
+    @Override
+    public NaturalUser create(final NaturalUser user) {
+        return connection.queryForObject(NaturalUser.class, HttpMethod.POST, "/users/natural", user);
+    }
 
-  @Override
-  public User get(final String id) {
-    return connection.queryForObject(User.class, HttpMethod.GET, "/users/{0}", null, id);
-  }
+    @Override
+    public User get(final String id) {
+        return connection.queryForObject(User.class, HttpMethod.GET, "/users/{0}", null, id);
+    }
 
-  @Override
-  public LegalUser getLegalUser(final String id) {
-    return connection.queryForObject(LegalUser.class, HttpMethod.GET, "/users/legal/{0}", null, id);
-  }
+    @Override
+    public LegalUser getLegalUser(final String id) {
+        return connection.queryForObject(LegalUser.class, HttpMethod.GET, "/users/legal/{0}", null, id);
+    }
 
-  @Override
-  public NaturalUser getNaturalUser(final String id) {
-    return connection.queryForObject(NaturalUser.class, HttpMethod.GET, "/users/natural/{0}", null, id);
-  }
+    @Override
+    public NaturalUser getNaturalUser(final String id) {
+        return connection.queryForObject(NaturalUser.class, HttpMethod.GET, "/users/natural/{0}", null, id);
+    }
 
-  @Override
-  public LegalUser update(final LegalUser user) {
-    return connection.queryForObject(LegalUser.class, HttpMethod.PUT, "/users/legal/{0}", user, user.getId());
-  }
+    @Override
+    public LegalUser update(final LegalUser user) {
+        return connection.queryForObject(LegalUser.class, HttpMethod.PUT, "/users/legal/{0}", user, user.getId());
+    }
 
-  @Override
-  public NaturalUser update(final NaturalUser user) {
-    return connection.queryForObject(NaturalUser.class, HttpMethod.PUT, "/users/natural/{0}", user, user.getId());
-  }
+    @Override
+    public NaturalUser update(final NaturalUser user) {
+        return connection.queryForObject(NaturalUser.class, HttpMethod.PUT, "/users/natural/{0}", user, user.getId());
+    }
 
-  @Override
-  public List<User> list(final Sort sort, final Page page) {
-    return connection.queryForList(User.class, HttpMethod.GET, "/users", null, sort, page);
-  }
+    @Override
+    public List<User> list(final Sort sort, final Page page) {
+        return connection.queryForList(User.class, HttpMethod.GET, "/users", null, sort, page);
+    }
 
-  @Override
-  public List<BankAccount> getBankAccounts(final String userId, final Sort sort, final Page page) {
-    return connection.queryForList(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts", Filter.none(), sort, page, userId);
-  }
+    @Override
+    public List<BankAccount> getBankAccounts(final String userId, final Sort sort, final Page page) {
+        return connection.queryForList(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts", Filter.none(), sort, page, userId);
+    }
 
-  @Override
-  public List<Card> getCards(final String userId, final Sort sort, final Page page) {
-    return connection.queryForList(Card.class, HttpMethod.GET, "/users/{0}/cards", Filter.none(), sort, page, userId);
-  }
+    @Override
+    public List<Card> getCards(final String userId, final Sort sort, final Page page) {
+        return connection.queryForList(Card.class, HttpMethod.GET, "/users/{0}/cards", Filter.none(), sort, page, userId);
+    }
 
-  @Override
-  public List<KycDocument> getKycDocuments(final String userId, final Filter filter, final Sort sort, final Page page) {
-    return connection.queryForList(KycDocument.class, HttpMethod.GET, "/users/{0}/KYC/documents", filter, sort, page, userId);
-  }
+    @Override
+    public List<KycDocument> getKycDocuments(final String userId, final Filter filter, final Sort sort, final Page page) {
+        return connection.queryForList(KycDocument.class, HttpMethod.GET, "/users/{0}/KYC/documents", filter, sort, page, userId);
+    }
 
-  @Override
-  public List<Wallet> getWallets(final String userId, final Sort sort, final Page page) {
-    return connection.queryForList(Wallet.class, HttpMethod.GET, "/users/{0}/wallets", Filter.none(), sort, page, userId);
-  }
+    @Override
+    public List<Wallet> getWallets(final String userId, final Sort sort, final Page page) {
+        return connection.queryForList(Wallet.class, HttpMethod.GET, "/users/{0}/wallets", Filter.none(), sort, page, userId);
+    }
 
-  @Override
-  public List<Transaction> getTransactions(final String userId, final Filter filter, final Sort sort, final Page page) {
-    return connection.queryForList(Transaction.class, HttpMethod.GET, "/users/{0}/transactions", filter, sort, page, userId);
-  }
+    @Override
+    public List<Transaction> getTransactions(final String userId, final Filter filter, final Sort sort, final Page page) {
+        return connection.queryForList(Transaction.class, HttpMethod.GET, "/users/{0}/transactions", filter, sort, page, userId);
+    }
 }

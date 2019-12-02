@@ -15,19 +15,19 @@
  */
 package org.microworld.mangopay.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.entities.Transaction;
 import org.microworld.mangopay.entities.Wallet;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
+import java.util.List;
+
 public interface WalletService {
-  Wallet create(final Wallet wallet);
+    Wallet create(final Wallet wallet);
 
-  Wallet get(String id);
+    Wallet get(String id);
 
-  Wallet update(Wallet wallet);
+    Wallet update(Wallet wallet);
 
-  List<Transaction> getTransactions(String walletId, Sort sort, Page page);
+    List<Transaction> getTransactions(String walletId, Sort sort, Page page);
 }

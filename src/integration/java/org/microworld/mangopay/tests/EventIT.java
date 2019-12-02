@@ -15,6 +15,16 @@
  */
 package org.microworld.mangopay.tests;
 
+import org.junit.Test;
+import org.microworld.mangopay.entities.Event;
+import org.microworld.mangopay.search.Filter;
+import org.microworld.mangopay.search.Page;
+import org.microworld.mangopay.search.Sort;
+
+import java.time.Instant;
+import java.time.Period;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,33 +39,23 @@ import static org.microworld.mangopay.search.SortField.EVENT_DATE;
 import static org.microworld.test.Matchers.after;
 import static org.microworld.test.Matchers.before;
 
-import java.time.Instant;
-import java.time.Period;
-import java.util.List;
-
-import org.junit.Test;
-import org.microworld.mangopay.entities.Event;
-import org.microworld.mangopay.search.Filter;
-import org.microworld.mangopay.search.Page;
-import org.microworld.mangopay.search.Sort;
-
 public class EventIT extends AbstractIntegrationTest {
-  @Test
-  public void listFirstPage() {
-    final List<Event> events = client.getEventService().list(Filter.none(), Sort.byDefault(), Page.of(1));
-    assertThat(events, hasSize(10));
-  }
+    @Test
+    public void listFirstPage() {
+        final List<Event> events = client.getEventService().list(Filter.none(), Sort.byDefault(), Page.of(1));
+        assertThat(events, hasSize(10));
+    }
 
-  @Test
-  public void listWithFilters() {
-    final Instant from = Instant.now().minus(Period.ofDays(30));
-    final Instant to = Instant.now().minus(Period.ofDays(5));
-    final List<Event> events = client.getEventService().list(afterDate(from).and(beforeDate(to)).and(eventType(PAYIN_NORMAL_SUCCEEDED)), Sort.by(EVENT_DATE, ASCENDING), Page.of(1));
-    events.forEach(e -> {
-      assertThat(e.getDate(), is(both(after(from)).and(before(to))));
-      assertThat(e.getType(), is(equalTo(PAYIN_NORMAL_SUCCEEDED)));
-    });
-    assertThat(events, hasSize(10));
-    assertThat(events.get(0).getDate(), is(before(events.get(9).getDate())));
-  }
+    @Test
+    public void listWithFilters() {
+        final Instant from = Instant.now().minus(Period.ofDays(30));
+        final Instant to = Instant.now().minus(Period.ofDays(5));
+        final List<Event> events = client.getEventService().list(afterDate(from).and(beforeDate(to)).and(eventType(PAYIN_NORMAL_SUCCEEDED)), Sort.by(EVENT_DATE, ASCENDING), Page.of(1));
+        events.forEach(e -> {
+            assertThat(e.getDate(), is(both(after(from)).and(before(to))));
+            assertThat(e.getType(), is(equalTo(PAYIN_NORMAL_SUCCEEDED)));
+        });
+        assertThat(events, hasSize(10));
+        assertThat(events.get(0).getDate(), is(before(events.get(9).getDate())));
+    }
 }

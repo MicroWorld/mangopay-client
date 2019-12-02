@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.LegalUser;
 import org.microworld.mangopay.entities.NaturalUser;
@@ -29,50 +27,52 @@ import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
+import java.util.List;
+
 public interface UserService {
-  default User create(final User user) {
-    if (user instanceof LegalUser) {
-      return create((LegalUser) user);
-    } else if (user instanceof NaturalUser) {
-      return create((NaturalUser) user);
-    } else {
-      throw new IllegalStateException("Only LegalUser and NaturalUser instances are allowed.");
+    default User create(final User user) {
+        if (user instanceof LegalUser) {
+            return create((LegalUser) user);
+        } else if (user instanceof NaturalUser) {
+            return create((NaturalUser) user);
+        } else {
+            throw new IllegalStateException("Only LegalUser and NaturalUser instances are allowed.");
+        }
     }
-  }
 
-  default User update(final User user) {
-    if (user instanceof LegalUser) {
-      return update((LegalUser) user);
-    } else if (user instanceof NaturalUser) {
-      return update((NaturalUser) user);
-    } else {
-      throw new IllegalStateException("Only LegalUser and NaturalUser instances are allowed.");
+    default User update(final User user) {
+        if (user instanceof LegalUser) {
+            return update((LegalUser) user);
+        } else if (user instanceof NaturalUser) {
+            return update((NaturalUser) user);
+        } else {
+            throw new IllegalStateException("Only LegalUser and NaturalUser instances are allowed.");
+        }
     }
-  }
 
-  LegalUser create(final LegalUser user);
+    LegalUser create(final LegalUser user);
 
-  NaturalUser create(final NaturalUser user);
+    NaturalUser create(final NaturalUser user);
 
-  User get(String id);
+    User get(String id);
 
-  LegalUser getLegalUser(String id);
+    LegalUser getLegalUser(String id);
 
-  NaturalUser getNaturalUser(String id);
+    NaturalUser getNaturalUser(String id);
 
-  LegalUser update(LegalUser user);
+    LegalUser update(LegalUser user);
 
-  NaturalUser update(NaturalUser user);
+    NaturalUser update(NaturalUser user);
 
-  List<User> list(Sort sort, Page page);
+    List<User> list(Sort sort, Page page);
 
-  List<BankAccount> getBankAccounts(String id, Sort by, Page of);
+    List<BankAccount> getBankAccounts(String id, Sort by, Page of);
 
-  List<Card> getCards(String userId, Sort sort, Page page);
+    List<Card> getCards(String userId, Sort sort, Page page);
 
-  List<KycDocument> getKycDocuments(String userId, Filter filter, Sort sort, Page page);
+    List<KycDocument> getKycDocuments(String userId, Filter filter, Sort sort, Page page);
 
-  List<Wallet> getWallets(String userId, Sort sort, Page page);
+    List<Wallet> getWallets(String userId, Sort sort, Page page);
 
-  List<Transaction> getTransactions(String userId, Filter filter, Sort sort, Page page);
+    List<Transaction> getTransactions(String userId, Filter filter, Sort sort, Page page);
 }

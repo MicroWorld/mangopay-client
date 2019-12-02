@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay.implementation.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.bankaccounts.BankAccount;
 import org.microworld.mangopay.misc.HttpMethod;
@@ -25,30 +23,32 @@ import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 import org.microworld.mangopay.services.BankAccountService;
 
+import java.util.List;
+
 public class DefaultBankAccountService implements BankAccountService {
-  private final MangopayConnection connection;
+    private final MangopayConnection connection;
 
-  public DefaultBankAccountService(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultBankAccountService(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public BankAccount create(final String userId, final BankAccount bankAccount) {
-    return connection.queryForObject(BankAccount.class, HttpMethod.POST, "/users/{0}/bankaccounts/{1}", bankAccount, userId, bankAccount.getType().name());
-  }
+    @Override
+    public BankAccount create(final String userId, final BankAccount bankAccount) {
+        return connection.queryForObject(BankAccount.class, HttpMethod.POST, "/users/{0}/bankaccounts/{1}", bankAccount, userId, bankAccount.getType().name());
+    }
 
-  @Override
-  public BankAccount deactivate(final String userId, final String bankAccountId) {
-    return connection.queryForObject(BankAccount.class, HttpMethod.PUT, "/users/{0}/bankaccounts/{1}", "{\"Active\":false}", userId, bankAccountId);
-  }
+    @Override
+    public BankAccount deactivate(final String userId, final String bankAccountId) {
+        return connection.queryForObject(BankAccount.class, HttpMethod.PUT, "/users/{0}/bankaccounts/{1}", "{\"Active\":false}", userId, bankAccountId);
+    }
 
-  @Override
-  public BankAccount get(final String userId, final String bankAccountId) {
-    return connection.queryForObject(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts/{1}", null, userId, bankAccountId);
-  }
+    @Override
+    public BankAccount get(final String userId, final String bankAccountId) {
+        return connection.queryForObject(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts/{1}", null, userId, bankAccountId);
+    }
 
-  @Override
-  public List<BankAccount> list(final String userId, final Page page) {
-    return connection.queryForList(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts", Filter.none(), Sort.byDefault(), page, userId);
-  }
+    @Override
+    public List<BankAccount> list(final String userId, final Page page) {
+        return connection.queryForList(BankAccount.class, HttpMethod.GET, "/users/{0}/bankaccounts", Filter.none(), Sort.byDefault(), page, userId);
+    }
 }

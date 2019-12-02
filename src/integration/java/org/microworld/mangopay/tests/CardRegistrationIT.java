@@ -15,27 +15,26 @@
  */
 package org.microworld.mangopay.tests;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import org.junit.Test;
 import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.CardRegistrationStatus;
 import org.microworld.mangopay.entities.User;
 
-public class CardRegistrationIT extends AbstractIntegrationTest {
-  @Test
-  public void createAndUpdateCardRegistration() throws MalformedURLException, IOException {
-    final User user = client.getUserService().create(randomNaturalUser());
-    final CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), EUR));
-    assertThat(cardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.CREATED)));
+import java.io.IOException;
 
-    cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey(), "4970100000000154", "1225", "123"));
-    final CardRegistration updatedCardRegistration = client.getCardRegistrationService().update(cardRegistration);
-    assertThat(updatedCardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.VALIDATED)));
-  }
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+
+public class CardRegistrationIT extends AbstractIntegrationTest {
+    @Test
+    public void createAndUpdateCardRegistration() throws IOException {
+        final User user = client.getUserService().create(randomNaturalUser());
+        final CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), EUR));
+        assertThat(cardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.CREATED)));
+
+        cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey(), "4970100000000154", "1225", "123"));
+        final CardRegistration updatedCardRegistration = client.getCardRegistrationService().update(cardRegistration);
+        assertThat(updatedCardRegistration.getStatus(), is(equalTo(CardRegistrationStatus.VALIDATED)));
+    }
 }

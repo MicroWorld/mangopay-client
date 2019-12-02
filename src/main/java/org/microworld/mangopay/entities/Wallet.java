@@ -15,76 +15,75 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
-
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
 
 public class Wallet extends Entity {
-  @SerializedName("Owners")
-  private final List<String> owners;
-  @SerializedName("Currency")
-  private final Currency currency;
-  @SerializedName("Description")
-  private String description;
-  @SerializedName("Balance")
-  private Amount balance;
-  @SerializedName("FundsType")
-  private FundsType fundsType;
+    @SerializedName("Owners")
+    private final List<String> owners;
+    @SerializedName("Currency")
+    private final Currency currency;
+    @SerializedName("Description")
+    private String description;
+    @SerializedName("Balance")
+    private Amount balance;
+    @SerializedName("FundsType")
+    private FundsType fundsType;
 
-  public Wallet(final String ownerId, final Currency currency, final String description, final String tag) {
-    this.owners = new ArrayList<>(1);
-    this.owners.add(ownerId);
-    this.currency = currency;
-    this.description = description;
-    this.tag = tag;
-  }
+    public Wallet(final String ownerId, final Currency currency, final String description, final String tag) {
+        this.owners = new ArrayList<>(1);
+        this.owners.add(ownerId);
+        this.currency = currency;
+        this.description = description;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public void setTag(final String tag) {
-    this.tag = tag;
-  }
+    public void setTag(final String tag) {
+        this.tag = tag;
+    }
 
-  public String getOwnerId() {
-    return owners.get(0);
-  }
+    public String getOwnerId() {
+        return owners.get(0);
+    }
 
-  public Currency getCurrency() {
-    return currency;
-  }
+    public Currency getCurrency() {
+        return currency;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setDescription(final String description) {
-    this.description = description;
-  }
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-  public Amount getBalance() {
-    return balance;
-  }
+    public Amount getBalance() {
+        return balance;
+    }
 
-  public FundsType getFundsType() {
-    return fundsType;
-  }
+    public FundsType getFundsType() {
+        return fundsType;
+    }
 }

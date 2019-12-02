@@ -15,11 +15,6 @@
  */
 package org.microworld.mangopay.search;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.microworld.mangopay.entities.EventType;
 import org.microworld.mangopay.entities.TransactionNature;
 import org.microworld.mangopay.entities.TransactionStatus;
@@ -27,61 +22,66 @@ import org.microworld.mangopay.entities.TransactionType;
 import org.microworld.mangopay.entities.kyc.KycDocumentStatus;
 import org.microworld.mangopay.entities.kyc.KycDocumentType;
 
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Filter implements ParameterHolder {
-  private final Map<String, String> parameters = new HashMap<>();
+    private final Map<String, String> parameters = new HashMap<>();
 
-  private Filter(final Map<String, String> parameters) {
-    this.parameters.putAll(parameters);
-  }
+    private Filter(final Map<String, String> parameters) {
+        this.parameters.putAll(parameters);
+    }
 
-  private Filter(final String name, final String value) {
-    parameters.put(name, value);
-  }
+    private Filter(final String name, final String value) {
+        parameters.put(name, value);
+    }
 
-  @Override
-  public Map<String, String> getParameters() {
-    return parameters;
-  }
+    public static Filter none() {
+        return new Filter(Collections.emptyMap());
+    }
 
-  public Filter and(final Filter filter) {
-    final Map<String, String> combinedParameters = new HashMap<>(parameters);
-    combinedParameters.putAll(filter.parameters);
-    return new Filter(combinedParameters);
-  }
+    public static Filter beforeDate(final Instant instant) {
+        return new Filter("BeforeDate", String.valueOf(instant.getEpochSecond()));
+    }
 
-  public static Filter none() {
-    return new Filter(Collections.emptyMap());
-  }
+    public static Filter afterDate(final Instant instant) {
+        return new Filter("AfterDate", String.valueOf(instant.getEpochSecond()));
+    }
 
-  public static Filter beforeDate(final Instant instant) {
-    return new Filter("BeforeDate", String.valueOf(instant.getEpochSecond()));
-  }
+    public static Filter eventType(final EventType eventType) {
+        return new Filter("EventType", eventType.name());
+    }
 
-  public static Filter afterDate(final Instant instant) {
-    return new Filter("AfterDate", String.valueOf(instant.getEpochSecond()));
-  }
+    public static Filter kycDocumentType(final KycDocumentType kycDocumentType) {
+        return new Filter("Type", kycDocumentType.name());
+    }
 
-  public static Filter eventType(final EventType eventType) {
-    return new Filter("EventType", eventType.name());
-  }
+    public static Filter kycDocumentStatus(final KycDocumentStatus kycDocumentStatus) {
+        return new Filter("Status", kycDocumentStatus.name());
+    }
 
-  public static Filter kycDocumentType(final KycDocumentType kycDocumentType) {
-    return new Filter("Type", kycDocumentType.name());
-  }
+    public static Filter transactionNature(final TransactionNature transactionNature) {
+        return new Filter("Nature", transactionNature.name());
+    }
 
-  public static Filter kycDocumentStatus(final KycDocumentStatus kycDocumentStatus) {
-    return new Filter("Status", kycDocumentStatus.name());
-  }
+    public static Filter transactionType(final TransactionType transactionType) {
+        return new Filter("Type", transactionType.name());
+    }
 
-  public static Filter transactionNature(final TransactionNature transactionNature) {
-    return new Filter("Nature", transactionNature.name());
-  }
+    public static Filter transactionStatus(final TransactionStatus transactionStatus) {
+        return new Filter("Status", transactionStatus.name());
+    }
 
-  public static Filter transactionType(final TransactionType transactionType) {
-    return new Filter("Type", transactionType.name());
-  }
+    @Override
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
 
-  public static Filter transactionStatus(final TransactionStatus transactionStatus) {
-    return new Filter("Status", transactionStatus.name());
-  }
+    public Filter and(final Filter filter) {
+        final Map<String, String> combinedParameters = new HashMap<>(parameters);
+        combinedParameters.putAll(filter.parameters);
+        return new Filter(combinedParameters);
+    }
 }

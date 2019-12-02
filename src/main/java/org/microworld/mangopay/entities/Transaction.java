@@ -15,75 +15,75 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.time.Instant;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
+
 public class Transaction extends Entity { // Should be abstract but can't because of some partial results returned by the API, see DefaultMangoPayConnection.convertTransaction.
-  @SerializedName("AuthorId")
-  protected String authorId;
-  @SerializedName("CreditedUserId")
-  protected String creditedUserId;
-  @SerializedName("DebitedFunds")
-  protected Amount debitedFunds;
-  @SerializedName("CreditedFunds")
-  private Amount creditedFunds;
-  @SerializedName("Fees")
-  protected Amount fees;
-  @SerializedName("Status")
-  private TransactionStatus status;
-  @SerializedName("ResultCode")
-  private String resultCode;
-  @SerializedName("ResultMessage")
-  private String resultMessage;
-  @SerializedName("ExecutionDate")
-  private Instant executionDate;
-  @SerializedName("Type")
-  private TransactionType type;
-  @SerializedName("Nature")
-  private TransactionNature nature;
+    @SerializedName("AuthorId")
+    protected String authorId;
+    @SerializedName("CreditedUserId")
+    protected String creditedUserId;
+    @SerializedName("DebitedFunds")
+    protected Amount debitedFunds;
+    @SerializedName("Fees")
+    protected Amount fees;
+    @SerializedName("CreditedFunds")
+    private Amount creditedFunds;
+    @SerializedName("Status")
+    private TransactionStatus status;
+    @SerializedName("ResultCode")
+    private String resultCode;
+    @SerializedName("ResultMessage")
+    private String resultMessage;
+    @SerializedName("ExecutionDate")
+    private Instant executionDate;
+    @SerializedName("Type")
+    private TransactionType type;
+    @SerializedName("Nature")
+    private TransactionNature nature;
 
-  public String getAuthorId() {
-    return authorId;
-  }
+    public String getAuthorId() {
+        return authorId;
+    }
 
-  public String getCreditedUserId() {
-    return creditedUserId;
-  }
+    public String getCreditedUserId() {
+        return creditedUserId;
+    }
 
-  public Amount getDebitedFunds() {
-    return debitedFunds;
-  }
+    public Amount getDebitedFunds() {
+        return debitedFunds;
+    }
 
-  public Amount getCreditedFunds() {
-    return creditedFunds;
-  }
+    public Amount getCreditedFunds() {
+        return creditedFunds;
+    }
 
-  public Amount getFees() {
-    return fees;
-  }
+    public Amount getFees() {
+        return fees;
+    }
 
-  public TransactionStatus getStatus() {
-    return status;
-  }
+    public TransactionStatus getStatus() {
+        return status;
+    }
 
-  public String getResultCode() {
-    return resultCode;
-  }
+    public String getResultCode() {
+        return resultCode;
+    }
 
-  public String getResultMessage() {
-    return resultMessage;
-  }
+    public String getResultMessage() {
+        return resultMessage;
+    }
 
-  public Instant getExecutionDate() {
-    return executionDate;
-  }
+    public Instant getExecutionDate() {
+        return executionDate;
+    }
 
-  public TransactionType getType() {
-    return type;
-  }
+    public TransactionType getType() {
+        return type;
+    }
 
-  public TransactionNature getNature() {
-    return nature;
-  }
+    public TransactionNature getNature() {
+        return nature;
+    }
 }

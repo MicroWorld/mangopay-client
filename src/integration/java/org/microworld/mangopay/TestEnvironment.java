@@ -16,24 +16,24 @@
 package org.microworld.mangopay;
 
 public class TestEnvironment {
-  public static final String SANDBOX_PASSPHRASE = "cqFfFrWfCcb7UadHNxx2C9Lo6Djw8ZduLi7J9USTmu8bhxxpju";
-  public static final String SANDBOX_CLIENT_ID = "sdk-unit-tests";
-  public static final String SANDBOX_HOST = "api.sandbox.mangopay.com";
-  private static TestEnvironment testEnvironment;
-  private final MangopayConnection connection;
+    public static final String SANDBOX_PASSPHRASE = "cqFfFrWfCcb7UadHNxx2C9Lo6Djw8ZduLi7J9USTmu8bhxxpju";
+    public static final String SANDBOX_CLIENT_ID = "sdk-unit-tests";
+    public static final String SANDBOX_HOST = "api.sandbox.mangopay.com";
+    private static TestEnvironment testEnvironment;
+    private final MangopayConnection connection;
 
-  private TestEnvironment() {
-    connection = MangopayConnection.createDefault(SANDBOX_HOST, SANDBOX_CLIENT_ID, SANDBOX_PASSPHRASE);
-  }
-
-  public static TestEnvironment getInstance() {
-    if (testEnvironment == null) {
-      testEnvironment = new TestEnvironment();
+    private TestEnvironment() {
+        connection = MangopayConnection.createDefault(SANDBOX_HOST, SANDBOX_CLIENT_ID, SANDBOX_PASSPHRASE);
     }
-    return testEnvironment;
-  }
 
-  public MangopayConnection getConnection() {
-    return connection;
-  }
+    public static TestEnvironment getInstance() {
+        if (testEnvironment == null) {
+            testEnvironment = new TestEnvironment();
+        }
+        return testEnvironment;
+    }
+
+    public MangopayConnection getConnection() {
+        return connection;
+    }
 }

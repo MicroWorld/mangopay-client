@@ -15,71 +15,70 @@
  */
 package org.microworld.mangopay.entities;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Address {
-  @SerializedName("AddressLine1")
-  private final String addressLine1;
-  @SerializedName("AddressLine2")
-  private final String addressLine2;
-  @SerializedName("City")
-  private final String city;
-  @SerializedName("Region")
-  private final String region;
-  @SerializedName("PostalCode")
-  private final String postalCode;
-  @SerializedName("Country")
-  private final String country;
+    @SerializedName("AddressLine1")
+    private final String addressLine1;
+    @SerializedName("AddressLine2")
+    private final String addressLine2;
+    @SerializedName("City")
+    private final String city;
+    @SerializedName("Region")
+    private final String region;
+    @SerializedName("PostalCode")
+    private final String postalCode;
+    @SerializedName("Country")
+    private final String country;
 
-  public Address(final String addressLine1, final String addressLine2, final String city, final String region, final String postalCode, final String country) {
-    this.addressLine1 = addressLine1;
-    this.addressLine2 = addressLine2;
-    this.city = city;
-    this.region = region;
-    this.postalCode = postalCode;
-    this.country = country;
-  }
+    public Address(final String addressLine1, final String addressLine2, final String city, final String region, final String postalCode, final String country) {
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.region = region;
+        this.postalCode = postalCode;
+        this.country = country;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getAddressLine1() {
-    return addressLine1;
-  }
+    public String getAddressLine1() {
+        return addressLine1;
+    }
 
-  public String getAddressLine2() {
-    return addressLine2;
-  }
+    public String getAddressLine2() {
+        return addressLine2;
+    }
 
-  public String getCity() {
-    return city;
-  }
+    public String getCity() {
+        return city;
+    }
 
-  public String getRegion() {
-    return region;
-  }
+    public String getRegion() {
+        return region;
+    }
 
-  public String getPostalCode() {
-    return postalCode;
-  }
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-  public String getCountry() {
-    return country;
-  }
+    public String getCountry() {
+        return country;
+    }
 }

@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum CardRegistrationStatus {
-  CREATED, VALIDATED, ERROR;
+    CREATED, VALIDATED, ERROR;
 }

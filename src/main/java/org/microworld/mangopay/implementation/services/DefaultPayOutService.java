@@ -21,19 +21,19 @@ import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.PayOutService;
 
 public class DefaultPayOutService implements PayOutService {
-  private final MangopayConnection connection;
+    private final MangopayConnection connection;
 
-  public DefaultPayOutService(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultPayOutService(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public BankWirePayOut createBankWirePayOut(final BankWirePayOut bankWirePayOut) {
-    return connection.queryForObject(BankWirePayOut.class, HttpMethod.POST, "/payouts/bankwire", bankWirePayOut);
-  }
+    @Override
+    public BankWirePayOut createBankWirePayOut(final BankWirePayOut bankWirePayOut) {
+        return connection.queryForObject(BankWirePayOut.class, HttpMethod.POST, "/payouts/bankwire", bankWirePayOut);
+    }
 
-  @Override
-  public BankWirePayOut getPayOut(final String id) {
-    return connection.queryForObject(BankWirePayOut.class, HttpMethod.GET, "/payouts/{0}", null, id);
-  }
+    @Override
+    public BankWirePayOut getPayOut(final String id) {
+        return connection.queryForObject(BankWirePayOut.class, HttpMethod.GET, "/payouts/{0}", null, id);
+    }
 }

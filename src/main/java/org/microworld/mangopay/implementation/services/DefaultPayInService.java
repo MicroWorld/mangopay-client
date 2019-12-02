@@ -26,34 +26,34 @@ import org.microworld.mangopay.misc.HttpMethod;
 import org.microworld.mangopay.services.PayInService;
 
 public class DefaultPayInService implements PayInService {
-  private final MangopayConnection connection;
+    private final MangopayConnection connection;
 
-  public DefaultPayInService(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultPayInService(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public PayIn getPayIn(final String id) {
-    return connection.queryForObject(PayIn.class, HttpMethod.GET, "/payins/{0}", null, id);
-  }
+    @Override
+    public PayIn getPayIn(final String id) {
+        return connection.queryForObject(PayIn.class, HttpMethod.GET, "/payins/{0}", null, id);
+    }
 
-  @Override
-  public BankWirePayIn createBankWirePayIn(final BankWirePayIn bankWirePayIn) {
-    return connection.queryForObject(BankWirePayIn.class, HttpMethod.POST, "/payins/bankwire/direct", bankWirePayIn);
-  }
+    @Override
+    public BankWirePayIn createBankWirePayIn(final BankWirePayIn bankWirePayIn) {
+        return connection.queryForObject(BankWirePayIn.class, HttpMethod.POST, "/payins/bankwire/direct", bankWirePayIn);
+    }
 
-  @Override
-  public DirectCardPayIn createDirectCardPayIn(final DirectCardPayIn directCardPayIn) {
-    return connection.queryForObject(DirectCardPayIn.class, HttpMethod.POST, "/payins/card/direct", directCardPayIn);
-  }
+    @Override
+    public DirectCardPayIn createDirectCardPayIn(final DirectCardPayIn directCardPayIn) {
+        return connection.queryForObject(DirectCardPayIn.class, HttpMethod.POST, "/payins/card/direct", directCardPayIn);
+    }
 
-  @Override
-  public WebCardPayIn createWebCardPayIn(final WebCardPayIn webCardPayIn) {
-    return connection.queryForObject(WebCardPayIn.class, HttpMethod.POST, "/payins/card/web", webCardPayIn);
-  }
+    @Override
+    public WebCardPayIn createWebCardPayIn(final WebCardPayIn webCardPayIn) {
+        return connection.queryForObject(WebCardPayIn.class, HttpMethod.POST, "/payins/card/web", webCardPayIn);
+    }
 
-  @Override
-  public Refund refund(final String id, final PayInRefundParameters parameters) {
-    return connection.queryForObject(Refund.class, HttpMethod.POST, "/payins/{0}/refunds", parameters, id);
-  }
+    @Override
+    public Refund refund(final String id, final PayInRefundParameters parameters) {
+        return connection.queryForObject(Refund.class, HttpMethod.POST, "/payins/{0}/refunds", parameters, id);
+    }
 }

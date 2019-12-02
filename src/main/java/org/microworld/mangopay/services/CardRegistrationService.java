@@ -18,7 +18,7 @@ package org.microworld.mangopay.services;
 import org.microworld.mangopay.entities.CardRegistration;
 
 public interface CardRegistrationService {
-  CardRegistration create(CardRegistration cardResgistration);
+    CardRegistration create(CardRegistration cardResgistration);
 
-  CardRegistration update(CardRegistration cardRegistration);
+    CardRegistration update(CardRegistration cardRegistration);
 }

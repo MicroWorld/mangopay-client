@@ -18,28 +18,28 @@ package org.microworld.mangopay.entities;
 import com.google.gson.annotations.SerializedName;
 
 public abstract class PayIn extends Transaction {
-  @SerializedName("CreditedWalletId")
-  protected String creditedWalletId;
-  @SerializedName("DebitedWalletId")
-  protected String debitedWalletId;
-  @SerializedName("PaymentType")
-  protected PayInType paymentType;
-  @SerializedName("ExecutionType")
-  protected ExecutionType executionType;
+    @SerializedName("CreditedWalletId")
+    protected String creditedWalletId;
+    @SerializedName("DebitedWalletId")
+    protected String debitedWalletId;
+    @SerializedName("PaymentType")
+    protected PayInType paymentType;
+    @SerializedName("ExecutionType")
+    protected ExecutionType executionType;
 
-  public String getCreditedWalletId() {
-    return creditedWalletId;
-  }
+    public String getCreditedWalletId() {
+        return creditedWalletId;
+    }
 
-  public String getDebitedWalletId() {
-    return debitedWalletId;
-  }
+    public String getDebitedWalletId() {
+        return debitedWalletId;
+    }
 
-  public PayInType getPaymentType() {
-    return paymentType;
-  }
+    public PayInType getPaymentType() {
+        return paymentType;
+    }
 
-  public ExecutionType getExecutionType() {
-    return executionType;
-  }
+    public ExecutionType getExecutionType() {
+        return executionType;
+    }
 }

@@ -15,34 +15,33 @@
  */
 package org.microworld.mangopay.implementation.serialization;
 
+import com.google.gson.JsonParser;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Currency;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.Currency;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import com.google.gson.JsonParser;
-
 public class CurrencyAdapterTest {
-  private CurrencyAdapter adapter;
+    private CurrencyAdapter adapter;
 
-  @Before
-  public void setUpAdater() {
-    adapter = new CurrencyAdapter();
-  }
+    @Before
+    public void setUpAdapter() {
+        adapter = new CurrencyAdapter();
+    }
 
-  @Test
-  public void serialize() {
-    assertThat(adapter.serialize(Currency.getInstance("EUR"), null, null).toString(), is(equalTo("\"EUR\"")));
-    assertThat(adapter.serialize(Currency.getInstance("USD"), null, null).toString(), is(equalTo("\"USD\"")));
-  }
+    @Test
+    public void serialize() {
+        assertThat(adapter.serialize(Currency.getInstance("EUR"), null, null).toString(), is(equalTo("\"EUR\"")));
+        assertThat(adapter.serialize(Currency.getInstance("USD"), null, null).toString(), is(equalTo("\"USD\"")));
+    }
 
-  @Test
-  public void deserialize() {
-    assertThat(adapter.deserialize(JsonParser.parseString("\"EUR\""), null, null), is(equalTo(Currency.getInstance("EUR"))));
-    assertThat(adapter.deserialize(JsonParser.parseString("\"USD\""), null, null), is(equalTo(Currency.getInstance("USD"))));
-  }
+    @Test
+    public void deserialize() {
+        assertThat(adapter.deserialize(JsonParser.parseString("\"EUR\""), null, null), is(equalTo(Currency.getInstance("EUR"))));
+        assertThat(adapter.deserialize(JsonParser.parseString("\"USD\""), null, null), is(equalTo(Currency.getInstance("USD"))));
+    }
 }

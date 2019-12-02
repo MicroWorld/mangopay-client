@@ -15,44 +15,43 @@
  */
 package org.microworld.mangopay.entities.bankaccounts;
 
+import com.google.gson.annotations.SerializedName;
 import org.microworld.mangopay.entities.Address;
 import org.microworld.mangopay.entities.Entity;
 
-import com.google.gson.annotations.SerializedName;
-
 public abstract class BankAccount extends Entity {
-  @SerializedName("Type")
-  protected BankAccountType type;
-  @SerializedName("OwnerName")
-  protected String ownerName;
-  @SerializedName("OwnerAddress")
-  protected Address ownerAddress;
-  @SerializedName("UserId")
-  protected String userId;
-  @SerializedName("Active")
-  protected boolean active;
+    @SerializedName("Type")
+    protected BankAccountType type;
+    @SerializedName("OwnerName")
+    protected String ownerName;
+    @SerializedName("OwnerAddress")
+    protected Address ownerAddress;
+    @SerializedName("UserId")
+    protected String userId;
+    @SerializedName("Active")
+    protected boolean active;
 
-  protected BankAccount() {
-    this.active = true;
-  }
+    protected BankAccount() {
+        this.active = true;
+    }
 
-  public BankAccountType getType() {
-    return type;
-  }
+    public BankAccountType getType() {
+        return type;
+    }
 
-  public String getOwnerName() {
-    return ownerName;
-  }
+    public String getOwnerName() {
+        return ownerName;
+    }
 
-  public Address getOwnerAddress() {
-    return ownerAddress;
-  }
+    public Address getOwnerAddress() {
+        return ownerAddress;
+    }
 
-  public String getUserId() {
-    return userId;
-  }
+    public String getUserId() {
+        return userId;
+    }
 
-  public boolean isActive() {
-    return active;
-  }
+    public boolean isActive() {
+        return active;
+    }
 }

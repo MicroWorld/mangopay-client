@@ -23,13 +23,13 @@ import org.microworld.mangopay.entities.Refund;
 import org.microworld.mangopay.entities.WebCardPayIn;
 
 public interface PayInService {
-  PayIn getPayIn(String id);
+    PayIn getPayIn(String id);
 
-  BankWirePayIn createBankWirePayIn(BankWirePayIn bankWirePayIn);
+    BankWirePayIn createBankWirePayIn(BankWirePayIn bankWirePayIn);
 
-  DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
+    DirectCardPayIn createDirectCardPayIn(DirectCardPayIn directCardPayIn);
 
-  WebCardPayIn createWebCardPayIn(WebCardPayIn webCardPayIn);
+    WebCardPayIn createWebCardPayIn(WebCardPayIn webCardPayIn);
 
-  Refund refund(String id, PayInRefundParameters parameters);
+    Refund refund(String id, PayInRefundParameters parameters);
 }

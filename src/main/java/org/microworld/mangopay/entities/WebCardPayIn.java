@@ -15,78 +15,77 @@
  */
 package org.microworld.mangopay.entities;
 
-import static java.util.Collections.emptyMap;
-import static java.util.Collections.unmodifiableMap;
+import com.google.gson.annotations.SerializedName;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.google.gson.annotations.SerializedName;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.unmodifiableMap;
 
 public class WebCardPayIn extends CardPayIn {
-  @SerializedName("Culture")
-  private final CultureCode cultureCode;
-  @SerializedName("CardType")
-  private final CardType cardType;
-  @SerializedName("ReturnURL")
-  private final String returnUrl;
-  @SerializedName("RedirectURL")
-  private String redirectUrl;
-  @SerializedName("TemplateURLOptions")
-  private final Map<String, String> templateUrlOptions = new HashMap<>();
+    @SerializedName("Culture")
+    private final CultureCode cultureCode;
+    @SerializedName("CardType")
+    private final CardType cardType;
+    @SerializedName("ReturnURL")
+    private final String returnUrl;
+    @SerializedName("TemplateURLOptions")
+    private final Map<String, String> templateUrlOptions = new HashMap<>();
+    @SerializedName("RedirectURL")
+    private String redirectUrl;
 
-  public WebCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final CardType cardType, final Currency currency, final int debitedAmount, final int feesAmount, final CultureCode cultureCode, final String statementDescriptor, final String returnUrl, final String templateUrl, final SecureMode secureMode, final String tag) {
-    this.authorId = authorId;
-    this.creditedUserId = creditedUserId;
-    this.creditedWalletId = creditedWalletId;
-    this.cardType = cardType;
-    this.debitedFunds = new Amount(currency, debitedAmount);
-    this.fees = new Amount(currency, feesAmount);
-    this.cultureCode = cultureCode;
-    this.returnUrl = returnUrl;
-    this.templateUrlOptions.put("Payline", templateUrl);
-    this.secureMode = secureMode;
-    this.statementDescriptor = statementDescriptor;
-    this.tag = tag;
-  }
+    public WebCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final CardType cardType, final Currency currency, final int debitedAmount, final int feesAmount, final CultureCode cultureCode, final String statementDescriptor, final String returnUrl, final String templateUrl, final SecureMode secureMode, final String tag) {
+        this.authorId = authorId;
+        this.creditedUserId = creditedUserId;
+        this.creditedWalletId = creditedWalletId;
+        this.cardType = cardType;
+        this.debitedFunds = new Amount(currency, debitedAmount);
+        this.fees = new Amount(currency, feesAmount);
+        this.cultureCode = cultureCode;
+        this.returnUrl = returnUrl;
+        this.templateUrlOptions.put("Payline", templateUrl);
+        this.secureMode = secureMode;
+        this.statementDescriptor = statementDescriptor;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public CultureCode getCultureCode() {
-    return cultureCode;
-  }
+    public CultureCode getCultureCode() {
+        return cultureCode;
+    }
 
-  public CardType getCardType() {
-    return cardType;
-  }
+    public CardType getCardType() {
+        return cardType;
+    }
 
-  public String getReturnUrl() {
-    return returnUrl;
-  }
+    public String getReturnUrl() {
+        return returnUrl;
+    }
 
-  public String getRedirectUrl() {
-    return redirectUrl;
-  }
+    public String getRedirectUrl() {
+        return redirectUrl;
+    }
 
-  public Map<String, String> getTemplateUrlOptions() {
-    return templateUrlOptions == null ? emptyMap() : unmodifiableMap(templateUrlOptions);
-  }
+    public Map<String, String> getTemplateUrlOptions() {
+        return templateUrlOptions == null ? emptyMap() : unmodifiableMap(templateUrlOptions);
+    }
 }

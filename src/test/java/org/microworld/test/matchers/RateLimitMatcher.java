@@ -21,39 +21,36 @@ import org.hamcrest.core.IsEqual;
 import org.microworld.mangopay.entities.RateLimit;
 
 public class RateLimitMatcher extends TypeSafeDiagnosingMatcher<RateLimit> {
-  private final RateLimit rateLimit;
+    private final RateLimit rateLimit;
 
-  public RateLimitMatcher(final RateLimit rateLimit) {
-    this.rateLimit = rateLimit;
-  }
+    public RateLimitMatcher(final RateLimit rateLimit) {
+        this.rateLimit = rateLimit;
+    }
 
-  @Override
-  public void describeTo(final Description description) {
-    description.appendValue(rateLimit);
-  }
+    @Override
+    public void describeTo(final Description description) {
+        description.appendValue(rateLimit);
+    }
 
-  @Override
-  protected boolean matchesSafely(final RateLimit actual, final Description mismatchDescription) {
-    if (rateLimit.getClass().isInstance(actual) && isEqualTo(actual)) {
-      return true;
+    @Override
+    protected boolean matchesSafely(final RateLimit actual, final Description mismatchDescription) {
+        if (rateLimit.getClass().isInstance(actual) && isEqualTo(actual)) {
+            return true;
+        }
+        mismatchDescription.appendValue(actual);
+        return false;
     }
-    mismatchDescription.appendValue(actual);
-    return false;
-  }
 
-  private boolean isEqualTo(final RateLimit actual) {
-    if (!IsEqual.equalTo(rateLimit.getInterval()).matches(actual.getInterval())) {
-      return false;
+    private boolean isEqualTo(final RateLimit actual) {
+        if (!IsEqual.equalTo(rateLimit.getInterval()).matches(actual.getInterval())) {
+            return false;
+        }
+        if (!IsEqual.equalTo(rateLimit.getCallsMade()).matches(actual.getCallsMade())) {
+            return false;
+        }
+        if (!IsEqual.equalTo(rateLimit.getCallsRemaining()).matches(actual.getCallsRemaining())) {
+            return false;
+        }
+        return IsEqual.equalTo(rateLimit.getReset()).matches(actual.getReset());
     }
-    if (!IsEqual.equalTo(rateLimit.getCallsMade()).matches(actual.getCallsMade())) {
-      return false;
-    }
-    if (!IsEqual.equalTo(rateLimit.getCallsRemaining()).matches(actual.getCallsRemaining())) {
-      return false;
-    }
-    if (!IsEqual.equalTo(rateLimit.getReset()).matches(actual.getReset())) {
-      return false;
-    }
-    return true;
-  }
 }

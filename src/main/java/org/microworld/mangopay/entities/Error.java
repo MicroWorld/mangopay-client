@@ -15,43 +15,43 @@
  */
 package org.microworld.mangopay.entities;
 
-import static java.util.Collections.emptyMap;
-import static java.util.Optional.ofNullable;
+import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
 import java.util.Map;
 
-import com.google.gson.annotations.SerializedName;
+import static java.util.Collections.emptyMap;
+import static java.util.Optional.ofNullable;
 
 public class Error {
-  @SerializedName("Id")
-  private String id;
-  @SerializedName("Type")
-  private String type;
-  @SerializedName("Message")
-  private String message;
-  @SerializedName("Date")
-  private Instant date;
-  @SerializedName("errors")
-  private Map<String, String> errors;
+    @SerializedName("Id")
+    private String id;
+    @SerializedName("Type")
+    private String type;
+    @SerializedName("Message")
+    private String message;
+    @SerializedName("Date")
+    private Instant date;
+    @SerializedName("errors")
+    private Map<String, String> errors;
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getType() {
-    return type;
-  }
+    public String getType() {
+        return type;
+    }
 
-  public String getMessage() {
-    return message;
-  }
+    public String getMessage() {
+        return message;
+    }
 
-  public Instant getDate() {
-    return date;
-  }
+    public Instant getDate() {
+        return date;
+    }
 
-  public Map<String, String> getErrors() {
-    return ofNullable(errors).orElse(emptyMap());
-  }
+    public Map<String, String> getErrors() {
+        return ofNullable(errors).orElse(emptyMap());
+    }
 }

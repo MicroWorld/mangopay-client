@@ -15,67 +15,66 @@
  */
 package org.microworld.mangopay.entities.bankaccounts;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.microworld.mangopay.entities.Address;
 
-import com.google.gson.annotations.SerializedName;
-
 public class CanadianBankAccount extends BankAccount {
-  @SerializedName("BankName")
-  private String bankName;
-  @SerializedName("InstitutionNumber")
-  private String institutionNumber;
-  @SerializedName("BranchCode")
-  private String branchCode;
-  @SerializedName("AccountNumber")
-  private String accountNumber;
+    @SerializedName("BankName")
+    private String bankName;
+    @SerializedName("InstitutionNumber")
+    private String institutionNumber;
+    @SerializedName("BranchCode")
+    private String branchCode;
+    @SerializedName("AccountNumber")
+    private String accountNumber;
 
-  protected CanadianBankAccount() {
-    super();
-  }
+    protected CanadianBankAccount() {
+        super();
+    }
 
-  public CanadianBankAccount(final String ownerName, final Address ownerAddress, final String bankName, final String institutionNumber, final String branchCode, final String accountNumber, final String tag) {
-    super();
-    this.type = BankAccountType.CA;
-    this.ownerName = ownerName;
-    this.ownerAddress = ownerAddress;
-    this.bankName = bankName;
-    this.institutionNumber = institutionNumber;
-    this.branchCode = branchCode;
-    this.accountNumber = accountNumber;
-    this.tag = tag;
-  }
+    public CanadianBankAccount(final String ownerName, final Address ownerAddress, final String bankName, final String institutionNumber, final String branchCode, final String accountNumber, final String tag) {
+        super();
+        this.type = BankAccountType.CA;
+        this.ownerName = ownerName;
+        this.ownerAddress = ownerAddress;
+        this.bankName = bankName;
+        this.institutionNumber = institutionNumber;
+        this.branchCode = branchCode;
+        this.accountNumber = accountNumber;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getBankName() {
-    return bankName;
-  }
+    public String getBankName() {
+        return bankName;
+    }
 
-  public String getInstitutionNumber() {
-    return institutionNumber;
-  }
+    public String getInstitutionNumber() {
+        return institutionNumber;
+    }
 
-  public String getBranchCode() {
-    return branchCode;
-  }
+    public String getBranchCode() {
+        return branchCode;
+    }
 
-  public String getAccountNumber() {
-    return accountNumber;
-  }
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 }

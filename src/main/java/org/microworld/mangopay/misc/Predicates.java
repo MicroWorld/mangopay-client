@@ -18,11 +18,11 @@ package org.microworld.mangopay.misc;
 import java.util.function.Predicate;
 
 public class Predicates {
-  private Predicates() {
-    throw new IllegalStateException("Utility class");
-  }
+    private Predicates() {
+        throw new IllegalStateException("Utility class");
+    }
 
-  public static <T> Predicate<T> not(final Predicate<T> predicate) {
-    return predicate.negate();
-  }
+    public static <T> Predicate<T> not(final Predicate<T> predicate) {
+        return predicate.negate();
+    }
 }

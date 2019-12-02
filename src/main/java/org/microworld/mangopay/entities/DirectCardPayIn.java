@@ -15,59 +15,58 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.util.Currency;
-
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.Currency;
 
 public class DirectCardPayIn extends CardPayIn {
-  @SerializedName("CardId")
-  private final String cardId;
-  @SerializedName("SecureModeRedirectURL")
-  private String secureModeRedirectUrl;
-  @SerializedName("SecureModeReturnURL")
-  private final String secureModeReturnUrl;
+    @SerializedName("CardId")
+    private final String cardId;
+    @SerializedName("SecureModeReturnURL")
+    private final String secureModeReturnUrl;
+    @SerializedName("SecureModeRedirectURL")
+    private String secureModeRedirectUrl;
 
-  public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final String secureModeReturnUrl, final SecureMode secureMode, final String tag) {
-    this.authorId = authorId;
-    this.creditedUserId = creditedUserId;
-    this.creditedWalletId = creditedWalletId;
-    this.cardId = cardId;
-    this.debitedFunds = new Amount(currency, debitedAmount);
-    this.fees = new Amount(currency, feesAmount);
-    this.secureModeReturnUrl = secureModeReturnUrl;
-    this.secureMode = secureMode;
-    this.statementDescriptor = statementDescriptor;
-    this.tag = tag;
-  }
+    public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final String secureModeReturnUrl, final SecureMode secureMode, final String tag) {
+        this.authorId = authorId;
+        this.creditedUserId = creditedUserId;
+        this.creditedWalletId = creditedWalletId;
+        this.cardId = cardId;
+        this.debitedFunds = new Amount(currency, debitedAmount);
+        this.fees = new Amount(currency, feesAmount);
+        this.secureModeReturnUrl = secureModeReturnUrl;
+        this.secureMode = secureMode;
+        this.statementDescriptor = statementDescriptor;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getCardId() {
-    return cardId;
-  }
+    public String getCardId() {
+        return cardId;
+    }
 
-  public String getSecureModeRedirectUrl() {
-    return secureModeRedirectUrl;
-  }
+    public String getSecureModeRedirectUrl() {
+        return secureModeRedirectUrl;
+    }
 
-  public String getSecureModeReturnUrl() {
-    return secureModeReturnUrl;
-  }
+    public String getSecureModeReturnUrl() {
+        return secureModeReturnUrl;
+    }
 }

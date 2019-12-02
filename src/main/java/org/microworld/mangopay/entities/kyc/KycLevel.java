@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities.kyc;
 
 public enum KycLevel {
-  LIGHT, REGULAR;
+    LIGHT, REGULAR;
 }

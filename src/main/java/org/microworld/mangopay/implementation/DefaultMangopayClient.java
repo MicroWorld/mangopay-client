@@ -18,7 +18,7 @@ package org.microworld.mangopay.implementation;
 import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.implementation.services.DefaultBankAccountService;
-import org.microworld.mangopay.implementation.services.DefaultCardResgistrationService;
+import org.microworld.mangopay.implementation.services.DefaultCardRegistrationService;
 import org.microworld.mangopay.implementation.services.DefaultEventService;
 import org.microworld.mangopay.implementation.services.DefaultHookService;
 import org.microworld.mangopay.implementation.services.DefaultKycService;
@@ -41,69 +41,69 @@ import org.microworld.mangopay.services.UserService;
 import org.microworld.mangopay.services.WalletService;
 
 public class DefaultMangopayClient implements MangopayClient {
-  private final MangopayConnection connection;
+    private final MangopayConnection connection;
 
-  public DefaultMangopayClient(final MangopayConnection connection) {
-    this.connection = connection;
-  }
+    public DefaultMangopayClient(final MangopayConnection connection) {
+        this.connection = connection;
+    }
 
-  @Override
-  public MangopayConnection getConnection() {
-    return connection;
-  }
+    @Override
+    public MangopayConnection getConnection() {
+        return connection;
+    }
 
-  @Override
-  public BankAccountService getBankAccountService() {
-    return new DefaultBankAccountService(connection);
-  }
+    @Override
+    public BankAccountService getBankAccountService() {
+        return new DefaultBankAccountService(connection);
+    }
 
-  @Override
-  public CardRegistrationService getCardRegistrationService() {
-    return new DefaultCardResgistrationService(connection);
-  }
+    @Override
+    public CardRegistrationService getCardRegistrationService() {
+        return new DefaultCardRegistrationService(connection);
+    }
 
-  @Override
-  public EventService getEventService() {
-    return new DefaultEventService(connection);
-  }
+    @Override
+    public EventService getEventService() {
+        return new DefaultEventService(connection);
+    }
 
-  @Override
-  public HookService getHookService() {
-    return new DefaultHookService(connection);
-  }
+    @Override
+    public HookService getHookService() {
+        return new DefaultHookService(connection);
+    }
 
-  @Override
-  public KycService getKycService() {
-    return new DefaultKycService(connection);
-  }
+    @Override
+    public KycService getKycService() {
+        return new DefaultKycService(connection);
+    }
 
-  @Override
-  public PayInService getPayInService() {
-    return new DefaultPayInService(connection);
-  }
+    @Override
+    public PayInService getPayInService() {
+        return new DefaultPayInService(connection);
+    }
 
-  @Override
-  public PayOutService getPayOutService() {
-    return new DefaultPayOutService(connection);
-  }
+    @Override
+    public PayOutService getPayOutService() {
+        return new DefaultPayOutService(connection);
+    }
 
-  @Override
-  public RefundService getRefundService() {
-    return new DefaultRefundService(connection);
-  }
+    @Override
+    public RefundService getRefundService() {
+        return new DefaultRefundService(connection);
+    }
 
-  @Override
-  public TransferService getTransferService() {
-    return new DefaultTransferService(connection);
-  }
+    @Override
+    public TransferService getTransferService() {
+        return new DefaultTransferService(connection);
+    }
 
-  @Override
-  public UserService getUserService() {
-    return new DefaultUserService(connection);
-  }
+    @Override
+    public UserService getUserService() {
+        return new DefaultUserService(connection);
+    }
 
-  @Override
-  public WalletService getWalletService() {
-    return new DefaultWalletService(connection);
-  }
+    @Override
+    public WalletService getWalletService() {
+        return new DefaultWalletService(connection);
+    }
 }

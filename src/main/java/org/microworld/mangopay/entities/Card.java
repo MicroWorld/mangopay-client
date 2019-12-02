@@ -15,95 +15,94 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.time.YearMonth;
-import java.util.Currency;
-
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
+import java.time.YearMonth;
+import java.util.Currency;
 
 public class Card extends Entity {
-  @SerializedName("ExpirationDate")
-  private YearMonth expirationDate;
-  @SerializedName("Alias")
-  private String alias;
-  @SerializedName("CardProvider")
-  private String cardProvider;
-  @SerializedName("CardType")
-  private CardType cardType;
-  @SerializedName("Country")
-  private String country;
-  @SerializedName("Product")
-  private String product;
-  @SerializedName("BankCode")
-  private String bankCode;
-  @SerializedName("Active")
-  private boolean active;
-  @SerializedName("Currency")
-  private Currency currency;
-  @SerializedName("Validity")
-  private CardValidity validity;
-  @SerializedName("UserId")
-  private String userId;
+    @SerializedName("ExpirationDate")
+    private YearMonth expirationDate;
+    @SerializedName("Alias")
+    private String alias;
+    @SerializedName("CardProvider")
+    private String cardProvider;
+    @SerializedName("CardType")
+    private CardType cardType;
+    @SerializedName("Country")
+    private String country;
+    @SerializedName("Product")
+    private String product;
+    @SerializedName("BankCode")
+    private String bankCode;
+    @SerializedName("Active")
+    private boolean active;
+    @SerializedName("Currency")
+    private Currency currency;
+    @SerializedName("Validity")
+    private CardValidity validity;
+    @SerializedName("UserId")
+    private String userId;
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public YearMonth getExpirationDate() {
-    return expirationDate;
-  }
+    public YearMonth getExpirationDate() {
+        return expirationDate;
+    }
 
-  public String getAlias() {
-    return alias;
-  }
+    public String getAlias() {
+        return alias;
+    }
 
-  public String getCardProvider() {
-    return cardProvider;
-  }
+    public String getCardProvider() {
+        return cardProvider;
+    }
 
-  public CardType getCardType() {
-    return cardType;
-  }
+    public CardType getCardType() {
+        return cardType;
+    }
 
-  public String getCountry() {
-    return country;
-  }
+    public String getCountry() {
+        return country;
+    }
 
-  public String getProduct() {
-    return product;
-  }
+    public String getProduct() {
+        return product;
+    }
 
-  public String getBankCode() {
-    return bankCode;
-  }
+    public String getBankCode() {
+        return bankCode;
+    }
 
-  public boolean isActive() {
-    return active;
-  }
+    public boolean isActive() {
+        return active;
+    }
 
-  public Currency getCurrency() {
-    return currency;
-  }
+    public Currency getCurrency() {
+        return currency;
+    }
 
-  public CardValidity getValidity() {
-    return validity;
-  }
+    public CardValidity getValidity() {
+        return validity;
+    }
 
-  public String getUserId() {
-    return userId;
-  }
+    public String getUserId() {
+        return userId;
+    }
 }

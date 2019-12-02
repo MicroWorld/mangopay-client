@@ -15,8 +15,6 @@
  */
 package org.microworld.mangopay;
 
-import java.util.List;
-
 import org.microworld.mangopay.entities.RateLimit;
 import org.microworld.mangopay.entities.RateLimitInterval;
 import org.microworld.mangopay.implementation.DefaultMangopayConnection;
@@ -25,18 +23,20 @@ import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
+import java.util.List;
+
 public interface MangopayConnection {
-  static MangopayConnection createDefault(final String host, final String clientId, final String passphrase) {
-    return new DefaultMangopayConnection(host, clientId, passphrase);
-  }
+    static MangopayConnection createDefault(final String host, final String clientId, final String passphrase) {
+        return new DefaultMangopayConnection(host, clientId, passphrase);
+    }
 
-  String getClientId();
+    String getClientId();
 
-  <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, Filter filter, Sort sort, Page page, String... pathParameters);
+    <T> List<T> queryForList(final Class<T> type, final HttpMethod method, final String path, Filter filter, Sort sort, Page page, String... pathParameters);
 
-  <T> T queryForObject(final Class<T> type, final HttpMethod method, final String path, final Object data, String... pathParameters);
+    <T> T queryForObject(final Class<T> type, final HttpMethod method, final String path, final Object data, String... pathParameters);
 
-  void query(HttpMethod method, String path, Object data, String... pathParameters);
+    void query(HttpMethod method, String path, Object data, String... pathParameters);
 
-  RateLimit getRateLimit(RateLimitInterval interval);
+    RateLimit getRateLimit(RateLimitInterval interval);
 }

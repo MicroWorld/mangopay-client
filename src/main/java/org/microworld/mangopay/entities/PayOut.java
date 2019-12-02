@@ -15,4 +15,5 @@
  */
 package org.microworld.mangopay.entities;
 
-public abstract class PayOut extends Transaction {}
+public abstract class PayOut extends Transaction {
+}

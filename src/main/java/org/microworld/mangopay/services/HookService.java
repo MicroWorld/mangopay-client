@@ -15,16 +15,16 @@
  */
 package org.microworld.mangopay.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.entities.Hook;
 
+import java.util.List;
+
 public interface HookService {
-  Hook create(final Hook hook);
+    Hook create(final Hook hook);
 
-  Hook get(String id);
+    Hook get(String id);
 
-  Hook update(Hook hook);
+    Hook update(Hook hook);
 
-  List<Hook> list();
+    List<Hook> list();
 }

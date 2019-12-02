@@ -15,120 +15,119 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.time.LocalDate;
-
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
+import java.time.LocalDate;
 
 public class NaturalUser extends User {
-  @SerializedName("FirstName")
-  private String firstName;
-  @SerializedName("LastName")
-  private String lastName;
-  @SerializedName("Address")
-  private Address address;
-  @SerializedName("Birthday")
-  private LocalDate birthday;
-  @SerializedName("Nationality")
-  private String nationality;
-  @SerializedName("CountryOfResidence")
-  private String countryOfResidence;
-  @SerializedName("Occupation")
-  private String occupation;
-  @SerializedName("IncomeRange")
-  private IncomeRange incomeRange;
-  @SerializedName("ProofOfIdentity")
-  private String proofOfIdentity;
-  @SerializedName("ProofOfAddress")
-  private String proofOfAddress;
+    @SerializedName("FirstName")
+    private String firstName;
+    @SerializedName("LastName")
+    private String lastName;
+    @SerializedName("Address")
+    private Address address;
+    @SerializedName("Birthday")
+    private LocalDate birthday;
+    @SerializedName("Nationality")
+    private String nationality;
+    @SerializedName("CountryOfResidence")
+    private String countryOfResidence;
+    @SerializedName("Occupation")
+    private String occupation;
+    @SerializedName("IncomeRange")
+    private IncomeRange incomeRange;
+    @SerializedName("ProofOfIdentity")
+    private String proofOfIdentity;
+    @SerializedName("ProofOfAddress")
+    private String proofOfAddress;
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public void setFirstName(final String firstName) {
-    this.firstName = firstName;
-  }
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
 
-  public String getLastName() {
-    return lastName;
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  public void setLastName(final String lastName) {
-    this.lastName = lastName;
-  }
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
 
-  public Address getAddress() {
-    return address;
-  }
+    public Address getAddress() {
+        return address;
+    }
 
-  public void setAddress(final Address address) {
-    this.address = address;
-  }
+    public void setAddress(final Address address) {
+        this.address = address;
+    }
 
-  public LocalDate getBirthday() {
-    return birthday;
-  }
+    public LocalDate getBirthday() {
+        return birthday;
+    }
 
-  public void setBirthday(final LocalDate birthday) {
-    this.birthday = birthday;
-  }
+    public void setBirthday(final LocalDate birthday) {
+        this.birthday = birthday;
+    }
 
-  public String getNationality() {
-    return nationality;
-  }
+    public String getNationality() {
+        return nationality;
+    }
 
-  public void setNationality(final String nationality) {
-    this.nationality = nationality;
-  }
+    public void setNationality(final String nationality) {
+        this.nationality = nationality;
+    }
 
-  public String getCountryOfResidence() {
-    return countryOfResidence;
-  }
+    public String getCountryOfResidence() {
+        return countryOfResidence;
+    }
 
-  public void setCountryOfResidence(final String countryOfResidence) {
-    this.countryOfResidence = countryOfResidence;
-  }
+    public void setCountryOfResidence(final String countryOfResidence) {
+        this.countryOfResidence = countryOfResidence;
+    }
 
-  public String getOccupation() {
-    return occupation;
-  }
+    public String getOccupation() {
+        return occupation;
+    }
 
-  public void setOccupation(final String occupation) {
-    this.occupation = occupation;
-  }
+    public void setOccupation(final String occupation) {
+        this.occupation = occupation;
+    }
 
-  public IncomeRange getIncomeRange() {
-    return incomeRange;
-  }
+    public IncomeRange getIncomeRange() {
+        return incomeRange;
+    }
 
-  public void setIncomeRange(final IncomeRange incomeRange) {
-    this.incomeRange = incomeRange;
-  }
+    public void setIncomeRange(final IncomeRange incomeRange) {
+        this.incomeRange = incomeRange;
+    }
 
-  public String getProofOfIdentity() {
-    return proofOfIdentity;
-  }
+    public String getProofOfIdentity() {
+        return proofOfIdentity;
+    }
 
-  public String getProofOfAddress() {
-    return proofOfAddress;
-  }
+    public String getProofOfAddress() {
+        return proofOfAddress;
+    }
 }

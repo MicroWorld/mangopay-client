@@ -15,56 +15,55 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.util.Currency;
-
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.Currency;
 
 public class BankWirePayOut extends PayOut {
-  @SerializedName("DebitedWalletId")
-  private final String debitedWalletId;
-  @SerializedName("BankAccountId")
-  private final String bankAccountId;
-  @SerializedName("BankWireRef")
-  private final String bankWireRef;
+    @SerializedName("DebitedWalletId")
+    private final String debitedWalletId;
+    @SerializedName("BankAccountId")
+    private final String bankAccountId;
+    @SerializedName("BankWireRef")
+    private final String bankWireRef;
 
-  public BankWirePayOut(final String authorId, final String debitedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final String bankAccountId, final String bankWireReference, final String tag) {
-    this.authorId = authorId;
-    this.debitedWalletId = debitedWalletId;
-    this.debitedFunds = new Amount(currency, debitedAmount);
-    this.fees = new Amount(currency, feesAmount);
-    this.bankAccountId = bankAccountId;
-    this.bankWireRef = bankWireReference;
-    this.tag = tag;
-  }
+    public BankWirePayOut(final String authorId, final String debitedWalletId, final Currency currency, final int debitedAmount, final int feesAmount, final String bankAccountId, final String bankWireReference, final String tag) {
+        this.authorId = authorId;
+        this.debitedWalletId = debitedWalletId;
+        this.debitedFunds = new Amount(currency, debitedAmount);
+        this.fees = new Amount(currency, feesAmount);
+        this.bankAccountId = bankAccountId;
+        this.bankWireRef = bankWireReference;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getDebitedWalletId() {
-    return debitedWalletId;
-  }
+    public String getDebitedWalletId() {
+        return debitedWalletId;
+    }
 
-  public String getBankAccountId() {
-    return bankAccountId;
-  }
+    public String getBankAccountId() {
+        return bankAccountId;
+    }
 
-  public String getBankWireRef() {
-    return bankWireRef;
-  }
+    public String getBankWireRef() {
+        return bankWireRef;
+    }
 }

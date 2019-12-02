@@ -29,31 +29,31 @@ import org.microworld.mangopay.services.UserService;
 import org.microworld.mangopay.services.WalletService;
 
 public interface MangopayClient {
-  static MangopayClient createDefault(final MangopayConnection connection) {
-    return new DefaultMangopayClient(connection);
-  }
+    static MangopayClient createDefault(final MangopayConnection connection) {
+        return new DefaultMangopayClient(connection);
+    }
 
-  MangopayConnection getConnection();
+    MangopayConnection getConnection();
 
-  BankAccountService getBankAccountService();
+    BankAccountService getBankAccountService();
 
-  CardRegistrationService getCardRegistrationService();
+    CardRegistrationService getCardRegistrationService();
 
-  EventService getEventService();
+    EventService getEventService();
 
-  HookService getHookService();
+    HookService getHookService();
 
-  KycService getKycService();
+    KycService getKycService();
 
-  PayInService getPayInService();
+    PayInService getPayInService();
 
-  PayOutService getPayOutService();
+    PayOutService getPayOutService();
 
-  RefundService getRefundService();
+    RefundService getRefundService();
 
-  TransferService getTransferService();
+    TransferService getTransferService();
 
-  UserService getUserService();
+    UserService getUserService();
 
-  WalletService getWalletService();
+    WalletService getWalletService();
 }

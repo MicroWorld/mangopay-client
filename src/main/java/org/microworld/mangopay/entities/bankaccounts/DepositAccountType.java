@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities.bankaccounts;
 
 public enum DepositAccountType {
-  CHECKING, SAVINGS;
+    CHECKING, SAVINGS;
 }

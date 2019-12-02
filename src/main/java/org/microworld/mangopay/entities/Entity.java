@@ -15,27 +15,27 @@
  */
 package org.microworld.mangopay.entities;
 
-import java.time.Instant;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
+
 public abstract class Entity {
-  @SerializedName("Id")
-  private String id;
-  @SerializedName("CreationDate")
-  private Instant creationDate;
-  @SerializedName("Tag")
-  protected String tag;
+    @SerializedName("Tag")
+    protected String tag;
+    @SerializedName("Id")
+    private String id;
+    @SerializedName("CreationDate")
+    private Instant creationDate;
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public Instant getCreationDate() {
-    return creationDate;
-  }
+    public Instant getCreationDate() {
+        return creationDate;
+    }
 
-  public String getTag() {
-    return tag;
-  }
+    public String getTag() {
+        return tag;
+    }
 }

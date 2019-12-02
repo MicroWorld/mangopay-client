@@ -15,53 +15,52 @@
  */
 package org.microworld.mangopay.entities.bankaccounts;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.microworld.mangopay.entities.Address;
 
-import com.google.gson.annotations.SerializedName;
-
 public class IbanBankAccount extends BankAccount {
-  @SerializedName("IBAN")
-  private String iban;
-  @SerializedName("BIC")
-  private String bic;
+    @SerializedName("IBAN")
+    private String iban;
+    @SerializedName("BIC")
+    private String bic;
 
-  protected IbanBankAccount() {
-    super();
-  }
+    protected IbanBankAccount() {
+        super();
+    }
 
-  public IbanBankAccount(final String ownerName, final Address ownerAddress, final String iban, final String bic, final String tag) {
-    super();
-    this.type = BankAccountType.IBAN;
-    this.ownerName = ownerName;
-    this.ownerAddress = ownerAddress;
-    this.iban = iban;
-    this.bic = bic;
-    this.tag = tag;
-  }
+    public IbanBankAccount(final String ownerName, final Address ownerAddress, final String iban, final String bic, final String tag) {
+        super();
+        this.type = BankAccountType.IBAN;
+        this.ownerName = ownerName;
+        this.ownerAddress = ownerAddress;
+        this.iban = iban;
+        this.bic = bic;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getIban() {
-    return iban;
-  }
+    public String getIban() {
+        return iban;
+    }
 
-  public String getBic() {
-    return bic;
-  }
+    public String getBic() {
+        return bic;
+    }
 }

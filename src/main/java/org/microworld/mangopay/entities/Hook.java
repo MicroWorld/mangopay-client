@@ -15,66 +15,65 @@
  */
 package org.microworld.mangopay.entities;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Hook extends Entity {
-  @SerializedName("EventType")
-  private EventType eventType;
-  @SerializedName("Url")
-  private String url;
-  @SerializedName("Status")
-  private HookStatus status;
-  @SerializedName("Validity")
-  private HookValidity validity;
+    @SerializedName("EventType")
+    private EventType eventType;
+    @SerializedName("Url")
+    private String url;
+    @SerializedName("Status")
+    private HookStatus status;
+    @SerializedName("Validity")
+    private HookValidity validity;
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public void setTag(final String tag) {
-    this.tag = tag;
-  }
+    public void setTag(final String tag) {
+        this.tag = tag;
+    }
 
-  public EventType getEventType() {
-    return eventType;
-  }
+    public EventType getEventType() {
+        return eventType;
+    }
 
-  public void setEventType(final EventType eventType) {
-    this.eventType = eventType;
-  }
+    public void setEventType(final EventType eventType) {
+        this.eventType = eventType;
+    }
 
-  public String getUrl() {
-    return url;
-  }
+    public String getUrl() {
+        return url;
+    }
 
-  public void setUrl(final String url) {
-    this.url = url;
-  }
+    public void setUrl(final String url) {
+        this.url = url;
+    }
 
-  public HookStatus getStatus() {
-    return status;
-  }
+    public HookStatus getStatus() {
+        return status;
+    }
 
-  public void setStatus(final HookStatus status) {
-    this.status = status;
-  }
+    public void setStatus(final HookStatus status) {
+        this.status = status;
+    }
 
-  public HookValidity getValidity() {
-    return validity;
-  }
+    public HookValidity getValidity() {
+        return validity;
+    }
 }

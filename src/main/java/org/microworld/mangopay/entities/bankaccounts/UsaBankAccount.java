@@ -15,60 +15,59 @@
  */
 package org.microworld.mangopay.entities.bankaccounts;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.microworld.mangopay.entities.Address;
 
-import com.google.gson.annotations.SerializedName;
-
 public class UsaBankAccount extends BankAccount {
-  @SerializedName("AccountNumber")
-  private String accountNumber;
-  @SerializedName("ABA")
-  private String aba;
-  @SerializedName("DepositAccountType")
-  private DepositAccountType depositAccountType;
+    @SerializedName("AccountNumber")
+    private String accountNumber;
+    @SerializedName("ABA")
+    private String aba;
+    @SerializedName("DepositAccountType")
+    private DepositAccountType depositAccountType;
 
-  protected UsaBankAccount() {
-    super();
-  }
+    protected UsaBankAccount() {
+        super();
+    }
 
-  public UsaBankAccount(final String ownerName, final Address ownerAddress, final String accountNumber, final String aba, final DepositAccountType depositAccountType, final String tag) {
-    super();
-    this.type = BankAccountType.US;
-    this.ownerName = ownerName;
-    this.ownerAddress = ownerAddress;
-    this.accountNumber = accountNumber;
-    this.aba = aba;
-    this.depositAccountType = depositAccountType;
-    this.tag = tag;
-  }
+    public UsaBankAccount(final String ownerName, final Address ownerAddress, final String accountNumber, final String aba, final DepositAccountType depositAccountType, final String tag) {
+        super();
+        this.type = BankAccountType.US;
+        this.ownerName = ownerName;
+        this.ownerAddress = ownerAddress;
+        this.accountNumber = accountNumber;
+        this.aba = aba;
+        this.depositAccountType = depositAccountType;
+        this.tag = tag;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return EqualsBuilder.reflectionEquals(this, obj);
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-  public String getAccountNumber() {
-    return accountNumber;
-  }
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-  public String getAba() {
-    return aba;
-  }
+    public String getAba() {
+        return aba;
+    }
 
-  public DepositAccountType getDepositAccountType() {
-    return depositAccountType;
-  }
+    public DepositAccountType getDepositAccountType() {
+        return depositAccountType;
+    }
 }

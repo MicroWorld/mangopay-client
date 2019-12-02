@@ -15,8 +15,6 @@
  */
 package org.microworld.test;
 
-import java.time.Instant;
-
 import org.hamcrest.Matcher;
 import org.microworld.mangopay.entities.RateLimit;
 import org.microworld.mangopay.entities.RateLimitInterval;
@@ -29,32 +27,34 @@ import org.microworld.test.matchers.IsBefore;
 import org.microworld.test.matchers.RateLimitMatcher;
 import org.microworld.test.matchers.TokenMatcher;
 
+import java.time.Instant;
+
 public class Matchers {
-  public static Matcher<Instant> after(final Instant instant) {
-    return new IsAfter(instant);
-  }
+    public static Matcher<Instant> after(final Instant instant) {
+        return new IsAfter(instant);
+    }
 
-  public static Matcher<Instant> around(final Instant instant) {
-    return new IsAround(instant);
-  }
+    public static Matcher<Instant> around(final Instant instant) {
+        return new IsAround(instant);
+    }
 
-  public static Matcher<Instant> before(final Instant instant) {
-    return new IsBefore(instant);
-  }
+    public static Matcher<Instant> before(final Instant instant) {
+        return new IsBefore(instant);
+    }
 
-  public static Matcher<? super BankAccount> bankAccount(final BankAccount bankAccount) {
-    return new BankAccountMatcher(bankAccount);
-  }
+    public static Matcher<? super BankAccount> bankAccount(final BankAccount bankAccount) {
+        return new BankAccountMatcher(bankAccount);
+    }
 
-  public static Matcher<? super BankAccount> bankAccount(final BankAccount bankAccount, final boolean nonNullId, final Instant creationDate) {
-    return new BankAccountMatcher(bankAccount, nonNullId, creationDate);
-  }
+    public static Matcher<? super BankAccount> bankAccount(final BankAccount bankAccount, final boolean nonNullId, final Instant creationDate) {
+        return new BankAccountMatcher(bankAccount, nonNullId, creationDate);
+    }
 
-  public static Matcher<? super RateLimit> rateLimit(final RateLimitInterval interval, final int callsMade, final int callsRemaining, final Instant reset) {
-    return new RateLimitMatcher(new RateLimit(interval, callsMade, callsRemaining, reset));
-  }
+    public static Matcher<? super RateLimit> rateLimit(final RateLimitInterval interval, final int callsMade, final int callsRemaining, final Instant reset) {
+        return new RateLimitMatcher(new RateLimit(interval, callsMade, callsRemaining, reset));
+    }
 
-  public static Matcher<Token> token(final String value, final String type, final int duration) {
-    return new TokenMatcher(duration, type, value);
-  }
+    public static Matcher<Token> token(final String value, final String type, final int duration) {
+        return new TokenMatcher(duration, type, value);
+    }
 }

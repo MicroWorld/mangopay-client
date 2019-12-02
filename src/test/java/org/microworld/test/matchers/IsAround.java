@@ -15,35 +15,35 @@
  */
 package org.microworld.test.matchers;
 
-import java.time.Instant;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import java.time.Instant;
+
 public class IsAround extends TypeSafeDiagnosingMatcher<Instant> {
-  private static final int MARGIN = 15;
-  private final Instant instant;
+    private static final int MARGIN = 15;
+    private final Instant instant;
 
-  public IsAround(final Instant instant) {
-    this.instant = instant;
-  }
-
-  @Override
-  public void describeTo(final Description description) {
-    description.appendValue(instant);
-  }
-
-  @Override
-  protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
-    if (instant.minusSeconds(MARGIN).isAfter(item) || instant.plusSeconds(MARGIN).isBefore(item)) {
-      mismatchDescription.appendText("was ").appendValue(item);
-      return false;
+    public IsAround(final Instant instant) {
+        this.instant = instant;
     }
-    return true;
-  }
 
-  public static Matcher<Instant> around(final Instant operand) {
-    return new IsAround(operand);
-  }
+    public static Matcher<Instant> around(final Instant operand) {
+        return new IsAround(operand);
+    }
+
+    @Override
+    public void describeTo(final Description description) {
+        description.appendValue(instant);
+    }
+
+    @Override
+    protected boolean matchesSafely(final Instant item, final Description mismatchDescription) {
+        if (instant.minusSeconds(MARGIN).isAfter(item) || instant.plusSeconds(MARGIN).isBefore(item)) {
+            mismatchDescription.appendText("was ").appendValue(item);
+            return false;
+        }
+        return true;
+    }
 }

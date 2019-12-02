@@ -18,16 +18,16 @@ package org.microworld.mangopay.entities;
 import com.google.gson.annotations.SerializedName;
 
 public abstract class CardPayIn extends PayIn {
-  @SerializedName("SecureMode")
-  protected SecureMode secureMode;
-  @SerializedName("StatementDescriptor")
-  protected String statementDescriptor;
+    @SerializedName("SecureMode")
+    protected SecureMode secureMode;
+    @SerializedName("StatementDescriptor")
+    protected String statementDescriptor;
 
-  public SecureMode getSecureMode() {
-    return secureMode;
-  }
+    public SecureMode getSecureMode() {
+        return secureMode;
+    }
 
-  public String getStatementDescriptor() {
-    return statementDescriptor;
-  }
+    public String getStatementDescriptor() {
+        return statementDescriptor;
+    }
 }

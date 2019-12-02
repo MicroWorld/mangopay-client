@@ -15,13 +15,13 @@
  */
 package org.microworld.mangopay.services;
 
-import java.util.List;
-
 import org.microworld.mangopay.entities.Event;
 import org.microworld.mangopay.search.Filter;
 import org.microworld.mangopay.search.Page;
 import org.microworld.mangopay.search.Sort;
 
+import java.util.List;
+
 public interface EventService {
-  List<Event> list(Filter filter, Sort sort, Page page);
+    List<Event> list(Filter filter, Sort sort, Page page);
 }
