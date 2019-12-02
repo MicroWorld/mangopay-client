@@ -33,22 +33,18 @@ stage('Checks') {
         "cve": {
             node {
                 checkout scm
-                dir('microworldplus') {
-                    unstash 'build'
-                    withEnv(["JAVA_HOME=${tool name: 'JDK11.0.2B9', type: 'jdk'}"]) {
-                        sh './gradlew dependencyCheckAnalyze'
-                    }
+                unstash 'build'
+                withEnv(["JAVA_HOME=${tool name: 'JDK11.0.2B9', type: 'jdk'}"]) {
+                    sh './gradlew dependencyCheckAnalyze'
                 }
             }
         },
         "forbidden apis": {
             node {
                 checkout scm
-                dir('microworldplus') {
-                    unstash 'build'
-                    withEnv(["JAVA_HOME=${tool name: 'JDK11.0.2B9', type: 'jdk'}"]) {
-                        sh './gradlew forbiddenApis'
-                    }
+                unstash 'build'
+                withEnv(["JAVA_HOME=${tool name: 'JDK11.0.2B9', type: 'jdk'}"]) {
+                    sh './gradlew forbiddenApis'
                 }
             }
         },
