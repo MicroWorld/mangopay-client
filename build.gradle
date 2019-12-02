@@ -84,6 +84,11 @@ jacocoTestReport {
     }
 }
 
+dependencyCheck {
+    failBuildOnCVSS = 3
+    scanConfigurations = ['runtime']
+}
+
 project.tasks['sonarqube'].dependsOn tasks.withType(Test)
 sonarqube {
     properties {
