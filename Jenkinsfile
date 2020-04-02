@@ -48,13 +48,6 @@ stage('Checks') {
                 }
             }
         },
-        "warnings": {
-            node {
-                checkout scm
-                unstash 'build'
-                step([$class: 'WarningsPublisher', canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']]])
-            }
-        },
         "license": {
             node {
                 checkout scm

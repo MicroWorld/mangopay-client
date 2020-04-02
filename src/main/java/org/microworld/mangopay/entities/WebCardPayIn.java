@@ -35,7 +35,7 @@ public class WebCardPayIn extends CardPayIn {
     @SerializedName("ReturnURL")
     private final String returnUrl;
     @SerializedName("TemplateURLOptions")
-    private final Map<String, String> templateUrlOptions = new HashMap<>();
+    private final Map<String, String> templateUrlOptions;
     @SerializedName("RedirectURL")
     private String redirectUrl;
 
@@ -48,7 +48,9 @@ public class WebCardPayIn extends CardPayIn {
         this.fees = new Amount(currency, feesAmount);
         this.cultureCode = cultureCode;
         this.returnUrl = returnUrl;
+        this.templateUrlOptions = new HashMap<>();
         this.templateUrlOptions.put("Payline", templateUrl);
+        this.templateUrlOptions.put("PaylineV2", templateUrl);
         this.secureMode = secureMode;
         this.statementDescriptor = statementDescriptor;
         this.tag = tag;
