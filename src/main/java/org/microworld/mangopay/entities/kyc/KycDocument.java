@@ -27,7 +27,7 @@ public class KycDocument extends Entity {
     @SerializedName("Status")
     private KycDocumentStatus status;
     @SerializedName("RefusedReasonType")
-    private String refusedReasonType;
+    private KycDocumentRefusedReason refusedReasonType;
     @SerializedName("RefusedReasonMessage")
     private String refusedReasonMessage;
 
@@ -63,7 +63,7 @@ public class KycDocument extends Entity {
         return status;
     }
 
-    public String getRefusedReasonType() {
+    public KycDocumentRefusedReason getRefusedReasonType() {
         return refusedReasonType;
     }
 

@@ -1,0 +1,13 @@
+package org.microworld.mangopay.entities.kyc;
+
+public enum KycDocumentRefusedReason {
+    DOCUMENT_UNREADABLE,
+    DOCUMENT_NOT_ACCEPTED,
+    DOCUMENT_HAS_EXPIRED,
+    DOCUMENT_INCOMPLETE,
+    DOCUMENT_DO_NOT_MATCH_USER_DATA,
+    DOCUMENT_DO_NOT_MATCH_ACCOUNT_DATA,
+    DOCUMENT_FALSIFIED,
+    UNDERAGE_PERSON,
+    SPECIFIC_CASE,
+}
