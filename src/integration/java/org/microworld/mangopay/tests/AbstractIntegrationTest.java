@@ -53,7 +53,8 @@ import java.util.stream.Collectors;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Collections.singletonList;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 import static org.microworld.mangopay.misc.Predicates.not;
 
 public abstract class AbstractIntegrationTest {
@@ -120,7 +121,7 @@ public abstract class AbstractIntegrationTest {
         return user;
     }
 
-    protected User getUserWithMoney(final int cents, final Currency currency) throws MalformedURLException, IOException {
+    protected User getUserWithMoney(final int cents, final Currency currency) throws IOException {
         final User user = client.getUserService().create(randomNaturalUser());
         final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
         final String cardId = registerCard(user, currency, "4706750000000017", "1221", "123").getCardId();
@@ -129,8 +130,8 @@ public abstract class AbstractIntegrationTest {
     }
 
     protected String randomCountry() {
-        List<String> blockedCountries = singletonList("MN");
-        List<String> countryCodes = Arrays.stream(Locale.getISOCountries()).filter(not(blockedCountries::contains)).collect(Collectors.toList());
+        List<String> blockedCountries = asList("AF", "BA", "BS", "BW", "ET", "GH", "GY", "IQ", "IR", "KH", "KP", "LA", "LK", "MN", "PK", "RS", "SY", "TN", "TT", "UG", "VU", "YE");
+        List<String> countryCodes = Arrays.stream(Locale.getISOCountries()).filter(not(blockedCountries::contains)).collect(toList());
         return countryCodes.get(fairy.baseProducer().randomBetween(0, countryCodes.size() - 1));
     }
 
