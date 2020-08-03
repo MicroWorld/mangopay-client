@@ -21,12 +21,14 @@ import org.junit.rules.ExpectedException;
 import org.microworld.mangopay.entities.RateLimit;
 import org.microworld.mangopay.entities.RateLimitInterval;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.time.Instant.ofEpochSecond;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anEmptyMap;
 import static org.hamcrest.Matchers.equalTo;
@@ -72,9 +74,27 @@ public class DefaultMangopayConnectionTest {
     public void parseRateLimits() {
         final Map<RateLimitInterval, RateLimit> limits = new HashMap<>();
         final Map<String, List<String>> headers = new HashMap<>();
+        headers.put(null, singletonList("HTTP/1.1 200 OK"));
         headers.put("X-RateLimit", asList("4", "3", "2", "1"));
         headers.put("X-RateLimit-Remaining", asList("40", "30", "20", "10"));
         headers.put("X-RateLimit-Reset", asList("1500086400", "1500003600", "1500001800", "1500000000"));
+
+        DefaultMangopayConnection.parseRateLimits(limits, headers);
+
+        assertThat(limits, hasEntry(equalTo(_15_MINUTES), rateLimit(_15_MINUTES, 1, 10, ofEpochSecond(1500000000))));
+        assertThat(limits, hasEntry(equalTo(_30_MINUTES), rateLimit(_30_MINUTES, 2, 20, ofEpochSecond(1500001800))));
+        assertThat(limits, hasEntry(equalTo(_1_HOUR), rateLimit(_1_HOUR, 3, 30, ofEpochSecond(1500003600))));
+        assertThat(limits, hasEntry(equalTo(_1_DAY), rateLimit(_1_DAY, 4, 40, ofEpochSecond(1500086400))));
+    }
+
+    @Test
+    public void parseRateLimitsIsCaseInsensitive() {
+        final Map<RateLimitInterval, RateLimit> limits = new HashMap<>();
+        final Map<String, List<String>> headers = new HashMap<>();
+        headers.put(null, singletonList("HTTP/1.1 200 OK"));
+        headers.put("X-RATELIMIT", asList("4", "3", "2", "1"));
+        headers.put("x-ratelimit-remaining", asList("40", "30", "20", "10"));
+        headers.put("X-ratelimit-RESET", asList("1500086400", "1500003600", "1500001800", "1500000000"));
 
         DefaultMangopayConnection.parseRateLimits(limits, headers);
 

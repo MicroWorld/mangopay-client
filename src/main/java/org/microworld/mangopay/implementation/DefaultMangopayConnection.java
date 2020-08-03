@@ -21,6 +21,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.lang3.tuple.Pair;
 import org.microworld.mangopay.MangopayConnection;
 import org.microworld.mangopay.entities.Amount;
 import org.microworld.mangopay.entities.BankWirePayIn;
@@ -93,6 +94,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
+import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
@@ -137,11 +139,14 @@ public class DefaultMangopayConnection implements MangopayConnection {
         return Base64.getEncoder().encodeToString((clientId + ":" + requireNonNull(passphrase, "The passphrase must not be null.")).getBytes(ISO_8859_1));
     }
 
-    static void parseRateLimits(final Map<RateLimitInterval, RateLimit> limits, final Map<String, List<String>> headers) {
+    static void parseRateLimits(final Map<RateLimitInterval, RateLimit> limits, final Map<String, List<String>> rawHeaders) {
         final int numberOfIntervals = RateLimitInterval.values().length;
-        final List<String> madeList = headers.getOrDefault("X-RateLimit", emptyList());
-        final List<String> remainingList = headers.getOrDefault("X-RateLimit-Remaining", emptyList());
-        final List<String> resetList = headers.getOrDefault("X-RateLimit-Reset", emptyList());
+        final Map<String, List<String>> headers = rawHeaders.entrySet().stream()
+                .map(e -> Pair.of(e.getKey() == null ? null : e.getKey().toLowerCase(ENGLISH), e.getValue()))
+                .collect(toMap(Pair::getKey, Pair::getValue));
+        final List<String> madeList = headers.getOrDefault("x-ratelimit", emptyList());
+        final List<String> remainingList = headers.getOrDefault("x-ratelimit-remaining", emptyList());
+        final List<String> resetList = headers.getOrDefault("x-ratelimit-reset", emptyList());
         if (resetList.size() >= numberOfIntervals && remainingList.size() >= numberOfIntervals && madeList.size() >= numberOfIntervals) {
             for (final RateLimitInterval interval : RateLimitInterval.values()) {
                 final int callsMade = Integer.parseInt(madeList.get(numberOfIntervals - 1 - interval.ordinal()));
