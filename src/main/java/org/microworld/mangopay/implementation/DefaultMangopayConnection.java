@@ -141,12 +141,12 @@ public class DefaultMangopayConnection implements MangopayConnection {
 
     static void parseRateLimits(final Map<RateLimitInterval, RateLimit> limits, final Map<String, List<String>> rawHeaders) {
         final int numberOfIntervals = RateLimitInterval.values().length;
-        final Map<String, List<String>> headers = rawHeaders.entrySet().stream()
-                .map(e -> Pair.of(e.getKey() == null ? null : e.getKey().toLowerCase(ENGLISH), e.getValue()))
-                .collect(toMap(Pair::getKey, Pair::getValue));
-        final List<String> madeList = headers.getOrDefault("x-ratelimit", emptyList());
-        final List<String> remainingList = headers.getOrDefault("x-ratelimit-remaining", emptyList());
-        final List<String> resetList = headers.getOrDefault("x-ratelimit-reset", emptyList());
+        final Map<String, List<String>> rateLimitHeaders = rawHeaders.entrySet().stream().filter(e -> e.getKey() != null)
+                .map(e -> Pair.of(e.getKey().toLowerCase(ENGLISH), e.getValue()))
+                .filter(p -> p.getKey().startsWith("x-ratelimit")).collect(toMap(Pair::getKey, Pair::getValue));
+        final List<String> madeList = rateLimitHeaders.getOrDefault("x-ratelimit", emptyList());
+        final List<String> remainingList = rateLimitHeaders.getOrDefault("x-ratelimit-remaining", emptyList());
+        final List<String> resetList = rateLimitHeaders.getOrDefault("x-ratelimit-reset", emptyList());
         if (resetList.size() >= numberOfIntervals && remainingList.size() >= numberOfIntervals && madeList.size() >= numberOfIntervals) {
             for (final RateLimitInterval interval : RateLimitInterval.values()) {
                 final int callsMade = Integer.parseInt(madeList.get(numberOfIntervals - 1 - interval.ordinal()));
