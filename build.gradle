@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'jacoco'
-    id 'maven'
+    id 'maven-publish'
     id 'idea'
     id 'com.github.ben-manes.versions' version '0.29.0'
     id 'com.github.hierynomus.license' version '0.15.0'
@@ -30,7 +30,6 @@ configurations {
     integrationImplementation.extendsFrom testImplementation
     integrationRuntime.extendsFrom testRuntime
     integrationRuntimeOnly.extendsFrom testRuntimeOnly
-    deployerJars
 }
 
 dependencies {
@@ -43,12 +42,14 @@ dependencies {
     testImplementation('io.codearte.jfairy:jfairy:0.5.9')
     testImplementation('org.awaitility:awaitility:4.0.3')
     testRuntimeOnly('ch.qos.logback:logback-classic:1.2.3')
-
-    deployerJars('org.apache.maven.wagon:wagon-ssh:3.4.0')
 }
 
 repositories {
     mavenCentral()
+}
+
+java {
+    withSourcesJar();
 }
 
 tasks.withType(JavaCompile) {
@@ -100,16 +101,21 @@ sonarqube {
     }
 }
 
-uploadArchives {
+publishing {
+    publications {
+        javaJars(MavenPublication) {
+            from components.java
+        }
+    }
     repositories {
-        mavenDeployer {
-            configuration = configurations.deployerJars
-            repository(url: "${abc_artifactory_contextUrl}/gradle-release-local") {
-                authentication(userName: "${abc_artifactory_user}", password: "${abc_artifactory_password}")
+        maven {
+            credentials {
+                username "${abc_artifactory_user}"
+                password "${abc_artifactory_password}"
             }
-            snapshotRepository(url: "${abc_artifactory_contextUrl}/gradle-dev-local") {
-                authentication(userName: "${abc_artifactory_user}", password: "${abc_artifactory_password}")
-            }
+            def releasesRepoUrl = "${abc_artifactory_contextUrl}/gradle-release-local"
+            def snapshotsRepoUrl = "${abc_artifactory_contextUrl}/gradle-dev-local"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
         }
     }
 }
@@ -122,7 +128,7 @@ release {
     }
 }
 
-afterReleaseBuild.dependsOn uploadArchives
+afterReleaseBuild.dependsOn publish
 
 idea {
     module {
