@@ -85,7 +85,7 @@ stage('Archive') {
     node {
         checkout scm
         unstash 'build'
-        sh './gradlew uploadArchives'
+        sh './gradlew publish'
     }
 }
 stage('Build for production') {
