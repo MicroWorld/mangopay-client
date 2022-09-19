@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum CardValidity {
-    UNKNOWN, VALID, INVALID;
+    UNKNOWN, VALID, INVALID
 }

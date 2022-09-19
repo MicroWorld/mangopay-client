@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum LegalPersonType {
-    BUSINESS, ORGANIZATION, SOLETRADER;
+    BUSINESS, ORGANIZATION, SOLETRADER
 }

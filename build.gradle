@@ -49,7 +49,7 @@ repositories {
 }
 
 java {
-    withSourcesJar();
+    withSourcesJar()
 }
 
 tasks.withType(JavaCompile) {

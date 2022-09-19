@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum CultureCode {
-    CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, IT, NL, NO, PL, PT, SK, SV;
+    CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, IT, NL, NO, PL, PT, SK, SV
 }

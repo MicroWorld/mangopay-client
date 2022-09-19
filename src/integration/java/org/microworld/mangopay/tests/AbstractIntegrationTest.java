@@ -71,7 +71,7 @@ public abstract class AbstractIntegrationTest {
     private static String getContent(final InputStream inputStream) throws IOException {
         final StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, UTF_8))) {
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 content.append(line).append('\n');
             }
@@ -142,14 +142,14 @@ public abstract class AbstractIntegrationTest {
         return new Address(fairyAddress.getStreetNumber() + ", " + fairyAddress.getStreet(), fairyAddress.getApartmentNumber(), fairyAddress.getCity(), fairy.textProducer().latinWord(), fairyAddress.getPostalCode(), randomCountry());
     }
 
-    protected CardRegistration registerCard(final User user, final Currency currency, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {
+    protected CardRegistration registerCard(final User user, final Currency currency, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws IOException {
         CardRegistration cardRegistration = client.getCardRegistrationService().create(new CardRegistration(user.getId(), currency));
         cardRegistration.setRegistrationData(getRegistrationData(cardRegistration.getCardRegistrationUrl(), cardRegistration.getPreregistrationData(), cardRegistration.getAccessKey(), cardNumber, cardExpirationDate, cardCvx));
         cardRegistration = client.getCardRegistrationService().update(cardRegistration);
         return cardRegistration;
     }
 
-    protected String getRegistrationData(final String cardRegistrationUrl, final String preregistrationData, final String accessKey, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws MalformedURLException, IOException {
+    protected String getRegistrationData(final String cardRegistrationUrl, final String preregistrationData, final String accessKey, final String cardNumber, final String cardExpirationDate, final String cardCvx) throws IOException {
         final HttpsURLConnection connection = (HttpsURLConnection) new URL(cardRegistrationUrl).openConnection();
         connection.setDoInput(true);
         connection.setDoOutput(true);

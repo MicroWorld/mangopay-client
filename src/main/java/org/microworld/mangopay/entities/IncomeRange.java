@@ -25,7 +25,7 @@ public enum IncomeRange {
 
     private final String value;
 
-    private IncomeRange(final String value) {
+    IncomeRange(final String value) {
         this.value = value;
     }
 

@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities.bankaccounts;
 
 public enum BankAccountType {
-    IBAN, GB, US, CA, OTHER;
+    IBAN, GB, US, CA, OTHER
 }

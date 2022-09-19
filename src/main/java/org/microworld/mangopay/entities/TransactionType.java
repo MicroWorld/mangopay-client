@@ -16,5 +16,5 @@
 package org.microworld.mangopay.entities;
 
 public enum TransactionType {
-    PAYIN, PAYOUT, TRANSFER;
+    PAYIN, PAYOUT, TRANSFER
 }

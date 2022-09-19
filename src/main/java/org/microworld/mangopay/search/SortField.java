@@ -22,7 +22,7 @@ public enum SortField {
 
     private final String value;
 
-    private SortField(final String value) {
+    SortField(final String value) {
         this.value = value;
     }
 

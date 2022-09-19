@@ -27,7 +27,7 @@ public enum RateLimitInterval {
 
     private final Duration duration;
 
-    private RateLimitInterval(final Duration duration) {
+    RateLimitInterval(final Duration duration) {
         this.duration = duration;
     }
 

@@ -20,7 +20,7 @@ public enum SortDirection {
 
     private final String value;
 
-    private SortDirection(final String value) {
+    SortDirection(final String value) {
         this.value = value;
     }
 
