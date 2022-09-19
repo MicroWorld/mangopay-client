@@ -61,8 +61,9 @@ public class HookIT extends AbstractIntegrationTest {
     @Test
     public void getHookWithInvalidId() {
         thrown.expect(MangopayException.class);
-        thrown.expectMessage("ressource_not_found: The ressource does not exist");
-        thrown.expectMessage("RessourceNotFound: Cannot found the ressource Hook with the id=10");
+        thrown.expectMessage("Sequence contains no elements");
+//        thrown.expectMessage("ressource_not_found: The ressource does not exist");
+//        thrown.expectMessage("RessourceNotFound: Cannot found the ressource Hook with the id=10");
         client.getHookService().get("10");
     }
 

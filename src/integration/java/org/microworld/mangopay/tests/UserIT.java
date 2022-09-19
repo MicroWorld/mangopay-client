@@ -18,6 +18,7 @@ package org.microworld.mangopay.tests;
 import io.codearte.jfairy.producer.person.Person;
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.microworld.mangopay.entities.BrowserInfo;
 import org.microworld.mangopay.entities.Card;
 import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.DirectCardPayIn;
@@ -91,7 +92,7 @@ public class UserIT extends AbstractIntegrationTest {
         thrown.expect(MangopayException.class);
         thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
         thrown.expectMessage("Email: The Email field is required.");
-        thrown.expectMessage("Birthday: The Birthday field is required.");
+//        thrown.expectMessage("Birthday: The Birthday field is required.");
         final NaturalUser naturalUser = randomNaturalUser();
         naturalUser.setEmail(null);
         naturalUser.setBirthday(null);
@@ -133,7 +134,7 @@ public class UserIT extends AbstractIntegrationTest {
     public void createLegalUserWithMissingMandatoryFields() {
         thrown.expect(MangopayException.class);
         thrown.expectMessage("param_error: One or several required parameters are missing or incorrect. An incorrect resource ID also raises this kind of error.");
-        thrown.expectMessage("LegalPersonType: The LegalPersonType field is required.");
+        thrown.expectMessage("LegalPersonType: The LegalPersonType field is required");
         final LegalUser legalUser = randomLegalUser();
         legalUser.setLegalPersonType(null);
         client.getUserService().create(legalUser);
@@ -249,9 +250,11 @@ public class UserIT extends AbstractIntegrationTest {
         final String cardId = registerCard(user1, EUR, "4970100000000154", "1225", "123").getCardId();
         final User user2 = client.getUserService().create(randomNaturalUser());
         final Wallet wallet2 = client.getWalletService().create(new Wallet(user2.getId(), EUR, "Wallet to be credited", null));
+        final BrowserInfo browserInfo = new BrowserInfo("text/html, application/xhtml+xml, application/xml;q=0.9, /;q=0.8", false, "FR-FR", 4, 1024, 768, 0, "Mozilla/5.0", true);
+        final String ipAddress = "8.8.8.8";
 
         /* final DirectCardPayIn payin = */
-        client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
+        client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user1.getId(), user1.getId(), wallet1.getId(), cardId, EUR, 4000, 0, null, "https://foo.bar", SecureMode.DEFAULT, ipAddress, browserInfo, null));
         await().atLeast(TWO_SECONDS);
         /* final Transfer transfer = */
         client.getTransferService().create(new Transfer(user1.getId(), wallet1.getId(), wallet2.getId(), EUR, 2000, 0, null));

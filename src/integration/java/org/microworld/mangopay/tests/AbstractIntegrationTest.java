@@ -24,6 +24,7 @@ import org.junit.rules.ExpectedException;
 import org.microworld.mangopay.MangopayClient;
 import org.microworld.mangopay.TestEnvironment;
 import org.microworld.mangopay.entities.Address;
+import org.microworld.mangopay.entities.BrowserInfo;
 import org.microworld.mangopay.entities.CardRegistration;
 import org.microworld.mangopay.entities.DirectCardPayIn;
 import org.microworld.mangopay.entities.IncomeRange;
@@ -124,13 +125,15 @@ public abstract class AbstractIntegrationTest {
     protected User getUserWithMoney(final int cents, final Currency currency) throws IOException {
         final User user = client.getUserService().create(randomNaturalUser());
         final Wallet wallet = client.getWalletService().create(new Wallet(user.getId(), currency, "wallet", null));
-        final String cardId = registerCard(user, currency, "4706750000000017", "1221", "123").getCardId();
-        client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, null, "https://foo.bar", SecureMode.DEFAULT, null));
+        final String cardId = registerCard(user, currency, "4970105191923460", "1225", "123").getCardId();
+        final BrowserInfo browserInfo = new BrowserInfo("text/html, application/xhtml+xml, application/xml;q=0.9, /;q=0.8", false, "FR-FR", 4, 1024, 768, 0, "Mozilla/5.0", true);
+        final String ipAddress = "8.8.8.8";
+        client.getPayInService().createDirectCardPayIn(new DirectCardPayIn(user.getId(), user.getId(), wallet.getId(), cardId, currency, cents, 0, null, "https://foo.bar", SecureMode.DEFAULT, ipAddress, browserInfo, null));
         return user;
     }
 
     protected String randomCountry() {
-        List<String> blockedCountries = asList("AF", "BA", "BS", "BW", "ET", "GH", "GY", "IQ", "IR", "KH", "KP", "LA", "LK", "MN", "PK", "RS", "SY", "TN", "TT", "UG", "VU", "YE");
+        List<String> blockedCountries = asList("AF", "BA", "BS", "BV", "BW", "ET", "GH", "GN", "GS", "GY", "HM", "IQ", "IR", "KH", "KP", "LA", "LK", "MA", "MN", "MU", "PK", "RS", "SS", "SY", "TN", "TT", "UG", "VU", "YE");
         List<String> countryCodes = Arrays.stream(Locale.getISOCountries()).filter(not(blockedCountries::contains)).collect(toList());
         return countryCodes.get(fairy.baseProducer().randomBetween(0, countryCodes.size() - 1));
     }

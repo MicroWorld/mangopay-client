@@ -27,10 +27,14 @@ public class DirectCardPayIn extends CardPayIn {
     private final String cardId;
     @SerializedName("SecureModeReturnURL")
     private final String secureModeReturnUrl;
+    @SerializedName("IpAddress")
+    private final String ipAddress;
+    @SerializedName("BrowserInfo")
+    private final BrowserInfo browserInfo;
     @SerializedName("SecureModeRedirectURL")
     private String secureModeRedirectUrl;
 
-    public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final String secureModeReturnUrl, final SecureMode secureMode, final String tag) {
+    public DirectCardPayIn(final String authorId, final String creditedUserId, final String creditedWalletId, final String cardId, final Currency currency, final int debitedAmount, final int feesAmount, final String statementDescriptor, final String secureModeReturnUrl, final SecureMode secureMode, final String ipAddress, final BrowserInfo browserInfo, final String tag) {
         this.authorId = authorId;
         this.creditedUserId = creditedUserId;
         this.creditedWalletId = creditedWalletId;
@@ -40,6 +44,8 @@ public class DirectCardPayIn extends CardPayIn {
         this.secureModeReturnUrl = secureModeReturnUrl;
         this.secureMode = secureMode;
         this.statementDescriptor = statementDescriptor;
+        this.ipAddress = ipAddress;
+        this.browserInfo = browserInfo;
         this.tag = tag;
     }
 

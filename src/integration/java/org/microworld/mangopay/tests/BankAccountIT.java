@@ -77,7 +77,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
     @Test
     public void createAndGetCanadianBankAccount() {
         final Instant creationDate = Instant.now();
-        final CanadianBankAccount canadianBankAccount = new CanadianBankAccount(person.getFullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo");
+        final CanadianBankAccount canadianBankAccount = new CanadianBankAccount(person.getFullName(), createAddress(person.getAddress()), "TheBank", "666", "12345", "1234567890", "foo");
         final CanadianBankAccount createdBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), canadianBankAccount);
         assertThat(createdBankAccount, is(bankAccount(canadianBankAccount, true, creationDate)));
 
@@ -144,7 +144,7 @@ public class BankAccountIT extends AbstractIntegrationTest {
     public void listBankAccountsOfUserWithBankAccounts() {
         final IbanBankAccount ibanBankAccount = (IbanBankAccount) client.getBankAccountService().create(user.getId(), new IbanBankAccount(person.getFullName(), createAddress(person.getAddress()), "FR3020041010124530725S03383", "CRLYFRPP", fairy.textProducer().latinSentence()));
         final BritishBankAccount britishBankAccount = (BritishBankAccount) client.getBankAccountService().create(user.getId(), new BritishBankAccount(person.getFullName(), createAddress(person.getAddress()), "33333334", "070093", null));
-        final CanadianBankAccount canadianBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), new CanadianBankAccount(person.getFullName(), createAddress(person.getAddress()), "TheBank", "1337", "12345", "1234567890", "foo"));
+        final CanadianBankAccount canadianBankAccount = (CanadianBankAccount) client.getBankAccountService().create(user.getId(), new CanadianBankAccount(person.getFullName(), createAddress(person.getAddress()), "TheBank", "666", "12345", "1234567890", "foo"));
         final UsaBankAccount usaBankAccount = (UsaBankAccount) client.getBankAccountService().create(user.getId(), new UsaBankAccount(person.getFullName(), createAddress(person.getAddress()), "1234567890", "123456789", DepositAccountType.CHECKING, "bar"));
         final OtherBankAccount otherBankAccount = (OtherBankAccount) client.getBankAccountService().create(user.getId(), new OtherBankAccount(person.getFullName(), createAddress(person.getAddress()), randomCountry(), "CRLYFRPP", "1234567890", null));
         final List<BankAccount> bankAccounts = client.getBankAccountService().list(user.getId(), Page.of(1));

@@ -85,7 +85,7 @@ public class KycIT extends AbstractIntegrationTest {
     @Test
     public void uploadPageAndValidateDocument() throws IOException {
         final KycDocument kycDocument = client.getKycService().createDocument(user.getId(), new KycDocument(KycDocumentType.IDENTITY_PROOF, fairy.textProducer().latinSentence()));
-        final InputStream file = KycIT.class.getClassLoader().getResourceAsStream("kyc/empty.pdf");
+        final InputStream file = KycIT.class.getClassLoader().getResourceAsStream("kyc/dummy.pdf");
         client.getKycService().uploadPage(user.getId(), kycDocument.getId(), file);
 
         final KycDocument askedValidationKycDocument = client.getKycService().validateDocument(user.getId(), kycDocument.getId());
