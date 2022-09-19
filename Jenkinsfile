@@ -56,31 +56,31 @@ stage('Checks') {
         }
     )
 }
-if (scm.branches[0].name == 'master') {
-    stage('SonarQube Analysis') {
-        node {
-            checkout scm
-            withSonarQubeEnv('Sonar') {
-                unstash 'build'
-                unstash 'jacocoTest'
-                unstash 'jacocoIntegration'
-                unstash 'junitTest'
-                unstash 'junitIntegration'
-                sh './gradlew jacocoTestReport sonarqube'
-            }
-        }
-    }
-    stage('SonarQube Quality Gate'){
-        timeout(time: 1, unit: 'HOURS') {
-            node {
-                def qg = waitForQualityGate()
-                if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                }
-            }
-        }
-    }
-}
+// if (scm.branches[0].name == 'master') {
+//     stage('SonarQube Analysis') {
+//         node {
+//             checkout scm
+//             withSonarQubeEnv('Sonar') {
+//                 unstash 'build'
+//                 unstash 'jacocoTest'
+//                 unstash 'jacocoIntegration'
+//                 unstash 'junitTest'
+//                 unstash 'junitIntegration'
+//                 sh './gradlew jacocoTestReport sonarqube'
+//             }
+//         }
+//     }
+//     stage('SonarQube Quality Gate'){
+//         timeout(time: 1, unit: 'HOURS') {
+//             node {
+//                 def qg = waitForQualityGate()
+//                 if (qg.status != 'OK') {
+//                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
+//                 }
+//             }
+//         }
+//     }
+// }
 stage('Archive') {
     node {
         checkout scm
